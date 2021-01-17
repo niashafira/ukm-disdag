@@ -1,42 +1,56 @@
-@extends('layouts.index')
+@extends('template.index')
 
 @section('title')
     Data Intervensi
 @endsection
 
 @section('content')
-    <button class="btn btn-info btn-sm" id="btn-create"><span class="fa fa-plus"></span> Tambah Jenis</button><br><br>
-    <table id="table-intervensi" class="table table-bordered table-stripped">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Jenis Intervensi</th>
-                <th class="text-center" style="width:22%">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-		<?php 
-			$i = 1;
-		?>
-		@foreach ($data_intervensi as $intervensi)
-        <tr>
-            <td>{{ $i . "." }} </td>
-            <td>{{ $intervensi->jenis }}</td>
-            <td class="text-center" style="width: 22%">
-                <button class="btn btn-warning btn-edit btn-sm" id="{{ $intervensi->id }}"><span class="fa fa-pen"></span> Edit</button>
-                <button class="btn btn-danger btn-delete btn-sm" id="{{ $intervensi->id }}"><span class="fa fa-trash"></span> Delete</button>
-            </td>
-		</tr>  
-		<?php 
-			$i++;
-		?>
-        @endforeach
-        </tbody>
-    </table>
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+           <div class="row">
+               <div class="col">
+                   <div class="card-body">
+                       <h3 class="card-title">Data Jenis Intervensi</h3>
+                       <button class="btn btn-info btn-sm" id="btn-create"><span class="fa fa-plus"></span> Tambah Jenis</button><br><br>
+                        <table id="table-intervensi" class="table table-bordered table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Jenis Intervensi</th>
+                                    <th class="text-center" style="width:22%">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php 
+                                $i = 1;
+                            ?>
+                            @foreach ($data_intervensi as $intervensi)
+                            <tr>
+                                <td>{{ $i . "." }} </td>
+                                <td>{{ $intervensi->jenis }}</td>
+                                <td class="text-center" style="width: 22%">
+                                    <button class="btn btn-warning btn-edit btn-sm" id="{{ $intervensi->id }}"><span class="fa fa-pen"></span> Edit</button>
+                                    <button class="btn btn-danger btn-delete btn-sm" id="{{ $intervensi->id }}"><span class="fa fa-trash"></span> Delete</button>
+                                </td>
+                            </tr>  
+                            <?php 
+                                $i++;
+                            ?>
+                            @endforeach
+                            </tbody>
+                        </table>
 
-    <div id="section-modal">
-        @include('intervensi.modal-form')
+                        <div id="section-modal">
+                            @include('intervensi.modal-form')
+                        </div>
+                   </div>
+               </div>
+           </div>
+        </div>
     </div>
+</div>
+
 @endsection
 
 

@@ -1,40 +1,56 @@
-@extends('layouts.index')
+@extends('template.index')
 
 @section('title')
     Data Pengguna Website
 @endsection
 
 @section('content')
-    <table id="table-user" class="table table-bordered table-stripped">
-        <thead>
-            <tr>
-                <th>No.</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Created At</th>
-                <th class="text-center" style="width:22%">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-		<?php 
-			$i = 1;
-		?>
-		@foreach ($data_user as $user)
-        <tr>
-            <td>{{ $i . "." }} </td>
-            <td>{{ $user->username }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->created_at }}</td>
-            <td class="text-center" style="width: 22%">
-                <button class="btn btn-danger btn-delete btn-sm" id="{{ $user->id }}"><span class="fa fa-trash"></span> Delete</button>
-            </td>
-		</tr>  
-		<?php 
-			$i++;
-		?>
-        @endforeach
-        </tbody>
-    </table>
+
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+           <div class="row">
+               <div class="col">
+                   <div class="card-body">
+                       <h3 class="card-title">Data User</h3>
+                       <table id="table-user" class="table table-bordered table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Created At</th>
+                                    <th class="text-center" style="width:22%">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php 
+                                $i = 1;
+                            ?>
+                            @foreach ($data_user as $user)
+                            <tr>
+                                <td>{{ $i . "." }} </td>
+                                <td>{{ $user->username }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->created_at }}</td>
+                                <td class="text-center" style="width: 22%">
+                                    <button class="btn btn-danger btn-delete btn-sm" id="{{ $user->id }}"><span class="fa fa-trash"></span> Delete</button>
+                                </td>
+                            </tr>  
+                            <?php 
+                                $i++;
+                            ?>
+                            @endforeach
+                            </tbody>
+                        </table>
+                   </div>
+               </div>
+           </div>
+        </div>
+    </div>
+</div>
+
+    
 @endsection
 
 
