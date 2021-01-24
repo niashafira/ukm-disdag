@@ -39,18 +39,21 @@ class UkmController extends Controller
      */
     public function store(Request $request)
     {
-        $nama_ukm = strtolower($request->nama_ukm);
-        if(UkmModel::whereRaw('lower(nama_ukm) like (?)',["%{$nama_ukm}%"])->exists()){
-            $response['status'] = "E";
-            $response['msg'] = "Nama UKM sudah ada sebelumnya";
+        print_r($request->all());
 
-            return response()->json($response);
-        }
 
-        UkmModel::create($request->except(["mode"]));
-        $response['status'] = "S";
-        $response['msg'] = "Data berhasil disimmpan";
-        return response()->json($response);
+        // $nama_ukm = strtolower($request->nama_ukm);
+        // if(UkmModel::whereRaw('lower(nama_ukm) like (?)',["%{$nama_ukm}%"])->exists()){
+        //     $response['status'] = "E";
+        //     $response['msg'] = "Nama UKM sudah ada sebelumnya";
+
+        //     return response()->json($response);
+        // }
+
+        // UkmModel::create($request->except(["mode"]));
+        // $response['status'] = "S";
+        // $response['msg'] = "Data berhasil disimmpan";
+        // return response()->json($response);
     }
 
     /**
@@ -87,7 +90,7 @@ class UkmController extends Controller
      */
     public function update(Request $request)
     {
-        
+
         $id = $request->id;
         $data = UkmModel::find($id);
 

@@ -20,7 +20,7 @@ Data UKM
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Jenis Intervensi</label>
-                    <select data-index="__INDEX__" class="form-control-solid form-control form-control-sm select-intervensi">
+                    <select name="jenis_intervensi" data-index="__INDEX__" class="form-control-solid form-control form-control-sm select-intervensi">
                         <option selected disabled>--Pilih Jenis Intervensi--</option>
                         @foreach ($jenis_intervensi as $intervensi)
                             <option value="{{$intervensi->id}}">{{$intervensi->jenis}}</option>
@@ -29,20 +29,20 @@ Data UKM
                 </div>
             </div>
         </div>
-    </form>
-    <div class="row">
-        <div class="col-12 d-flex justify-content-center" style="padding-top:2%">
-            <button type="button" class="btn btn-md btn-danger"><span class="fa fa-trash"></span></button>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center" style="padding-top:2%">
+                <button data-index="__INDEX__" type="button" class="btn btn-md btn-danger btn-delete-intervensi"><span class="fa fa-trash"></span></button>
+            </div>
         </div>
-    </div>
-    <hr>
+        <hr>
+    </form>
 </div>
 
 <div id="tmpl-intervensi-pelatihan" style="display: none">
     <div class="col-md-4">
         <div class="form-group">
             <label>Deskripsi</label>
-            <input type="text" class="form-control form-control-solid" name="no_telp" placeholder="Deskripsi" />
+            <input type="text" class="form-control form-control-solid" name="deskripsi" placeholder="Deskripsi" />
         </div>
     </div>
     <div class="col">
@@ -54,7 +54,7 @@ Data UKM
     <div class="col">
         <div class="form-group">
             <label>Tanggal</label>
-            <input type="date" class="form-control form-control-solid" name="no_telp" placeholder="Deskripsi" />
+            <input type="date" class="form-control form-control-solid" name="tanggal_mulai" placeholder="Deskripsi" />
         </div>
     </div>
 </div>
@@ -63,7 +63,7 @@ Data UKM
     <div class="col-md-5">
         <div class="form-group">
             <label>Deskripsi</label>
-            <input type="text" class="form-control form-control-solid" name="no_telp" placeholder="Deskripsi" />
+            <input type="text" class="form-control form-control-solid" name="deskripsi" placeholder="Deskripsi" />
         </div>
     </div>
     <div class="col-4">
@@ -90,13 +90,13 @@ Data UKM
     <div class="col-md-4">
         <div class="form-group">
             <label>Deskripsi</label>
-            <input type="text" class="form-control form-control-solid" name="no_telp" placeholder="Deskripsi" />
+            <input type="text" class="form-control form-control-solid" name="deskripsi" placeholder="Deskripsi" />
         </div>
     </div>
     <div class="col">
         <div class="form-group">
             <label>No Sertifikasi</label>
-            <input type="text" class="form-control form-control-solid" name="no_telp" placeholder="No Sertifikasi" />
+            <input type="text" class="form-control form-control-solid" name="no_sertifikasi" placeholder="No Sertifikasi" />
         </div>
     </div>
 </div>
@@ -105,13 +105,56 @@ Data UKM
     <div class="col">
         <div class="form-group">
             <label>Deskripsi</label>
-            <input type="text" class="form-control form-control-solid" name="no_telp" placeholder="Deskripsi" />
+            <input type="text" class="form-control form-control-solid" name="deskripsi" placeholder="Deskripsi" />
         </div>
     </div>
     <div class="col">
         <div class="form-group">
             <label>Lokasi</label>
-            <input type="text" class="form-control form-control-solid" name="no_telp" placeholder="No Sertifikasi" />
+            <input type="text" class="form-control form-control-solid" name="lokasi" placeholder="No Sertifikasi" />
+        </div>
+    </div>
+</div>
+
+<div id="tmpl-review-ukm" style="display: none">
+    <table class="table table-borderless" border="0" style="width:25%">
+        <tr>
+            <td>Nama UKM</td>
+            <td>:</td>
+            <td>__REVIEW-NAMA-UKM__</td>
+        </tr>
+        <tr>
+            <td>Nama Pemilik</td>
+            <td>:</td>
+            <td>__REVIEW-NAMA-PEMILIK__</td>
+        </tr>
+        <tr>
+            <td>NIK</td>
+            <td>:</td>
+            <td>__REVIEW-NIK__</td>
+        </tr>
+        <tr>
+            <td>No Telp</td>
+            <td>:</td>
+            <td>__REVIEW-NO-TELP__</td>
+        </tr>
+        <tr>
+            <td>Alamat</td>
+            <td>:</td>
+            <td>__REVIEW-ALAMAT__</td>
+        </tr>
+    </table>
+</div>
+
+<div id="tmpl-review-intervensi" style="display: none">
+    <div class="col-4" id="__INDEX-REVIEW-INTERVENSI__">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">__JENISINTERVENSI__</h3>
+                </div>
+            </div>
+            <div class="card-body"></div>
         </div>
     </div>
 </div>
@@ -198,52 +241,54 @@ Data UKM
                                     <!--begin::Input-->
 
                                     <!--end::Input-->
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>Nama UKM</label>
-                                                <input type="text" class="form-control form-control-solid form-control-lg" name="nama_ukm" placeholder="Nama UKM" />
+                                    <form id="form-ukm">
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Nama UKM</label>
+                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="nama_ukm" placeholder="Nama UKM" />
+                                                </div>
+                                                <!--end::Input-->
                                             </div>
-                                            <!--end::Input-->
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>Nama Pemilik</label>
-                                                <input type="text" class="form-control form-control-solid form-control-lg" name="nama_pemilik" placeholder="Nama Pemilik" />
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Nama Pemilik</label>
+                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="nama_pemilik" placeholder="Nama Pemilik" />
+                                                </div>
+                                                <!--end::Input-->
                                             </div>
-                                            <!--end::Input-->
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>NIK</label>
-                                                <input type="text" class="form-control form-control-solid form-control-lg" name="nik" placeholder="NIK"/>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>NIK</label>
+                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="nik" placeholder="NIK"/>
+                                                </div>
+                                                <!--end::Input-->
                                             </div>
-                                            <!--end::Input-->
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>No. Telp</label>
-                                                <input type="text" class="form-control form-control-solid form-control-lg" name="no_telp" placeholder="No. Telp" />
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>No. Telp</label>
+                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="no_telp" placeholder="No. Telp" />
+                                                </div>
+                                                <!--end::Input-->
                                             </div>
-                                            <!--end::Input-->
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>Alamat</label>
-                                                <textarea class="form-control form-control-solid form-control-lg" name="alamat" > </textarea>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>Alamat</label>
+                                                    <textarea class="form-control form-control-solid form-control-lg" name="alamat" > </textarea>
+                                                </div>
+                                                <!--end::Input-->
                                             </div>
-                                            <!--end::Input-->
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                                 <!--end::Wizard Step 1-->
 
@@ -258,42 +303,20 @@ Data UKM
                                 </div>
                                 <!--end::Wizard Step 2-->
 
-
                                 <!--begin::Wizard Step 5-->
                                 <div class="pb-5" data-wizard-type="step-content">
                                     <!--begin::Section-->
-                                    <h4 class="mb-10 font-weight-bold text-dark">Review your Details and Submit</h4>
-                                    <h6 class="font-weight-bolder mb-3">Current Address:</h6>
+                                    <h4 class="mb-10 font-weight-bold text-dark">Review dan Submit</h4>
+                                    <h6 class="font-weight-bolder mb-3">Profil UKM:</h6>
                                     <div class="text-dark-50 line-height-lg">
-                                        <div>Address Line 1</div>
-                                        <div>Address Line 2</div>
-                                        <div>Melbourne 3000, VIC, Australia</div>
+                                        <div id="section-review-ukm"></div>
                                     </div>
                                     <div class="separator separator-dashed my-5"></div>
                                     <!--end::Section-->
                                     <!--begin::Section-->
-                                    <h6 class="font-weight-bolder mb-3">Delivery Details:</h6>
+                                    <h6 class="font-weight-bolder mb-3">Detail Intervensi:</h6>
                                     <div class="text-dark-50 line-height-lg">
-                                        <div>Package: Complete Workstation (Monitor, Computer, Keyboard &amp; Mouse)</div>
-                                        <div>Weight: 25kg</div>
-                                        <div>Dimensions: 110cm (w) x 90cm (h) x 150cm (L)</div>
-                                    </div>
-                                    <div class="separator separator-dashed my-5"></div>
-                                    <!--end::Section-->
-                                    <!--begin::Section-->
-                                    <h6 class="font-weight-bolder mb-3">Delivery Service Type:</h6>
-                                    <div class="text-dark-50 line-height-lg">
-                                        <div>Overnight Delivery with Regular Packaging</div>
-                                        <div>Preferred Morning (8:00AM - 11:00AM) Delivery</div>
-                                    </div>
-                                    <div class="separator separator-dashed my-5"></div>
-                                    <!--end::Section-->
-                                    <!--begin::Section-->
-                                    <h6 class="font-weight-bolder mb-3">Delivery Address:</h6>
-                                    <div class="text-dark-50 line-height-lg">
-                                        <div>Address Line 1</div>
-                                        <div>Address Line 2</div>
-                                        <div>Preston 3072, VIC, Australia</div>
+                                        <div id="section-review-intervensi" class="row"></div>
                                     </div>
                                     <!--end::Section-->
                                 </div>
@@ -305,7 +328,7 @@ Data UKM
                                     </div>
                                     <div>
                                         <button id="btn-submit" type="button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Submit</button>
-                                        <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
+                                        <button id="btn-next-step" type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Next</button>
                                     </div>
                                 </div>
                                 <!--end::Wizard Actions-->
@@ -329,43 +352,150 @@ Data UKM
     <script src="{{asset('template-metronics/assets/js/pages/custom/wizard/wizard-1.js')}}"></script>
 
   <script>
-      
+
     var listIntervensi = {!! json_encode($jenis_intervensi) !!};
-    console.log(listIntervensi);
+    var listField = [
+        {
+            name: "deskripsi",
+            value: "Deskripsi"
+        },
+        {
+            name: "lokasi",
+            value: "Lokasi"
+        },
+        {
+            name: "tanggal_mulai",
+            value: "Tanggal Mulai"
+        },
+        {
+            name: "tanggal_selesai",
+            value: "Tanggal Selesai"
+        },
+        {
+            name: "no_sertifikasi",
+            value: "No Sertifikasi"
+        },
+    ]
+
     var index_intervensi = 1;
     $("#add-intervensi").click(function(){
-      var tmpl = $("#tmpl-intervensi").html();
-      tmpl = tmpl.replace(/__INDEX__/g, "intervensi"+index_intervensi);
-      tmpl = tmpl.replace(/__FORMINDEX__/g, "section-intervensi"+index_intervensi);
-      $("#section-intervensi").append(tmpl);
-      index_intervensi++;
+        var tmpl = $("#tmpl-intervensi").html();
+        tmpl = tmpl.replace(/__INDEX__/g, "intervensi"+index_intervensi);
+        tmpl = tmpl.replace(/__FORMINDEX__/g, "section-intervensi"+index_intervensi);
+        $("#section-intervensi").append(tmpl);
+
+        $("#intervensi" + index_intervensi).addClass("form-intervensi");
+        index_intervensi++;
     });
 
     $(document).on("change",".select-intervensi", function(){
         $("#section-"+id_element).html("");
-      var id_element = $(this).data("index");
-      var id_jenis = $(this).val();
-      var tmpl_form;
-      if (id_jenis == 1) {
+        var id_element = $(this).data("index");
+        var id_jenis = $(this).val();
+        var tmpl_form;
+        if (id_jenis == 1) {
         tmpl_form = $("#tmpl-intervensi-pelatihan").html();
-      }
-      else if (id_jenis == 3 || id_jenis == 4) {
+        }
+        else if (id_jenis == 3 || id_jenis == 4) {
         tmpl_form = $("#tmpl-intervensi-sertifikasi").html();
-      }
-      else if (id_jenis == 2) {
+        }
+        else if (id_jenis == 2) {
         tmpl_form = $("#tmpl-intervensi-bazar").html();
-      }
-      else if (id_jenis == 7) {
+        }
+        else if (id_jenis == 7) {
         tmpl_form = $("#tmpl-intervensi-pemasaran").html();
-      }
+        }
 
-      $("#section-"+id_element).append(tmpl_form);
+        $("#section-"+id_element).append(tmpl_form);
     });
 
     $("#btn-submit").click(function(){
-        var data = $("#intervensi1").serialize();
-        console.log(data);
+        console.log(data_ukm);
+        $.ajax({
+            url: "/data_ukm/store",
+            type: "POST",
+            data: {
+                'data_ukm': data_ukm,
+                'data_intervensi': data_intervensi
+            },
+            success: function(res){
+
+            }
+        })
     });
+
+    $(document).on("click", ".btn-delete-intervensi", function(){
+        var index = $(this).data("index");
+        $("#" + index).remove();
+    });
+
+    $(document).on("click", "#btn-next-step", function(){
+        setData();
+
+
+    });
+
+    var data_ukm = {};
+    var data_intervensi = [];
+
+    function setData(){
+        var unindexed_array_ukm = $("#kt_form").serializeArray();
+
+        $.map(unindexed_array_ukm, function(n, i){
+            data_ukm[n['name']] = n['value'];
+        });
+
+        var tmpl_review_ukm = $("#tmpl-review-ukm").html();
+        tmpl_review_ukm = tmpl_review_ukm.replace(/__REVIEW-NAMA-UKM__/g, data_ukm.nama_ukm);
+        tmpl_review_ukm = tmpl_review_ukm.replace(/__REVIEW-NAMA-PEMILIK__/g, data_ukm.nama_pemilik);
+        tmpl_review_ukm = tmpl_review_ukm.replace(/__REVIEW-NIK__/g, data_ukm.nik);
+        tmpl_review_ukm = tmpl_review_ukm.replace(/__REVIEW-NO-TELP__/g, data_ukm.no_telp);
+        tmpl_review_ukm = tmpl_review_ukm.replace(/__REVIEW-ALAMAT__/g, data_ukm.alamat);
+        $("#section-review-ukm").html(tmpl_review_ukm);
+
+
+        var index_review_intervensi = 1;
+        $("#section-review-intervensi").html("");
+        $(".form-intervensi").each(function(i, form){
+            var id = $(this).attr("id");
+            var tmpl_review_intervensi = $("#tmpl-review-intervensi").html();
+            tmpl_review_intervensi = tmpl_review_intervensi.replace(/__INDEX-REVIEW-INTERVENSI__/g, "review-intervensi"+index_review_intervensi);
+            var html_review_intervensi = "";
+
+            var unindexed_array_intervensi = $("#"+id).serializeArray();
+            var indexed_array_intervensi = {};
+
+            $.map(unindexed_array_intervensi, function(n, i){
+                var nama_intervensi = "";
+                var real_field = "";
+                if (i == 0) {
+                    listIntervensi.forEach(function(intervensi, indexIntervensi){
+                        if (intervensi.id == n['value']) {
+                            nama_intervensi = intervensi.jenis;
+                        }
+                    });
+                    tmpl_review_intervensi = tmpl_review_intervensi.replace(/__JENISINTERVENSI__/g, nama_intervensi);
+                }
+                else{
+                    listField.forEach(function(field, indexField){
+                        if(field.name == n['name']){
+                            real_field = field.value;
+                        }
+                    });
+                    indexed_array_intervensi[n['name']] = n['value'];
+                    html_review_intervensi = html_review_intervensi +
+                    "<h6>"+ real_field +"</h6><div>"+ n['value'] +"</div><div class='separator separator-dashed my-5'></div>"
+                }
+            });
+
+            $("#section-review-intervensi").append(tmpl_review_intervensi);
+            $("#review-intervensi"+index_review_intervensi).find(".card-body").append(html_review_intervensi);
+
+            data_intervensi.push(indexed_array_intervensi);
+
+            index_review_intervensi++;
+        });
+    }
 
   </script>
 @endsection
