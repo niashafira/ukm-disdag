@@ -18,6 +18,12 @@
         </a>
     </li>
     <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
+        <a href="/referensi" class="menu-link">
+            <span class="menu-text">Data Referensi</span>
+            <span class="menu-desc"></span>
+        </a>
+    </li>
+    <li class="menu-item menu-item-submenu menu-item-rel" data-menu-toggle="click" aria-haspopup="true">
         <a href="/data_user" class="menu-link">
             <span class="menu-text">Data User</span>
             <span class="menu-desc"></span>

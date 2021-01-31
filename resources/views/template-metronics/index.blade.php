@@ -588,7 +588,7 @@ License: You must have a valid license purchased only from themeforest(the above
 					</div>
 					<!--end::Header-->
 					<!--begin::Content-->
-					{{-- <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 						<!--begin::Entry-->
 						<div class="d-flex flex-column-fluid">
 							<!--begin::Container-->
@@ -596,13 +596,13 @@ License: You must have a valid license purchased only from themeforest(the above
 								<!--begin::Dashboard-->
 								<!--begin::Row-->
 								<div class="row mt-0 mt-lg-8">
-									<div class="col-xl-12"> --}}
+									<div class="col-xl-12">
 										<!--begin::Charts Widget 5-->
 										<!--begin::Card-->
 										@yield('content')
 										<!--end:: Card-->
 										<!--end:: Charts Widget 5-->
-									{{-- </div>
+									</div>
 								</div>
 								<!--end::Row-->
 								<!--end::Dashboard-->
@@ -610,7 +610,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							<!--end::Container-->
 						</div>
 						<!--end::Entry-->
-					</div> --}}
+					</div>
 					<!--end::Content-->
 					<!--begin::Footer-->
 					<div class="footer py-2 py-lg-0 my-5 d-flex flex-lg-column" id="kt_footer">

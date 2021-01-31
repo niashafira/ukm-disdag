@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UkmController;
+use App\Http\Controllers\ReferensiController;
 use App\Http\Controllers\IntervensiController;
 use App\Http\Controllers\UserController;
 
@@ -41,6 +42,13 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/data_intervensi/delete', [IntervensiController::class, 'destroy']);
     Route::post('/data_intervensi/edit', [IntervensiController::class, 'edit']);
     Route::post('/data_intervensi/update', [IntervensiController::class, 'update']);
+
+    Route::get('/referensi', [ReferensiController::class, 'index']);
+    Route::get('/referensi/create', [ReferensiController::class, 'create']);
+    Route::post('/referensi/store', [ReferensiController::class, 'store']);
+    Route::post('/referensi/delete', [ReferensiController::class, 'destroy']);
+    Route::post('/referensi/edit', [ReferensiController::class, 'edit']);
+    Route::post('/referensi/update', [ReferensiController::class, 'update']);
 
     Route::get('/data_user', [UserController::class, 'index']);
     Route::post('/data_user/delete', [UserController::class, 'destroy']);
