@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\UkmModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class UkmController extends Controller
 {
@@ -27,8 +26,7 @@ class UkmController extends Controller
     public function create()
     {
         $mode = "create";
-        $jenis_intervensi = DB::table('data_intervensi')->select('id','jenis')->get();
-        return view("ukm.form", compact('mode', 'jenis_intervensi'));
+        return view("ukm.modal-form", compact('mode'));
     }
 
     /**
@@ -41,19 +39,18 @@ class UkmController extends Controller
     {
         print_r($request->all());
 
+        $nama_ukm = strtolower($request->nama_ukm);
+        if(UkmModel::whereRaw('lower(nama_ukm) like (?)',["%{$nama_ukm}%"])->exists()){
+            $response['status'] = "E";
+            $response['msg'] = "Nama UKM sudah ada sebelumnya";
 
-        // $nama_ukm = strtolower($request->nama_ukm);
-        // if(UkmModel::whereRaw('lower(nama_ukm) like (?)',["%{$nama_ukm}%"])->exists()){
-        //     $response['status'] = "E";
-        //     $response['msg'] = "Nama UKM sudah ada sebelumnya";
+            return response()->json($response);
+        }
 
-        //     return response()->json($response);
-        // }
-
-        // UkmModel::create($request->except(["mode"]));
-        // $response['status'] = "S";
-        // $response['msg'] = "Data berhasil disimmpan";
-        // return response()->json($response);
+        UkmModel::create($request->except(["mode"]));
+        $response['status'] = "S";
+        $response['msg'] = "Data berhasil disimmpan";
+        return response()->json($response);
     }
 
     /**

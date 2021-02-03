@@ -5,68 +5,50 @@ Data UKM
 @endsection
 
 @section('content')
-<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
-    <!--begin::Entry-->
-    <div class="d-flex flex-column-fluid">
-        <!--begin::Container-->
-        <div class="container">
-            <!--begin::Dashboard-->
-            <!--begin::Row-->
-            <div class="row mt-0 mt-lg-8">
-                <div class="col-xl-12">
-                    <div class="row">
-                        <div class="col-12 grid-margin stretch-card">
-                            <h3 class="card-title">Data UKM</h3>
-                            <a href="/data_ukm/create" class="btn btn-info btn-sm" id="btn-create"><span
-                                    class="fa fa-plus"></span> Tambah UKM</a><br><br>
-                            <table id="table-ukm" class="table table-bordered table-stripped">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Nama UKM</th>
-                                        <th>Pemilik</th>
-                                        <th>NIK</th>
-                                        <th>Alamat</th>
-                                        <th>No Telp</th>
-                                        <th class="text-center" style="width:25%">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                        $i = 1;
-                                    ?>
-                                    @foreach ($data_ukm as $ukm)
-                                    <tr>
-                                        <td>{{ $i . "." }} </td>
-                                        <td>{{ $ukm->nama_ukm }}</td>
-                                        <td>{{ $ukm->nama_pemilik }}</td>
-                                        <td>{{ $ukm->nik }}</td>
-                                        <td>{{ $ukm->alamat }}</td>
-                                        <td>{{ $ukm->no_telp }}</td>
-                                        <td class="text-center" style="width: 22%">
-                                            <button class="btn btn-primary btn-edit btn-sm"><span
-                                                    class="fa fa-eye"></span> View</button>
-                                            <button class="btn btn-warning btn-edit btn-sm" id="{{ $ukm->id }}"><span
-                                                    class="fa fa-pen"></span> Edit</button>
-                                            <button class="btn btn-danger btn-delete btn-sm" id="{{ $ukm->id }}"><span
-                                                    class="fa fa-trash"></span> Delete</button>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                        $i++;
-                                    ?>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="row">
+    <div class="col-12 grid-margin stretch-card">
+        <button class="btn btn-info btn-sm" id="btn-create"><span class="fa fa-plus"></span> Tambah UKM</button><br><br>
+        <table id="table-ukm" class="table table-bordered table-stripped">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama UKM</th>
+                    <th>Nama Pemilik UKM</th>
+                    <th>NIK</th>
+                    <th>Alamat</th>
+                    <th>No Telp</th>
+                    <th class="text-center" style="width:22%">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php 
+                    $i = 1;
+                ?>
+                @foreach ($data_ukm as $ukm)
+                    <tr>
+                        <td>{{ $i . "." }} </td>
+                        <td>{{ $ukm->nama_ukm }}</td>
+                        <td>{{ $ukm->nama_pemilik }}</td>
+                        <td>{{ $ukm->nik }}</td>
+                        <td>{{ $ukm->alamat }}</td>
+                        <td>{{ $ukm->no_telp }}</td>
+                        <td class="text-center" style="width: 22%">
+                            <button class="btn btn-primary btn-edit btn-sm"><span class="fa fa-eye"></span> View</button>
+                            <button class="btn btn-warning btn-edit btn-sm" id="{{ $ukm->id }}"><span class="fa fa-pen"></span> Edit</button>
+                            <button class="btn btn-danger btn-delete btn-sm" id="{{ $ukm->id }}"><span class="fa fa-trash"></span> Delete</button>
+                        </td>
+                    </tr>  
+                    <?php 
+                        $i++;
+                    ?>
+                @endforeach
+            </tbody>
+        </table>
+        <div id="section-modal">
+            @include('ukm.modal-form')
         </div>
     </div>
 </div>
-
-
 @endsection
 
 
@@ -89,7 +71,7 @@ Data UKM
                     alert("Data berhasil disimpan");
                     location.reload();
                 } else if (data.status == "E") {
-                    alert(data.msg);
+                    alert("Nama UKM sudah ada sebelumnya");
                 }
             }
         })
@@ -105,7 +87,7 @@ Data UKM
             },
             success: function (res) {
                 $("#section-modal").html(res);
-                $("#modal-head-title").html("Edit Data UKM");
+                $("#modal-head-title").html("Edit UKM");
                 $("#ModalUkm").modal('show');
             }
         })
@@ -114,10 +96,10 @@ Data UKM
     $("#btn-create").click(function () {
         $.ajax({
             "url": "/data_ukm/create",
-            "type": "POST",
+            "type": "GET",
             success: function (res) {
                 $("#section-modal").html(res);
-                $("#modal-head-title").html("Tambah Data UKM");
+                $("#modal-head-title").html("Tambah UKM");
                 $("#ModalUkm").modal('show');
             }
         })

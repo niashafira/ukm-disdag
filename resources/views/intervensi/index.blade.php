@@ -22,7 +22,7 @@ Data Intervensi
                 <?php
                     $i = 1;
                 ?>
-                @foreach($data_intervensi as $intervensi)
+                @foreach($intervensi as $intervensi)
                     <tr>
                         <td>{{ $i . "." }} </td>
                         <td>{{ $intervensi->jenis }}</td>
