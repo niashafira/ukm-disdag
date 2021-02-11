@@ -13,34 +13,26 @@ Data Referensi
         <table id="table-referensi" class="table table-bordered table-stripped">
             <thead>
                 <tr>
-                    <th>No.</th>
-                    <th>Referensi Key</th>
+                    <th class="text-center" style="width:7%">No</th>
+                    <th>Kode Referensi</th>
                     <th>Keterangan</th>
                     <th class="text-center" style="width:25%">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                    $i = 1;
-                ?>
-                @foreach ($referensi as $referensi)
-                <tr>
-                    <td>{{ $i . "." }} </td>
-                    <td>{{ $referensi->ref_id }}</td>
-                    <td>{{ $referensi->keterangan }}</td>
+                <tr v-for="(ref, index) in referensi" :key="index">
+                    <td class="text-center">@{{ index+1 }} </td>
+                    <td>@{{ ref.kode }}</td>
+                    <td>@{{ ref.keterangan }}</td>
                     <td class="text-center" style="width: 22%">
-                        <button class="btn btn-primary btn-edit btn-sm"><span
-                                class="fa fa-eye"></span> View</button>
-                        <button class="btn btn-warning btn-edit btn-sm" id="{{ $referensi->id }}"><span
-                                class="fa fa-pen"></span> Edit</button>
-                        <button class="btn btn-danger btn-delete btn-sm" id="{{ $referensi->id }}"><span
+                        <a class="btn btn-primary btn-edit btn-sm"><span
+                                class="fa fa-eye"></span> View</a>
+                        <a :href="'/referensi/'+ ref.kode" class="btn btn-warning btn-edit btn-sm"><span
+                                class="fa fa-pen"></span> Edit</a>
+                        <button type="button" v-on:click="deleteReferensi(ref)" class="btn btn-danger btn-delete btn-sm"><span
                                 class="fa fa-trash"></span> Delete</button>
                     </td>
                 </tr>
-                <?php
-                    $i++;
-                ?>
-                @endforeach
             </tbody>
         </table>
     </div>
@@ -51,5 +43,58 @@ Data Referensi
 @section('script')
     <script>
         $("#table-referensi").DataTable();
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                referensi: <?= json_encode($referensi); ?>
+            },
+
+            mounted(){
+
+            },
+
+            methods:{
+                deleteReferensi(referensi){
+                    console.log(referensi);
+
+                    Swal.fire({
+                    title: 'Apakah anda yakin ?',
+                    text: "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                title: 'Mohon Tunggu !',
+                                html: '',
+                                allowOutsideClick: false,
+                                onBeforeOpen: () => {
+                                    Swal.showLoading()
+                                },
+                            });
+
+                            axios.post('/referensi/delete', referensi).then(response => {
+                                if(response.data == "success"){
+                                    Swal.close();
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: 'Data Berhasil Dihapus',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    window.location = "/referensi";
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        });
+
     </script>
 @endsection

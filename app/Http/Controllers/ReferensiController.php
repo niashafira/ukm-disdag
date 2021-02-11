@@ -2,95 +2,89 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReferensiDetailModel;
-use App\Models\ReferensiModel;
+use App\Models\ReferensiDetail;
+use App\Models\Referensi;
 use Exception;
 use Illuminate\Http\Request;
 
 class ReferensiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $referensi = ReferensiModel::get();
+        $referensi = Referensi::get();
         return view('referensi.index', compact('referensi'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $mode = "create";
-        return view('referensi.form', compact('mode'));
+        $referensi = "";
+        return view('referensi.form', compact('mode', 'referensi'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
-        ReferensiModel::create($request->referensi);
+        Referensi::create($request->referensi);
 
-        foreach($request->detail_referensi as $detail_referensi){
-            ReferensiDetailModel::create($detail_referensi);
+        foreach($request->referensi_detail as $refD){
+            unset($refD['readonly']);
+            unset($refD['id']);
+            ReferensiDetail::create($refD);
         }
 
         echo json_encode("success");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit($ref_id)
     {
-        //
+        $referensi = Referensi::with('referensiDetail')->find($ref_id);
+        $mode = "edit";
+
+        return view('referensi.form', compact('referensi', 'mode'));
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $referensi = Referensi::find($request->referensi['kode']);
+        $referensi->update($request->referensi);
+
+
+        foreach($request->referensi_detail as $refD){
+            if ($refD['id'] == "") {
+                unset($refD['readonly']);
+                unset($refD['id']);
+                ReferensiDetail::create($refD);
+            }
+            else{
+                unset($refD['readonly']);
+                $referensiD = ReferensiDetail::find($refD['id']);
+                $referensiD->update($refD);
+            }
+        }
+
+        if (count($request->referensi_detail_delete) != 0) {
+            foreach($request->referensi_detail_delete as $refD_delete){
+                ReferensiDetail::destroy($refD_delete);
+            }
+        }
+
+        echo json_encode("success");
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        Referensi::destroy($request->kode);
+        ReferensiDetail::where('referensi_kode', '=', $request->kode)->delete();
+
+        echo json_encode("success");
     }
 }

@@ -46,7 +46,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<div id="kt_header_mobile" class="header-mobile header-mobile-fixed">
 			<!--begin::Logo-->
 			<a href="index.html">
-				<img alt="Logo" src="{{'template-metronics/assets/media/logos/logo-letter-1.png'}}" class="logo-default max-h-30px" />
+				{{-- <img alt="Logo" src="{{'template-metronics/assets/media/logos/logo-letter-1.png'}}" class="logo-default max-h-30px" /> --}}
 			</a>
 			<!--end::Logo-->
 			<!--begin::Toolbar-->
@@ -265,7 +265,7 @@ License: You must have a valid license purchased only from themeforest(the above
 						<!--begin::Languages-->
 						<div class="dropdown" data-toggle="tooltip" data-placement="right" data-container="body" data-boundary="window" title="Languages">
 							<a href="#" class="btn btn-icon btn-lg btn-borderless" data-toggle="dropdown" data-offset="0px,0px">
-								<img class="w-20px h-20px rounded" src="assets/media/svg/flags/226-united-states.svg" alt="image" />
+								{{-- <img class="w-20px h-20px rounded" src="assets/media/svg/flags/226-united-states.svg" alt="image" /> --}}
 							</a>
 							<!--begin::Dropdown-->
 							<div class="dropdown-menu p-0 m-0 dropdown-menu-anim-up dropdown-menu-sm dropdown-menu-left">
@@ -275,7 +275,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<li class="navi-item">
 										<a href="#" class="navi-link">
 											<span class="symbol symbol-20 mr-3">
-												<img src="assets/media/svg/flags/226-united-states.svg" alt="" />
+												{{-- <img src="assets/media/svg/flags/226-united-states.svg" alt="" /> --}}
 											</span>
 											<span class="navi-text">English</span>
 										</a>
@@ -285,7 +285,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<li class="navi-item active">
 										<a href="#" class="navi-link">
 											<span class="symbol symbol-20 mr-3">
-												<img src="assets/media/svg/flags/128-spain.svg" alt="" />
+												{{-- <img src="assets/media/svg/flags/128-spain.svg" alt="" /> --}}
 											</span>
 											<span class="navi-text">Spanish</span>
 										</a>
@@ -295,7 +295,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<li class="navi-item">
 										<a href="#" class="navi-link">
 											<span class="symbol symbol-20 mr-3">
-												<img src="assets/media/svg/flags/162-germany.svg" alt="" />
+												{{-- <img src="assets/media/svg/flags/162-germany.svg" alt="" /> --}}
 											</span>
 											<span class="navi-text">German</span>
 										</a>
@@ -305,7 +305,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<li class="navi-item">
 										<a href="#" class="navi-link">
 											<span class="symbol symbol-20 mr-3">
-												<img src="assets/media/svg/flags/063-japan.svg" alt="" />
+												{{-- <img src="assets/media/svg/flags/063-japan.svg" alt="" /> --}}
 											</span>
 											<span class="navi-text">Japanese</span>
 										</a>
@@ -315,7 +315,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<li class="navi-item">
 										<a href="#" class="navi-link">
 											<span class="symbol symbol-20 mr-3">
-												<img src="assets/media/svg/flags/195-france.svg" alt="" />
+												{{-- <img src="assets/media/svg/flags/195-france.svg" alt="" /> --}}
 											</span>
 											<span class="navi-text">French</span>
 										</a>
@@ -588,14 +588,14 @@ License: You must have a valid license purchased only from themeforest(the above
 					</div>
 					<!--end::Header-->
 					<!--begin::Content-->
-					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+					<div style="margin-bottom:100px" class="content d-flex flex-column flex-column-fluid" id="kt_content">
 						<!--begin::Entry-->
 						<div class="d-flex flex-column-fluid">
 							<!--begin::Container-->
 							<div class="container">
 								<!--begin::Dashboard-->
 								<!--begin::Row-->
-								<div class="row mt-0 mt-lg-8">
+								<div class="row mt-0 mt-lg-8" id="app">
 									<div class="col-xl-12">
 										<!--begin::Charts Widget 5-->
 										<!--begin::Card-->
@@ -1026,7 +1026,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				<!--begin::Header-->
 				<div class="d-flex align-items-center mt-5">
 					<div class="symbol symbol-100 mr-5">
-						<div class="symbol-label" style="background-image:url('assets/media/users/300_21.jpg')"></div>
+						{{-- <div class="symbol-label" style="background-image:url('assets/media/users/300_21.jpg')"></div> --}}
 						<i class="symbol-badge bg-success"></i>
 					</div>
 					<div class="d-flex flex-column">
@@ -1304,7 +1304,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							<div class="d-flex align-items-center flex-wrap mb-5">
 								<div class="symbol symbol-50 symbol-light mr-5">
 									<span class="symbol-label">
-										<img src="assets/media/svg/misc/006-plurk.svg" class="h-50 align-self-center" alt="" />
+										{{-- <img src="assets/media/svg/misc/006-plurk.svg" class="h-50 align-self-center" alt="" /> --}}
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1 mr-2">
@@ -1318,7 +1318,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							<div class="d-flex align-items-center flex-wrap mb-5">
 								<div class="symbol symbol-50 symbol-light mr-5">
 									<span class="symbol-label">
-										<img src="assets/media/svg/misc/015-telegram.svg" class="h-50 align-self-center" alt="" />
+										{{-- <img src="assets/media/svg/misc/015-telegram.svg" class="h-50 align-self-center" alt="" /> --}}
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1 mr-2">
@@ -1332,7 +1332,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							<div class="d-flex align-items-center flex-wrap mb-5">
 								<div class="symbol symbol-50 symbol-light mr-5">
 									<span class="symbol-label">
-										<img src="assets/media/svg/misc/003-puzzle.svg" class="h-50 align-self-center" alt="" />
+										{{-- <img src="assets/media/svg/misc/003-puzzle.svg" class="h-50 align-self-center" alt="" /> --}}
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1 mr-2">
@@ -1346,7 +1346,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							<div class="d-flex align-items-center flex-wrap mb-5">
 								<div class="symbol symbol-50 symbol-light mr-5">
 									<span class="symbol-label">
-										<img src="assets/media/svg/misc/005-bebo.svg" class="h-50 align-self-center" alt="" />
+										{{-- <img src="assets/media/svg/misc/005-bebo.svg" class="h-50 align-self-center" alt="" /> --}}
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1 mr-2">
@@ -1360,7 +1360,7 @@ License: You must have a valid license purchased only from themeforest(the above
 							<div class="d-flex align-items-center flex-wrap">
 								<div class="symbol symbol-50 symbol-light mr-5">
 									<span class="symbol-label">
-										<img src="assets/media/svg/misc/014-kickstarter.svg" class="h-50 align-self-center" alt="" />
+										{{-- <img src="assets/media/svg/misc/014-kickstarter.svg" class="h-50 align-self-center" alt="" /> --}}
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1 mr-2">
@@ -1919,7 +1919,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="d-flex flex-column mb-5 align-items-start">
 										<div class="d-flex align-items-center">
 											<div class="symbol symbol-circle symbol-40 mr-3">
-												<img alt="Pic" src="assets/media/users/300_12.jpg" />
+												{{-- <img alt="Pic" src="assets/media/users/300_12.jpg" /> --}}
 											</div>
 											<div>
 												<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">Matt Pears</a>
@@ -1937,7 +1937,7 @@ License: You must have a valid license purchased only from themeforest(the above
 												<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
 											</div>
 											<div class="symbol symbol-circle symbol-40 ml-3">
-												<img alt="Pic" src="assets/media/users/300_21.jpg" />
+												{{-- <img alt="Pic" src="assets/media/users/300_21.jpg" /> --}}
 											</div>
 										</div>
 										<div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-right max-w-400px">Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.</div>
@@ -1947,7 +1947,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="d-flex flex-column mb-5 align-items-start">
 										<div class="d-flex align-items-center">
 											<div class="symbol symbol-circle symbol-40 mr-3">
-												<img alt="Pic" src="assets/media/users/300_21.jpg" />
+												{{-- <img alt="Pic" src="assets/media/users/300_21.jpg" /> --}}
 											</div>
 											<div>
 												<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">Matt Pears</a>
@@ -1965,7 +1965,7 @@ License: You must have a valid license purchased only from themeforest(the above
 												<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
 											</div>
 											<div class="symbol symbol-circle symbol-40 ml-3">
-												<img alt="Pic" src="assets/media/users/300_21.jpg" />
+												{{-- <img alt="Pic" src="assets/media/users/300_21.jpg" /> --}}
 											</div>
 										</div>
 										<div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-right max-w-400px">You’ll receive notifications for all issues, pull requests!</div>
@@ -1975,7 +1975,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="d-flex flex-column mb-5 align-items-start">
 										<div class="d-flex align-items-center">
 											<div class="symbol symbol-circle symbol-40 mr-3">
-												<img alt="Pic" src="assets/media/users/300_12.jpg" />
+												{{-- <img alt="Pic" src="assets/media/users/300_12.jpg" /> --}}
 											</div>
 											<div>
 												<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">Matt Pears</a>
@@ -1994,7 +1994,7 @@ License: You must have a valid license purchased only from themeforest(the above
 												<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
 											</div>
 											<div class="symbol symbol-circle symbol-40 ml-3">
-												<img alt="Pic" src="assets/media/users/300_21.jpg" />
+												{{-- <img alt="Pic" src="assets/media/users/300_21.jpg" /> --}}
 											</div>
 										</div>
 										<div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-right max-w-400px">Discover what students who viewed Learn Figma - UI/UX Design. Essential Training also viewed</div>
@@ -2004,7 +2004,7 @@ License: You must have a valid license purchased only from themeforest(the above
 									<div class="d-flex flex-column mb-5 align-items-start">
 										<div class="d-flex align-items-center">
 											<div class="symbol symbol-circle symbol-40 mr-3">
-												<img alt="Pic" src="assets/media/users/300_12.jpg" />
+												{{-- <img alt="Pic" src="assets/media/users/300_12.jpg" /> --}}
 											</div>
 											<div>
 												<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">Matt Pears</a>
@@ -2022,7 +2022,7 @@ License: You must have a valid license purchased only from themeforest(the above
 												<a href="#" class="text-dark-75 text-hover-primary font-weight-bold font-size-h6">You</a>
 											</div>
 											<div class="symbol symbol-circle symbol-40 ml-3">
-												<img alt="Pic" src="assets/media/users/300_21.jpg" />
+												{{-- <img alt="Pic" src="assets/media/users/300_21.jpg" /> --}}
 											</div>
 										</div>
 										<div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg text-right max-w-400px">Company BBQ to celebrate the last quater achievements and goals. Food and drinks provided</div>
@@ -2085,14 +2085,11 @@ License: You must have a valid license purchased only from themeforest(the above
 		<script src="{{asset('template-metronics/assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
 		<script src="{{asset('template-metronics/assets/js/scripts.bundle.js')}}"></script>
 		<script src="{{asset('template-metronics/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
-		<script src="{{asset('template-metronics/assets/assets/plugins/custom/gmaps/gmaps.js')}}"></script>
+		{{-- <script src="{{asset('template-metronics/assets/assets/plugins/custom/gmaps/gmaps.js')}}"></script> --}}
 		<script src="{{asset('template-metronics/assets/js/pages/widgets.js')}}"></script>
         <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-
-		<!--end::Global Theme Bundle-->
-		<!--begin::Page Vendors(used by this page)-->
-		<script src="//maps.google.com/maps/api/js?key=AIzaSyBTGnKT7dt597vo9QgeQ7BFhvSRP4eiMSM"></script>
-        <!--end::Page Scripts-->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
         @yield('script')
 	</body>
 	<!--end::Body-->

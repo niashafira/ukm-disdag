@@ -11,127 +11,177 @@ Form Referensi
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label>Referensi ID</label>
-                    <input autocomplete="off" type="text" class="form-control" name="ref_id" placeholder="Referensi Key">
+                    <label>Kode Referensi</label>
+                    <input {{ $mode == 'edit' ? 'readonly' : '' }} v-model="referensi.kode" autocomplete="off" type="text" class="form-control" name="kode" placeholder="Kode Referensi">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <input autocomplete="off" type="text" class="form-control" name="keterangan" placeholder="Keterangan">
+                    <input v-model="referensi.keterangan" autocomplete="off" type="text" class="form-control" name="keterangan" placeholder="Keterangan">
                 </div>
             </div>
         </div>
     </form>
-    <h3>Detail Referensi</h3>
+    <h3 style="margin-top:3%">Detail Referensi</h3>
     <hr>
-    <button id="add-detail-ref" style="margin-bottom: 2%" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Tambah</button>
+    <button v-on:click="addDetail()" style="margin-bottom: 2%" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Tambah</button>
     <form id="form-detail-ref">
         <table class="table table-bordered" id="table-detail-ref">
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Referensi Key</th>
-                    <th>Referensi Value</th>
+                    <th>Key</th>
+                    <th>Value</th>
                     <th>Keterangan</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+
+                <tr v-for="(refD, index) in referensi_detail" :key="index">
+                    <td class="text-center">@{{ index+1 }}</td>
+                    <td>
+                        <input v-if="refD.readonly == true" readonly v-model="refD.key" type="text" class="form-control" />
+                        <input v-else v-model="refD.key" type="text" class="form-control" />
+                    </td>
+                    <td>
+                        <input v-model="refD.val" type="text" class="form-control" />
+                    </td>
+                    <td>
+                        <input v-model="refD.keterangan" type="text" class="form-control" />
+                    </td>
+                    <td class="text-center">
+                        <button type="button" v-on:click="deleteDetail(index)" class="btn btn-sm btn-danger btn-delete-ref"><span class="fa fa-trash"></span></button>
+                    </td>
+                </tr>
+
+            </tbody>
         </table>
     </form>
 
+    <h3 style="margin-top:3%">Simpan Data Referensi</h3>
     <hr>
 
-    <button id="btn-submit" style="float:right" class="btn btn-success btn-sm"><span class="fa fa-check"></span> Simpan</button>
-
-    <div style="display: none">
-        <table id="tmpl-detail-ref">
-            <tbody>
-            <tr id="__IDREF__">
-                <td class="text-center">__NOREF__</td>
-                <td>
-                    <input type="text" class="form-control" name="ref_key[]" />
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="ref_val[]" />
-                </td>
-                <td>
-                    <input type="text" class="form-control" name="keterangan[]" />
-                </td>
-                <td class="text-center">
-                    <button data-index="__INDEX__" class="btn btn-sm btn-danger btn-delete-ref"><span class="fa fa-trash"></span></button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <button v-on:click="submit()" type="button" class="btn btn-success btn-sm"><span class="fa fa-check"></span> Simpan</button>
 
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function(){
-            $("#add-detail-ref").click();
-        });
 
-        var index_detail_ref = 1;
-        $("#add-detail-ref").click(function(){
-            var tmpl_detail_ref = $("#tmpl-detail-ref tbody").html();
-            tmpl_detail_ref = tmpl_detail_ref.replace(/__IDREF__/g, "detail-ref"+index_detail_ref);
-            tmpl_detail_ref = tmpl_detail_ref.replace(/__NOREF__/g, index_detail_ref);
-            tmpl_detail_ref = tmpl_detail_ref.replace(/__INDEX__/g, index_detail_ref);
+<script>
 
-            $("#table-detail-ref tbody").append(tmpl_detail_ref);
-
-            index_detail_ref++;
-        });
-
-        $(document).on("click", ".btn-delete-ref", function(){
-            var index = $(this).data("index");
-
-            $("#detail-ref"+index).remove();
-        });
-
-        $("#btn-submit").click(function(){
-            var ref_detail = [];
-
-            var formserializeArray = $("#form-ref").serializeArray();
-            var ref_head = {};
-            jQuery.map(formserializeArray , function (n, i) {
-                ref_head[n.name] = n.value;
-            });
-
-            $("#form-detail-ref input[name='ref_key[]']").each(function(i,o){
-                ref_detail.push({
-                    ref_id: ref_head.ref_id,
-                    ref_key: $(o).val(),
-                    ref_val: "",
-                    keterangan: ""
-                });
-            });
-
-            $("#form-detail-ref input[name='ref_val[]']").each(function(i,o){
-                ref_detail[i].ref_val = $(o).val();
-            });
-            $("#form-detail-ref input[name='keterangan[]']").each(function(i,o){
-                ref_detail[i].keterangan = $(o).val();
-            });
-
-            $.ajax({
-                url: "/referensi/store",
-                type: "POST",
-                dataType: "JSON",
-                data: {
-                    referensi: ref_head,
-                    detail_referensi: ref_detail
-                },
-                success: function(res){
-                    if(res == "success"){
-                        location.href("/referensi")
-                    }
+    var app = new Vue({
+        el: '#app',
+        data: {
+            referensi:{
+                kode: "",
+                keterangan: ""
+            },
+            referensi_detail: [
+                {
+                    id: "",
+                    key: "",
+                    val: "",
+                    keterangan: "",
+                    readonly: false
                 }
-            })
-        });
-    </script>
+            ],
+            referensi_detail_delete: [],
+            mode: <?= json_encode($mode); ?>
+        },
+
+        mounted(){
+            if(this.mode == 'edit'){
+                this.initData();
+            }
+        },
+
+        methods:{
+
+            initData(){
+                var referensi = <?= json_encode($referensi) ?>;
+                this.referensi.kode = referensi.kode;
+                this.referensi.keterangan = referensi.keterangan;
+
+                referensi.referensi_detail.forEach((refD, index) => {
+                    refD.readonly = true;
+                });
+
+                this.referensi_detail = referensi.referensi_detail;
+            },
+
+            addDetail(){
+                this.referensi_detail.push({
+                    id: "",
+                    key: "",
+                    val: "",
+                    keterangan: "",
+                    readonly: false
+                });
+            },
+
+            deleteDetail(index){
+                if (this.referensi_detail[index].id != "") {
+                    this.referensi_detail_delete.push(this.referensi_detail[index].id);
+                }
+                this.referensi_detail.splice(index, 1);
+            },
+
+            submit(){
+
+                this.referensi_detail.forEach((refD, index) => {
+                    refD.referensi_kode = this.referensi.kode;
+                });
+
+                var data = {
+                    referensi: this.referensi,
+                    referensi_detail: this.referensi_detail,
+                    referensi_detail_delete: this.referensi_detail_delete
+                }
+
+                Swal.fire({
+                    title: 'Apakah anda yakin ?',
+                    text: "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Mohon Tunggu !',
+                            html: '',
+                            allowOutsideClick: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading()
+                            },
+                        });
+
+                        var url = "/referensi/store";
+                        if(this.mode == "edit"){
+                            url = "/referensi/update/";
+                        }
+
+                        axios.post(url, data).then(response => {
+                            if(response.data == "success"){
+                                Swal.close();
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Data Berhasil Disimpan',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                window.location = "/referensi";
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    });
+</script>
+
 @endsection
