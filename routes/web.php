@@ -36,18 +36,20 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/data_ukm/edit', [UkmController::class, 'edit']);
     Route::post('/data_ukm/update', [UkmController::class, 'update']);
 
-    Route::get('/data_intervensi', [IntervensiController::class, 'index']);
-    Route::post('/data_intervensi/create', [IntervensiController::class, 'create']);
-    Route::post('/data_intervensi/store', [IntervensiController::class, 'store']);
-    Route::post('/data_intervensi/delete', [IntervensiController::class, 'destroy']);
-    Route::post('/data_intervensi/edit', [IntervensiController::class, 'edit']);
-    Route::post('/data_intervensi/update', [IntervensiController::class, 'update']);
+    Route::get('/intervensi', [IntervensiController::class, 'index']);
+    Route::get('/intervensi/create', [IntervensiController::class, 'create']);
+    Route::post('/intervensi/store', [IntervensiController::class, 'store']);
+    Route::post('/intervensi/delete', [IntervensiController::class, 'destroy']);
+    Route::post('/intervensi/edit', [IntervensiController::class, 'edit']);
+    Route::post('/intervensi/view', [IntervensiController::class, 'view']);
+    Route::post('/intervensi/update', [IntervensiController::class, 'update']);
 
     Route::get('/referensi', [ReferensiController::class, 'index']);
     Route::get('/referensi/create', [ReferensiController::class, 'create']);
     Route::post('/referensi/store', [ReferensiController::class, 'store']);
     Route::post('/referensi/delete', [ReferensiController::class, 'destroy']);
-    Route::get('/referensi/{id}', [ReferensiController::class, 'edit']);
+    Route::get('/referensi/edit/{id}', [ReferensiController::class, 'edit']);
+    Route::get('/referensi/view/{id}', [ReferensiController::class, 'view']);
     Route::post('/referensi/update', [ReferensiController::class, 'update']);
 
     Route::get('/data_user', [UserController::class, 'index']);
@@ -55,3 +57,7 @@ Route::post('register', [AuthController::class, 'register']);
 
     Route::get('/logout', [AuthController::class, 'logout']);
 // });
+
+
+//API
+Route::get('api/ukm', [UkmController::class, 'getAll']);

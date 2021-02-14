@@ -1,31 +1,39 @@
 @extends('template-metronics.index')
 
 @section('title')
-Form Referensi
+Referensi
 @endsection
 
 @section('content')
-    <h3>Form Referensi</h3>
+
+    <div v-if="mode == 'view'" class="row">
+        <div class="col-12">
+            <a :href="'/referensi/edit/'+ referensi.kode" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
+            <a :href="'/referensi'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
+        </div>
+    </div>
+
+    <h3>Referensi</h3>
     <hr>
     <form id="form-ref">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Kode Referensi</label>
-                    <input {{ $mode == 'edit' ? 'readonly' : '' }} v-model="referensi.kode" autocomplete="off" type="text" class="form-control" name="kode" placeholder="Kode Referensi">
+                    <input {{ $mode != 'create' ? 'readonly' : '' }} v-model="referensi.kode" autocomplete="off" type="text" class="form-control" name="kode" placeholder="Kode Referensi">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <input v-model="referensi.keterangan" autocomplete="off" type="text" class="form-control" name="keterangan" placeholder="Keterangan">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="referensi.keterangan" autocomplete="off" type="text" class="form-control" name="keterangan" placeholder="Keterangan">
                 </div>
             </div>
         </div>
     </form>
     <h3 style="margin-top:3%">Detail Referensi</h3>
     <hr>
-    <button v-on:click="addDetail()" style="margin-bottom: 2%" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Tambah</button>
+    <button v-if="mode != 'view'" v-on:click="addDetail()" style="margin-bottom: 2%" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Tambah</button>
     <form id="form-detail-ref">
         <table class="table table-bordered" id="table-detail-ref">
             <thead>
@@ -46,10 +54,10 @@ Form Referensi
                         <input v-else v-model="refD.key" type="text" class="form-control" />
                     </td>
                     <td>
-                        <input v-model="refD.val" type="text" class="form-control" />
+                        <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="refD.val" type="text" class="form-control" />
                     </td>
                     <td>
-                        <input v-model="refD.keterangan" type="text" class="form-control" />
+                        <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="refD.keterangan" type="text" class="form-control" />
                     </td>
                     <td class="text-center">
                         <button type="button" v-on:click="deleteDetail(index)" class="btn btn-sm btn-danger btn-delete-ref"><span class="fa fa-trash"></span></button>
@@ -60,11 +68,12 @@ Form Referensi
         </table>
     </form>
 
-    <h3 style="margin-top:3%">Simpan Data Referensi</h3>
-    <hr>
+    <div v-if="mode != 'view'">
+        <h3 style="margin-top:3%">Simpan Data Referensi</h3>
+        <hr>
 
-    <button v-on:click="submit()" type="button" class="btn btn-success btn-sm"><span class="fa fa-check"></span> Simpan</button>
-
+        <button v-on:click="submit()" type="button" class="btn btn-success btn-sm"><span class="fa fa-check"></span> Simpan</button>
+    </div>
 @endsection
 
 @section('script')
@@ -92,7 +101,7 @@ Form Referensi
         },
 
         mounted(){
-            if(this.mode == 'edit'){
+            if(this.mode == 'edit' || this.mode == 'view'){
                 this.initData();
             }
         },

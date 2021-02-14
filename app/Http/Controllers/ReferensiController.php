@@ -51,6 +51,15 @@ class ReferensiController extends Controller
 
     }
 
+    public function view($ref_id)
+    {
+        $referensi = Referensi::with('referensiDetail')->find($ref_id);
+        $mode = "view";
+
+        return view('referensi.form', compact('referensi', 'mode'));
+
+    }
+
     public function update(Request $request)
     {
         $referensi = Referensi::find($request->referensi['kode']);

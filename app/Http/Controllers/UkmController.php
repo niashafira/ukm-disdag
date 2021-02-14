@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\UkmModel;
+use App\Models\Ukm;
 use Illuminate\Http\Request;
 
 class UkmController extends Controller
@@ -118,5 +118,11 @@ class UkmController extends Controller
         $id = $request->id;
         UkmModel::destroy($id);
         echo json_encode("success");
+    }
+
+    public function getAll(){
+        $data_ukm = Ukm::get();
+
+        return response()->json($data_ukm);
     }
 }

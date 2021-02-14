@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IntervensiModel;
+use App\Models\Intervensi;
 use Illuminate\Http\Request;
 
 class IntervensiController extends Controller
@@ -14,8 +14,8 @@ class IntervensiController extends Controller
      */
     public function index()
     {
-        $data_intervensi = IntervensiModel::get();
-        return view('intervensi.index', compact('data_intervensi'));
+        $intervensi = Intervensi::get();
+        return view('intervensi.index', compact('intervensi'));
     }
 
     /**
@@ -26,7 +26,7 @@ class IntervensiController extends Controller
     public function create()
     {
         $mode = "create";
-        return view("intervensi.modal-form", compact('mode'));
+        return view("intervensi.form", compact('mode'));
     }
 
     /**
@@ -84,7 +84,7 @@ class IntervensiController extends Controller
      */
     public function update(Request $request)
     {
-        
+
         $id = $request->id;
         $data = IntervensiModel::find($id);
 

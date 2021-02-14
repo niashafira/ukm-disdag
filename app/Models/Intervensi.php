@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IntervensiModel extends Model
+class Intervensi extends Model
 {
     use HasFactory;
-    protected $table = "data_intervensi";
+    protected $table = "intervensi";
 
     protected $guarded = [];
 }

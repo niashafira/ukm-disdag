@@ -25,9 +25,9 @@ Data Referensi
                     <td>@{{ ref.kode }}</td>
                     <td>@{{ ref.keterangan }}</td>
                     <td class="text-center" style="width: 22%">
-                        <a class="btn btn-primary btn-edit btn-sm"><span
+                        <a :href="'/referensi/view/'+ ref.kode" class="btn btn-primary btn-edit btn-sm"><span
                                 class="fa fa-eye"></span> View</a>
-                        <a :href="'/referensi/'+ ref.kode" class="btn btn-warning btn-edit btn-sm"><span
+                        <a :href="'/referensi/edit/'+ ref.kode" class="btn btn-warning btn-edit btn-sm"><span
                                 class="fa fa-pen"></span> Edit</a>
                         <button type="button" v-on:click="deleteReferensi(ref)" class="btn btn-danger btn-delete btn-sm"><span
                                 class="fa fa-trash"></span> Delete</button>
