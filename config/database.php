@@ -74,7 +74,7 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'schema' => 'internal_disdag',
+            'schema' => 'ukm_disdag',
             'sslmode' => 'prefer',
         ],
 

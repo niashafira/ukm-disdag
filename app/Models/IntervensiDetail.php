@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Intervensi extends Model
+class IntervensiDetail extends Model
 {
     use HasFactory;
-    protected $table = "intervensi";
+    protected $table = "detail_intervensi";
 
     protected $guarded = [];
 
-    public function intervensiDetail()
+    public function intervensi()
     {
-        return $this->hasMany('App\Models\IntervensiDetail');
+        return $this->belongsTo('App\Models\Intervensi');
     }
 }

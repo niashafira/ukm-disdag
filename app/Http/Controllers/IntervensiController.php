@@ -3,26 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Models\Intervensi;
+use App\Models\IntervensiDetail;
 use Illuminate\Http\Request;
 
 class IntervensiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $intervensi = Intervensi::get();
         return view('intervensi.index', compact('intervensi'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function indexPelatihan()
+    {
+        $intervensi = Intervensi::with('intervensiDetail')->where('jenis_intervensi', 'pelatihan')->get();
+        return view('intervensi.pelatihan.index', compact('intervensi'));
+    }
+
+    public function formPelatihan()
+    {
+        $mode = "create";
+        return view('intervensi.pelatihan.form', compact('mode'));
+    }
+
+    public function storePelatihan(Request $request)
+    {
+
+        $intervensi = Intervensi::create($request->intervensi);
+        $id = $intervensi->id;
+
+        foreach($request->intervensi_detail as $detail){
+            unset($detail['readonly']);
+            unset($detail['nama_ukm']);
+            $detail['id_intervensi'] = $id;
+            IntervensiDetail::create($detail);
+        }
+
+        echo json_encode("sukses");
+    }
+
     public function create()
     {
         $mode = "create";

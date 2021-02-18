@@ -44,6 +44,13 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/intervensi/view', [IntervensiController::class, 'view']);
     Route::post('/intervensi/update', [IntervensiController::class, 'update']);
 
+    //PELATIHAN
+    Route::get('/intervensi/pelatihan', [IntervensiController::class, 'indexPelatihan']);
+    Route::get('/intervensi/pelatihan/create', [IntervensiController::class, 'formPelatihan']);
+    Route::post('/intervensi/pelatihan/storePelatihan', [IntervensiController::class, 'storePelatihan']);
+
+
+
     Route::get('/referensi', [ReferensiController::class, 'index']);
     Route::get('/referensi/create', [ReferensiController::class, 'create']);
     Route::post('/referensi/store', [ReferensiController::class, 'store']);
