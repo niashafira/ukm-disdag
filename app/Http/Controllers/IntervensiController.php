@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Intervensi;
 use App\Models\IntervensiDetail;
 use Illuminate\Http\Request;
@@ -21,10 +22,28 @@ class IntervensiController extends Controller
         return view('intervensi.pelatihan.index', compact('intervensi'));
     }
 
-    public function formPelatihan()
+    public function createPelatihan()
     {
+        $intervensi = "";
         $mode = "create";
-        return view('intervensi.pelatihan.form', compact('mode'));
+        return view('intervensi.pelatihan.form', compact('mode','intervensi'));
+    }
+
+    public function editPelatihan($id)
+    {
+        $intervensi = Intervensi::where('jenis_intervensi', 'pelatihan')->find($id);
+        $intervensi_detail = DB::select("
+            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_ukm
+            from ukm_disdag.intervensi_detail AS a
+            INNER JOIN ukm_disdag.data_ukm AS b
+            ON b.id = a.ukm_id
+            WHERE a.intervensi_id = ". $id .";
+        ");
+
+        $intervensi['intervensi_detail'] = $intervensi_detail;
+
+        $mode = "edit";
+        return view('intervensi.pelatihan.form', compact('mode', 'intervensi'));
     }
 
     public function storePelatihan(Request $request)
@@ -36,7 +55,7 @@ class IntervensiController extends Controller
         foreach($request->intervensi_detail as $detail){
             unset($detail['readonly']);
             unset($detail['nama_ukm']);
-            $detail['id_intervensi'] = $id;
+            $detail['intervensi_id'] = $id;
             IntervensiDetail::create($detail);
         }
 

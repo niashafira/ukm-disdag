@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class IntervensiDetail extends Model
 {
     use HasFactory;
-    protected $table = "detail_intervensi";
+    protected $table = "intervensi_detail";
 
     protected $guarded = [];
 

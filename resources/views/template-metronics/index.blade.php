@@ -2084,6 +2084,7 @@ License: You must have a valid license purchased only from themeforest(the above
 		<script src="{{asset('template-metronics/assets/plugins/global/plugins.bundle.js')}}"></script>
 		<script src="{{asset('template-metronics/assets/plugins/custom/prismjs/prismjs.bundle.js')}}"></script>
 		<script src="{{asset('template-metronics/assets/js/scripts.bundle.js')}}"></script>
+		<script src="{{asset('js/date.js')}}"></script>
 		<script src="{{asset('template-metronics/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
 		{{-- <script src="{{asset('template-metronics/assets/assets/plugins/custom/gmaps/gmaps.js')}}"></script> --}}
 		<script src="{{asset('template-metronics/assets/js/pages/widgets.js')}}"></script>

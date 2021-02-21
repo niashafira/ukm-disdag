@@ -9,7 +9,7 @@ Data Intervensi
 
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
-        <a href="/intervensi/pelatihan/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah</a>
+        <a href="/intervensi/pelatihan/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah Pelatihan</a>
         <table id="table-intervensi" class="table table-bordered table-stripped">
             <thead>
                 <tr>
@@ -24,10 +24,13 @@ Data Intervensi
             <tr v-for="(intervensi, index) in intervensi" :key="index">
                 <td class="text-center">@{{index+1}}</td>
                 <td>@{{ intervensi.nama_intervensi }}</td>
-                <td>@{{ intervensi.tanggal_mulai }}</td>
-                <td>@{{ intervensi.tanggal_selesai }}</td>
+                <td>@{{ intervensi.formatedTglMulai }}</td>
+                <td>@{{ intervensi.formatedTglSelesai }}</td>
                 <td>@{{ intervensi.keterangan }}</td>
-                <td class="text-center"><button class="btn btn-sm btn-info"><span class="fa fa-eye"></span></button></td>
+                <td class="text-center" style="width:10%">
+                    <button class="btn btn-sm btn-info"><span class="fa fa-eye"></span></button>
+                    <a :href="'/intervensi/pelatihan/edit/'+ intervensi.id" class="btn btn-sm btn-warning"><span class="fa fa-pen"></span></a>
+                </td>
             </tr>
         </table>
     </div>
@@ -37,20 +40,37 @@ Data Intervensi
 
 @section('script')
     <script>
-        $("#table-intervensi").DataTable();
 
         var app = new Vue({
             el: '#app',
             data: {
-                intervensi: <?= json_encode($intervensi); ?>
+                intervensi: ""
             },
 
             mounted(){
-
+                this.initData();
             },
 
             methods:{
+                initData(){
+                    var data = <?= json_encode($intervensi); ?>;
+                    data.forEach((intervensi, index) => {
+                        intervensi.formatedTglMulai = this.changeDateFormat(intervensi.tanggal_mulai);
+                        intervensi.formatedTglSelesai = this.changeDateFormat(intervensi.tanggal_selesai);
+                    });
+                    this.intervensi = data;
+                    setTimeout(() => {
+                        $("#table-intervensi").DataTable();
+                    }, 10);
 
+                },
+
+                changeDateFormat(date){
+                    var newDate = new Date(date);
+                    var formatedDate = newDate.toString("dd MMMM yyyy");
+
+                    return formatedDate;
+                }
             }
         });
 

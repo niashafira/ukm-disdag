@@ -149,9 +149,9 @@ var app = new Vue({
             },
             intervensi_detail: [
                 {
-                    id_ukm: "",
+                    ukm_id: "",
                     nama_ukm: "",
-                    id_intervensi: "",
+                    intervensi_id: "",
                     keterangan: "",
                     readonly: false
                 }
@@ -168,14 +168,31 @@ var app = new Vue({
             });
 
             this.getUkm();
+
+            if(this.mode == 'edit'){
+                this.initDataEdit();
+            }
         },
 
         methods: {
+
+            initDataEdit(){
+                var data = <?= json_encode($intervensi); ?>;
+                var tanggal_mulai = new Date(data.tanggal_mulai);
+                var tanggal_selesai = new Date(data.tanggal_selesai);
+                data.tanggal_mulai = tanggal_mulai.toString("yyyy-MM-dd");
+                data.tanggal_selesai = tanggal_selesai.toString("yyyy-MM-dd");
+
+                this.intervensi = data;
+
+                this.intervensi_detail = this.intervensi.intervensi_detail;
+            },
+
             addDetail(){
                 this.intervensi_detail.push(
                     {
-                        id_ukm: "",
-                        id_intervensi: "",
+                        ukm_id: "",
+                        intervensi_id: "",
                         keterangan: "",
                         tanggal: "",
                         readonly: false
