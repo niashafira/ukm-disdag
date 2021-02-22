@@ -49,6 +49,7 @@ Route::post('register', [AuthController::class, 'register']);
     Route::get('/intervensi/pelatihan/create', [IntervensiController::class, 'createPelatihan']);
     Route::get('/intervensi/pelatihan/edit/{id}', [IntervensiController::class, 'editPelatihan']);
     Route::post('/intervensi/pelatihan/storePelatihan', [IntervensiController::class, 'storePelatihan']);
+    Route::post('/intervensi/pelatihan/updatePelatihan', [IntervensiController::class, 'updatePelatihan']);
 
 
 

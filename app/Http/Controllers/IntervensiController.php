@@ -48,7 +48,6 @@ class IntervensiController extends Controller
 
     public function storePelatihan(Request $request)
     {
-
         $intervensi = Intervensi::create($request->intervensi);
         $id = $intervensi->id;
 
@@ -57,6 +56,41 @@ class IntervensiController extends Controller
             unset($detail['nama_ukm']);
             $detail['intervensi_id'] = $id;
             IntervensiDetail::create($detail);
+        }
+
+        echo json_encode("sukses");
+    }
+
+    public function updatePelatihan(Request $request)
+    {
+        $intervensi = Intervensi::find($request->intervensi['id']);
+        $new_intervensi = $request->intervensi;
+
+        unset($new_intervensi['created_at']);
+        unset($new_intervensi['updated_at']);
+        unset($new_intervensi['intervensi_detail']);
+        $intervensi->update($new_intervensi);
+
+        foreach($request->intervensi_detail as $intervensi_d){
+            if ($intervensi_d['id'] == "") {
+                unset($intervensi_d['id']);
+                unset($intervensi_d['readonly']);
+                unset($intervensi_d['nama_ukm']);
+
+                $intervensi_d['intervensi_id'] = $request->intervensi['id'];
+                IntervensiDetail::create($intervensi_d);
+            }
+            else{
+                $detail = IntervensiDetail::find($intervensi_d['id']);
+                unset($intervensi_d['nama_ukm']);
+                $detail->update($intervensi_d);
+            }
+        }
+
+        if (count($request->intervensi_detail_delete) != 0) {
+            foreach($request->intervensi_detail_delete as $intervensi_d_delete){
+                IntervensiDetail::destroy($intervensi_d_delete);
+            }
         }
 
         echo json_encode("sukses");

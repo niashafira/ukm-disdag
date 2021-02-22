@@ -65,7 +65,6 @@ class ReferensiController extends Controller
         $referensi = Referensi::find($request->referensi['kode']);
         $referensi->update($request->referensi);
 
-
         foreach($request->referensi_detail as $refD){
             if ($refD['id'] == "") {
                 unset($refD['readonly']);

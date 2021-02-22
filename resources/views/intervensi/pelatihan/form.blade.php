@@ -69,7 +69,7 @@ Form Pelatihan
                         <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="detail.keterangan" type="text" class="form-control" />
                     </td>
                     <td class="text-center">
-                        <button type="button" v-on:click="deleteDetail(index)" class="btn btn-sm btn-danger btn-delete-ref"><span class="fa fa-trash"></span></button>
+                        <button type="button" v-on:click="deleteDetail(detail, index)" class="btn btn-sm btn-danger btn-delete-ref"><span class="fa fa-trash"></span></button>
                     </td>
                 </tr>
 
@@ -159,7 +159,8 @@ var app = new Vue({
             selectedDetail: "",
             dataUkm: [],
             intervensi_detail_delete: [],
-            mode: <?= json_encode($mode); ?>
+            mode: <?= json_encode($mode); ?>,
+            intervensi_detail_delete: []
         },
 
         mounted(){
@@ -191,6 +192,7 @@ var app = new Vue({
             addDetail(){
                 this.intervensi_detail.push(
                     {
+                        id: "",
                         ukm_id: "",
                         intervensi_id: "",
                         keterangan: "",
@@ -215,14 +217,19 @@ var app = new Vue({
             },
 
             selectUkm(index){
-                this.intervensi_detail[this.selectedDetail].id_ukm = this.dataUkm[index].id;
+                this.intervensi_detail[this.selectedDetail].ukm_id = this.dataUkm[index].id;
                 this.intervensi_detail[this.selectedDetail].nama_ukm = this.dataUkm[index].nama_ukm;
                 $("#modal-ukm").modal("hide");
 
                 this.$forceUpdate();
             },
 
-            deleteDetail(index){
+            deleteDetail(intervensi, index){
+
+                if(intervensi.id != ""){
+                    this.intervensi_detail_delete.push(intervensi.id);
+                }
+
                 this.intervensi_detail.splice(index, 1);
             },
 
@@ -230,7 +237,8 @@ var app = new Vue({
 
                 var data = {
                     intervensi: this.intervensi,
-                    intervensi_detail: this.intervensi_detail
+                    intervensi_detail: this.intervensi_detail,
+                    intervensi_detail_delete: this.intervensi_detail_delete
                 }
 
                 Swal.fire({
@@ -254,7 +262,7 @@ var app = new Vue({
 
                         var url = "/intervensi/pelatihan/storePelatihan";
                         if(this.mode == "edit"){
-                            url = "/intervensi/updatePelatihan";
+                            url = "/intervensi/pelatihan/updatePelatihan";
                         }
 
                         axios.post(url, data).then(response => {
