@@ -30,15 +30,15 @@
                     </a>
                 </li>
                 <li class="menu-item" aria-haspopup="true">
-                    <a href="features/bootstrap/buttons.html" class="menu-link">
+                    <a href="/intervensi/pameran" class="menu-link">
                         <i class="menu-bullet menu-bullet-dot">
                             <span></span>
                         </i>
-                        <span class="menu-text">Pemasaran/Bazar</span>
+                        <span class="menu-text">Pameran/Bazar</span>
                     </a>
                 </li>
                 <li class="menu-item" aria-haspopup="true">
-                    <a href="features/bootstrap/button-group.html" class="menu-link">
+                    <a href="/intervensi/SertifikatHalal" class="menu-link">
                         <i class="menu-bullet menu-bullet-dot">
                             <span></span>
                         </i>
@@ -46,7 +46,7 @@
                     </a>
                 </li>
                 <li class="menu-item" aria-haspopup="true">
-                    <a href="features/bootstrap/button-group.html" class="menu-link">
+                    <a href="/intervensi/Merek" class="menu-link">
                         <i class="menu-bullet menu-bullet-dot">
                             <span></span>
                         </i>

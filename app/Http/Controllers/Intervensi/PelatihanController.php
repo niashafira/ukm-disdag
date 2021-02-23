@@ -1,35 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Intervensi;
 
+use App\Http\Controllers\Controller;
 use DB;
 use App\Models\Intervensi;
 use App\Models\IntervensiDetail;
 use Illuminate\Http\Request;
 
-class IntervensiController extends Controller
+class PelatihanController extends Controller
 {
-
     public function index()
-    {
-        $intervensi = Intervensi::get();
-        return view('intervensi.index', compact('intervensi'));
-    }
-
-    public function indexPelatihan()
     {
         $intervensi = Intervensi::with('intervensiDetail')->where('jenis_intervensi', 'pelatihan')->get();
         return view('intervensi.pelatihan.index', compact('intervensi'));
     }
 
-    public function createPelatihan()
+    public function create()
     {
         $intervensi = "";
         $mode = "create";
         return view('intervensi.pelatihan.form', compact('mode','intervensi'));
     }
 
-    public function editPelatihan($id)
+    public function edit($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pelatihan')->find($id);
         $intervensi_detail = DB::select("
@@ -46,7 +40,7 @@ class IntervensiController extends Controller
         return view('intervensi.pelatihan.form', compact('mode', 'intervensi'));
     }
 
-    public function viewPelatihan($id)
+    public function view($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pelatihan')->find($id);
         $intervensi_detail = DB::select("
@@ -63,7 +57,7 @@ class IntervensiController extends Controller
         return view('intervensi.pelatihan.form', compact('mode', 'intervensi'));
     }
 
-    public function storePelatihan(Request $request)
+    public function store(Request $request)
     {
         $intervensi = Intervensi::create($request->intervensi);
         $id = $intervensi->id;
@@ -71,6 +65,7 @@ class IntervensiController extends Controller
         foreach($request->intervensi_detail as $detail){
             unset($detail['readonly']);
             unset($detail['nama_ukm']);
+            unset($detail['id']);
             $detail['intervensi_id'] = $id;
             IntervensiDetail::create($detail);
         }
@@ -78,7 +73,7 @@ class IntervensiController extends Controller
         echo json_encode("sukses");
     }
 
-    public function updatePelatihan(Request $request)
+    public function update(Request $request)
     {
         $intervensi = Intervensi::find($request->intervensi['id']);
         $new_intervensi = $request->intervensi;
@@ -111,97 +106,5 @@ class IntervensiController extends Controller
         }
 
         echo json_encode("sukses");
-    }
-
-    public function create()
-    {
-        $mode = "create";
-        return view("intervensi.form", compact('mode'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        if(IntervensiModel::where('jenis','=',$request->jenis)->exists()){
-            $response['status'] = "E";
-            $response['msg'] = "Jenis intervensi sudah ada sebelumnya";
-
-            return response()->json($response);
-        }
-
-        IntervensiModel::create($request->except(["mode"]));
-        $response['status'] = "S";
-        $response['msg'] = "Data berhasil disimmpan";
-        return response()->json($response);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request)
-    {
-        $id = $request->id;
-        $mode = "edit";
-        $data = IntervensiModel::find($id);
-        return view("intervensi.modal-form", compact('mode', 'data'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request)
-    {
-
-        $id = $request->id;
-        $data = IntervensiModel::find($id);
-
-        if(IntervensiModel::where('jenis','=',$request->jenis)->exists() && $request->jenis != $data->jenis){
-            $response['status'] = "E";
-            $response['msg'] = "Jenis intervensi sudah ada sebelumnya";
-
-            return response()->json($response);
-        }
-
-        $data->update($request->except(["mode"]));
-
-        $response['status'] = "S";
-        $response['msg'] = "Data berhasil disimmpan";
-        return response()->json($response);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request)
-    {
-        $id = $request->id;
-        IntervensiModel::destroy($id);
-        echo json_encode("success");
     }
 }

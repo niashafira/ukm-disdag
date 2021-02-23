@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Intervensi\PelatihanController;
 use App\Http\Controllers\UkmController;
 use App\Http\Controllers\ReferensiController;
 use App\Http\Controllers\IntervensiController;
@@ -29,12 +30,12 @@ Route::get('register', [AuthController::class, 'showFormRegister'])->name('regis
 Route::post('register', [AuthController::class, 'register']);
 
 // Route::group(['middleware' => 'auth'], function () {
-    Route::get('/data_ukm', [UkmController::class, 'index']);
-    Route::get('/data_ukm/create', [UkmController::class, 'create']);
-    Route::post('/data_ukm/store', [UkmController::class, 'store']);
-    Route::post('/data_ukm/delete', [UkmController::class, 'destroy']);
-    Route::post('/data_ukm/edit', [UkmController::class, 'edit']);
-    Route::post('/data_ukm/update', [UkmController::class, 'update']);
+    Route::get('/ukm', [UkmController::class, 'index']);
+    Route::get('/ukm/create', [UkmController::class, 'create']);
+    Route::post('/ukm/store', [UkmController::class, 'store']);
+    Route::post('/ukm/delete', [UkmController::class, 'destroy']);
+    Route::post('/ukm/edit', [UkmController::class, 'edit']);
+    Route::post('/ukm/update', [UkmController::class, 'update']);
 
     Route::get('/intervensi', [IntervensiController::class, 'index']);
     Route::get('/intervensi/create', [IntervensiController::class, 'create']);
@@ -45,14 +46,39 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/intervensi/update', [IntervensiController::class, 'update']);
 
     //PELATIHAN
-    Route::get('/intervensi/pelatihan', [IntervensiController::class, 'indexPelatihan']);
-    Route::get('/intervensi/pelatihan/create', [IntervensiController::class, 'createPelatihan']);
-    Route::get('/intervensi/pelatihan/edit/{id}', [IntervensiController::class, 'editPelatihan']);
-    Route::post('/intervensi/pelatihan/storePelatihan', [IntervensiController::class, 'storePelatihan']);
-    Route::post('/intervensi/pelatihan/updatePelatihan', [IntervensiController::class, 'updatePelatihan']);
+    Route::get('/intervensi/pelatihan', [PelatihanController::class, 'index']);
+    Route::get('/intervensi/pelatihan/create', [PelatihanController::class, 'create']);
+    Route::get('/intervensi/pelatihan/edit/{id}', [PelatihanController::class, 'edit']);
+    Route::post('/intervensi/pelatihan/store', [PelatihanController::class, 'store']);
+    Route::post('/intervensi/pelatihan/update', [PelatihanController::class, 'update']);
+    Route::get('/intervensi/pelatihan/view/{id}', [PelatihanController::class, 'view']);
+
+    //PAMERAN
+    Route::get('/intervensi/pameran', [PameranController::class, 'index']);
+    Route::get('/intervensi/pameran/create', [PameranController::class, 'create']);
+    Route::get('/intervensi/pameran/edit/{id}', [PameranController::class, 'edit']);
+    Route::post('/intervensi/pameran/store', [PameranController::class, 'store']);
+    Route::post('/intervensi/pameran/update', [PameranController::class, 'update']);
+    Route::get('/intervensi/pameran/view/{id}', [PameranController::class, 'view']);
+
+    //SERTIFIKAT HALAL
+    Route::get('/intervensi/SertifikatHalal', [SertifikatHalalController::class, 'index']);
+    Route::get('/intervensi/SertifikatHalal/create', [SertifikatHalalController::class, 'create']);
+    Route::get('/intervensi/SertifikatHalal/edit/{id}', [SertifikatHalalController::class, 'edit']);
+    Route::post('/intervensi/SertifikatHalal/store', [SertifikatHalalController::class, 'store']);
+    Route::post('/intervensi/SertifikatHalal/update', [SertifikatHalalController::class, 'update']);
+    Route::get('/intervensi/SertifikatHalal/view/{id}', [SertifikatHalalController::class, 'view']);
+
+    //SERTIFIKAT MEREK
+    Route::get('/intervensi/SertifikatMerek', [SertifikatMerekController::class, 'index']);
+    Route::get('/intervensi/SertifikatMerek/create', [SertifikatMerekController::class, 'create']);
+    Route::get('/intervensi/SertifikatMerek/edit/{id}', [SertifikatMerekController::class, 'edit']);
+    Route::post('/intervensi/SertifikatMerek/store', [SertifikatMerekController::class, 'store']);
+    Route::post('/intervensi/SertifikatMerek/update', [SertifikatMerekController::class, 'update']);
+    Route::get('/intervensi/SertifikatMerek/view/{id}', [SertifikatMerekController::class, 'view']);
 
 
-
+    //REFERENSI
     Route::get('/referensi', [ReferensiController::class, 'index']);
     Route::get('/referensi/create', [ReferensiController::class, 'create']);
     Route::post('/referensi/store', [ReferensiController::class, 'store']);

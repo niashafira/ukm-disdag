@@ -6,10 +6,10 @@ Form Pelatihan
 
 @section('content')
 
-    <div v-if="mode == 'view'" class="row">
+    <div class="row">
         <div class="col-12">
-            <a :href="'/intervensi/edit/'+ intervensi.kode" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
-            <a :href="'/intervensi'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
+            <a v-if="mode == 'view'" :href="'/intervensi/pelatihan/edit/'+ intervensi.id" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
+            <a :href="'/intervensi/pelatihan'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
         </div>
     </div>
 
@@ -20,13 +20,13 @@ Form Pelatihan
             <div class="col">
                 <div class="form-group">
                     <label>Nama Pelatihan</label>
-                    <input v-model="intervensi.nama_intervensi" autocomplete="off" type="text" class="form-control" placeholder="Nama Pelatihan">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.nama_intervensi" autocomplete="off" type="text" class="form-control" placeholder="Nama Pelatihan">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>Deskripsi</label>
-                    <input v-model="intervensi.deskripsi" autocomplete="off" type="text" class="form-control" placeholder="Deskripsi Pelatihan">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.deskripsi" autocomplete="off" type="text" class="form-control" placeholder="Deskripsi Pelatihan">
                 </div>
             </div>
         </div>
@@ -34,13 +34,13 @@ Form Pelatihan
             <div class="col-4">
                 <div class="form-group">
                     <label>Tanggal Mulai</label>
-                    <input v-model="intervensi.tanggal_mulai" autocomplete="off" type="date" class="form-control">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.tanggal_mulai" autocomplete="off" type="date" class="form-control">
                 </div>
             </div>
             <div class="col-4">
                 <div class="form-group">
                     <label>Tanggal Selesai</label>
-                    <input v-model="intervensi.tanggal_selesai" autocomplete="off" type="date" class="form-control">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.tanggal_selesai" autocomplete="off" type="date" class="form-control">
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@ Form Pelatihan
                     <th>No</th>
                     <th>UKM</th>
                     <th>Keterangan</th>
-                    <th>Action</th>
+                    <th v-if="mode != 'view'">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -68,7 +68,7 @@ Form Pelatihan
                     <td>
                         <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="detail.keterangan" type="text" class="form-control" />
                     </td>
-                    <td class="text-center">
+                    <td v-if="mode != 'view'" class="text-center">
                         <button type="button" v-on:click="deleteDetail(detail, index)" class="btn btn-sm btn-danger btn-delete-ref"><span class="fa fa-trash"></span></button>
                     </td>
                 </tr>
@@ -170,7 +170,7 @@ var app = new Vue({
 
             this.getUkm();
 
-            if(this.mode == 'edit'){
+            if(this.mode == 'edit' || this.mode == 'view'){
                 this.initDataEdit();
             }
         },
@@ -212,8 +212,10 @@ var app = new Vue({
             },
 
             inputUkm(indexDetail){
-                $("#modal-ukm").modal("show");
-                this.selectedDetail = indexDetail;
+                if (this.mode != 'view') {
+                    $("#modal-ukm").modal("show");
+                    this.selectedDetail = indexDetail;
+                }
             },
 
             selectUkm(index){
@@ -260,9 +262,9 @@ var app = new Vue({
                             },
                         });
 
-                        var url = "/intervensi/pelatihan/storePelatihan";
+                        var url = "/intervensi/pelatihan/store";
                         if(this.mode == "edit"){
-                            url = "/intervensi/pelatihan/updatePelatihan";
+                            url = "/intervensi/pelatihan/update";
                         }
 
                         axios.post(url, data).then(response => {

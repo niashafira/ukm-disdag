@@ -28,7 +28,7 @@ Data Intervensi
                 <td>@{{ intervensi.formatedTglSelesai }}</td>
                 <td>@{{ intervensi.keterangan }}</td>
                 <td class="text-center" style="width:10%">
-                    <button class="btn btn-sm btn-info"><span class="fa fa-eye"></span></button>
+                    <a :href="'/intervensi/pelatihan/view/'+ intervensi.id" class="btn btn-sm btn-info"><span class="fa fa-eye"></span></a>
                     <a :href="'/intervensi/pelatihan/edit/'+ intervensi.id" class="btn btn-sm btn-warning"><span class="fa fa-pen"></span></a>
                 </td>
             </tr>
