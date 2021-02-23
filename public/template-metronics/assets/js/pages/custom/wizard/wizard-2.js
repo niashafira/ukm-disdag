@@ -33,10 +33,10 @@ var KTWizard2 = function () {
 						KTUtil.scrollTop();
 					} else {
 						Swal.fire({
-							text: "Sorry, looks like there are some errors detected, please try again.",
+							text: "Maaf, data tidak valid, silahkan coba lagi.",
 							icon: "error",
 							buttonsStyling: false,
-							confirmButtonText: "Ok, got it!",
+							confirmButtonText: "OK!",
 							customClass: {
 								confirmButton: "btn font-weight-bold btn-light"
 							}
@@ -93,34 +93,38 @@ var KTWizard2 = function () {
 			_formEl,
 			{
 				fields: {
-					fname: {
+					namaPemilik: {
 						validators: {
 							notEmpty: {
-								message: 'First name is required'
+								message: 'Nama pemilik wajib diisi'
+							}
+						}
+                    },
+                    nikPemilik: {
+						validators: {
+							notEmpty: {
+								message: 'NIK pemilik wajib diisi'
 							}
 						}
 					},
-					lname: {
+					namaUsaha: {
 						validators: {
 							notEmpty: {
-								message: 'Last Name is required'
+								message: 'Nama usaha wajib diisi'
 							}
 						}
-					},
-					phone: {
+                    },
+                    alamatUsaha: {
 						validators: {
 							notEmpty: {
-								message: 'Phone is required'
+								message: 'Alamat usaha wajib diisi'
 							}
 						}
 					},
 					email: {
 						validators: {
-							notEmpty: {
-								message: 'Email is required'
-							},
 							emailAddress: {
-								message: 'The value is not a valid email address'
+								message: 'Email tidak sah'
 							}
 						}
 					}

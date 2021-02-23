@@ -7,7 +7,7 @@ Data UKM
 @section('content')
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
-        <button class="btn btn-info btn-sm" id="btn-create"><span class="fa fa-plus"></span> Tambah UKM</button><br><br>
+        <a href="/ukm/create" class="btn btn-info btn-sm" id="btn-create"><span class="fa fa-plus"></span> Tambah UKM</a><br><br>
         <table id="table-ukm" class="table table-bordered table-stripped">
             <thead>
                 <tr>
@@ -21,7 +21,7 @@ Data UKM
                 </tr>
             </thead>
             <tbody>
-                <?php 
+                <?php
                     $i = 1;
                 ?>
                 @foreach ($data_ukm as $ukm)
@@ -37,8 +37,8 @@ Data UKM
                             <button class="btn btn-warning btn-edit btn-sm" id="{{ $ukm->id }}"><span class="fa fa-pen"></span> Edit</button>
                             <button class="btn btn-danger btn-delete btn-sm" id="{{ $ukm->id }}"><span class="fa fa-trash"></span> Delete</button>
                         </td>
-                    </tr>  
-                    <?php 
+                    </tr>
+                    <?php
                         $i++;
                     ?>
                 @endforeach
