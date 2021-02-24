@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Intervensi\PelatihanController;
+use App\Http\Controllers\Intervensi\PameranController;
 use App\Http\Controllers\UkmController;
 use App\Http\Controllers\ReferensiController;
 use App\Http\Controllers\IntervensiController;
