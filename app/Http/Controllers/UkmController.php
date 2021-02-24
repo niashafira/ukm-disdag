@@ -25,14 +25,14 @@ class UkmController extends Controller
         print_r($request->all());
 
         $nama_ukm = strtolower($request->nama_ukm);
-        if(UkmModel::whereRaw('lower(nama_ukm) like (?)',["%{$nama_ukm}%"])->exists()){
+        if(Ukm::whereRaw('lower(nama_ukm) like (?)',["%{$nama_ukm}%"])->exists()){
             $response['status'] = "E";
             $response['msg'] = "Nama UKM sudah ada sebelumnya";
 
             return response()->json($response);
         }
 
-        UkmModel::create($request->except(["mode"]));
+        Ukm::create($request->except(["mode"]));
         $response['status'] = "S";
         $response['msg'] = "Data berhasil disimmpan";
         return response()->json($response);
@@ -47,7 +47,7 @@ class UkmController extends Controller
     {
         $id = $request->id;
         $mode = "edit";
-        $data = UkmModel::find($id);
+        $data = Ukm::find($id);
         return view("ukm.modal-form", compact('mode', 'data'));
     }
 
@@ -55,11 +55,11 @@ class UkmController extends Controller
     {
 
         $id = $request->id;
-        $data = UkmModel::find($id);
+        $data = Ukm::find($id);
 
         $nama_ukm = strtolower($request->nama_ukm);
 
-        if(UkmModel::whereRaw('lower(nama_ukm) like (?)',["%{$nama_ukm}%"])->exists() && $nama_ukm != strtolower($data->nama_ukm)){
+        if(Ukm::whereRaw('lower(nama_ukm) like (?)',["%{$nama_ukm}%"])->exists() && $nama_ukm != strtolower($data->nama_ukm)){
             $response['status'] = "E";
             $response['msg'] = "Nama UKM sudah ada sebelumnya";
 
@@ -76,7 +76,7 @@ class UkmController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->id;
-        UkmModel::destroy($id);
+        Ukm::destroy($id);
         echo json_encode("success");
     }
 
