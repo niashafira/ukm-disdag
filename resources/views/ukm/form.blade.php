@@ -6,6 +6,11 @@ Form UKM
 
 @section('style')
     <link href="{{asset('template-metronics/assets/css/pages/wizard/wizard-2.css')}}" rel="stylesheet" type="text/css" />
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -174,13 +179,13 @@ Form UKM
                                             <div class="col-xl-6">
                                                 <div class="form-group">
                                                     <label>Nama Pemilik</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="namaPemilik" placeholder="Nama Pemilik" />
+                                                    <input v-model="ukm.nama_pemilik" type="text" class="form-control form-control-solid form-control-lg" name="namaPemilik" placeholder="Nama Pemilik" />
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
                                                 <div class="form-group">
                                                     <label>NIK Pemilik</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="nikPemilik" placeholder="NIK Pemilik" />
+                                                    <input v-model="ukm.nik" type="text" class="form-control form-control-solid form-control-lg" name="nikPemilik" placeholder="NIK Pemilik" />
                                                 </div>
                                             </div>
                                         </div>
@@ -189,25 +194,25 @@ Form UKM
                                             <div class="col-xl-6">
                                                 <div class="form-group">
                                                     <label>Nama Usaha</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="namaUsaha" placeholder="Nama Usaha" />
+                                                    <input v-model="ukm.nama_usaha" type="text" class="form-control form-control-solid form-control-lg" name="namaUsaha" placeholder="Nama Usaha" />
                                                 </div>
                                             </div>
                                             <div class="col-xl-6">
                                                 <div class="form-group">
                                                     <label>Jenis Produksi</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="jenisProduksi" placeholder="Jenis Produksi" />
+                                                    <input v-model="ukm.jenis_produksi" type="text" class="form-control form-control-solid form-control-lg" name="jenisProduksi" placeholder="Jenis Produksi" />
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label>Alamat Usaha</label>
-                                            <input type="text" class="form-control form-control-solid form-control-lg" name="alamatUsaha" placeholder="Alamat Usaha" />
+                                            <input v-model="ukm.alamat" type="text" class="form-control form-control-solid form-control-lg" name="alamatUsaha" placeholder="Alamat Usaha" />
                                         </div>
 
                                         <div class="form-group">
                                             <label>Jangkauan Pemasaran</label>
-                                            <input type="text" class="form-control form-control-solid form-control-lg" name="jangkauanPemasaran" placeholder="Jangkauan Pemasaran" />
+                                            <input v-model="ukm.jangkauan_pemasaran" type="text" class="form-control form-control-solid form-control-lg" name="jangkauanPemasaran" placeholder="Jangkauan Pemasaran" />
                                         </div>
 
                                         <div class="row">
@@ -215,7 +220,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>No Telepon</label>
-                                                    <input type="tel" class="form-control form-control-solid form-control-lg" name="phone" placeholder="No Telepon" />
+                                                    <input v-model="ukm.no_telp" type="tel" class="form-control form-control-solid form-control-lg" name="phone" placeholder="No Telepon" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -223,7 +228,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Email</label>
-                                                    <input type="email" class="form-control form-control-solid form-control-lg" name="email" placeholder="Email" />
+                                                    <input v-model="ukm.email" type="email" class="form-control form-control-solid form-control-lg" name="email" placeholder="Email" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -238,7 +243,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Nomor SIUP</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="noSiup" placeholder="Nomor SIUP" />
+                                                    <input v-model="ukm.no_siup" type="text" class="form-control form-control-solid form-control-lg" name="noSiup" placeholder="Nomor SIUP" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -246,7 +251,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Nomor NIB</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="noNib" placeholder="Nomor NIB" />
+                                                    <input v-model="ukm.no_nib" type="text" class="form-control form-control-solid form-control-lg" name="noNib" placeholder="Nomor NIB" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -256,7 +261,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Nomor TDP</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="noTdp" placeholder="Nomor TDP" />
+                                                    <input v-model="ukm.no_tdp" type="text" class="form-control form-control-solid form-control-lg" name="noTdp" placeholder="Nomor TDP" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -264,7 +269,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Nomor IUMK</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="noIumk" placeholder="Nomor IUMK" />
+                                                    <input v-model="ukm.no_iumk" type="text" class="form-control form-control-solid form-control-lg" name="noIumk" placeholder="Nomor IUMK" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -274,7 +279,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Nomor PIRT</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="noPirt" placeholder="Nomor PIRT" />
+                                                    <input v-model="ukm.no_pirt" type="text" class="form-control form-control-solid form-control-lg" name="noPirt" placeholder="Nomor PIRT" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -282,7 +287,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Nomor BPOM</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="noBpom" placeholder="Nomor BPOM" />
+                                                    <input v-model="ukm.no_bpom" type="text" class="form-control form-control-solid form-control-lg" name="noBpom" placeholder="Nomor BPOM" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -298,7 +303,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Jumlah Pemodalan (Rp)</label>
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="jmlModal" />
+                                                    <input v-model="ukm.jumlah_pemodalan" type="number" class="form-control form-control-solid form-control-lg" name="jmlModal" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -306,7 +311,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Sumber</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="sumberModal" placeholder="Sumber Permodalan" />
+                                                    <input v-model="ukm.sumber_pemodalan" type="text" class="form-control form-control-solid form-control-lg" name="sumberModal" placeholder="Sumber Permodalan" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -318,7 +323,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Jumlah Pinjaman (Rp)</label>
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="jmlPinjaman" />
+                                                    <input v-model="ukm.jumlah_pinjaman" type="number" class="form-control form-control-solid form-control-lg" name="jmlPinjaman" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -326,7 +331,7 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>Sumber</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="sumberPinjaman" placeholder="Sumber Pinjaman" />
+                                                    <input v-model="ukm.sumber_pinjaman" type="text" class="form-control form-control-solid form-control-lg" name="sumberPinjaman" placeholder="Sumber Pinjaman" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -342,33 +347,15 @@ Form UKM
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>No Sertifikasi Halal</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="noSertifikasiHalal" placeholder="No Sertifikasi Halal" />
+                                                    <input v-model="ukm.no_sertifikasi_halal" type="text" class="form-control form-control-solid form-control-lg" name="noSertifikasiHalal" placeholder="No Sertifikasi Halal" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
-                                            <div class="col-xl-6">
-                                                <!--begin::Input-->
-                                                <div class="form-group">
-                                                    <label>Tanggal Berlaku</label>
-                                                    <input type="date" class="form-control form-control-solid form-control-lg" name="tglSertifikasiHalal" />
-                                                </div>
-                                                <!--end::Input-->
-                                            </div>
-                                        </div>
-                                        <div class="row">
                                             <div class="col-xl-6">
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>No Sertifikasi Merek</label>
-                                                    <input type="text" class="form-control form-control-solid form-control-lg" name="noSertifikasiMerek" placeholder="No Sertifikasi Merek" />
-                                                </div>
-                                                <!--end::Input-->
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <!--begin::Input-->
-                                                <div class="form-group">
-                                                    <label>Tanggal Berlaku</label>
-                                                    <input type="date" class="form-control form-control-solid form-control-lg" name="tglSertifikasiMerek" />
+                                                    <input v-model="ukm.no_sertifkasi_merek" type="text" class="form-control form-control-solid form-control-lg" name="noSertifikasiMerek" placeholder="No Sertifikasi Merek" />
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -380,22 +367,25 @@ Form UKM
                                         <h4 class="mb-10 font-weight-bold text-dark">Atur Omset Bulanan</h4>
                                         <div class="row">
                                             <div class="col-xl-12">
-                                                <button style="margin-bottom:3%" type="button" class="btn btn-sm btn-info"><span class="fa fa-plus"></span> Tambah</button>
+                                                <button v-on:click="tambahOmset()" style="margin-bottom:3%" type="button" class="btn btn-sm btn-info"><span class="fa fa-plus"></span> Tambah</button>
                                                 <table class="table table-bordered">
                                                     <thead>
                                                         <tr>
+                                                            <th>No</th>
                                                             <th>Tanggal</th>
                                                             <th>Jumlah (Rp)</th>
                                                             <th>Aksi</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
+                                                        <tr v-for="(omset, index) in omset" :key="index">
+                                                            <td class="text-center">@{{ index + 1 }}</td>
                                                             <td>
-                                                                <input type="date" class="form-control form-control-solid" />
+                                                                <input v-model="omset.tanggal" :id="'datepicker' + index" type="text" class="form-control form-control-solid" />
+                                                                {{-- <input v-model="omset.tanggal" :id="'datepicker' + index" class="form-control form-control-solid" /> --}}
                                                             </td>
                                                             <td>
-                                                                <input type="number" class="form-control form-control-solid" />
+                                                                <input v-model.number="omset.jumlah" type="number" class="form-control form-control-solid" />
                                                             </td>
                                                             <td class="text-center">
                                                                 <button class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
@@ -421,7 +411,7 @@ Form UKM
                                             <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Sebelumnya</button>
                                         </div>
                                         <div>
-                                            <button type="button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Simpan</button>
+                                            <button v-on:click="simpan()" type="button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit">Simpan</button>
                                             <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next">Selanjutnya</button>
                                         </div>
                                     </div>

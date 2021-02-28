@@ -16,32 +16,18 @@ Data UKM
                     <th>Nama Pemilik UKM</th>
                     <th>NIK</th>
                     <th>Alamat</th>
-                    <th>No Telp</th>
-                    <th class="text-center" style="width:22%">Aksi</th>
+                    <th class="text-center" style="width:10%">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                    $i = 1;
-                ?>
-                @foreach ($data_ukm as $ukm)
-                    <tr>
-                        <td>{{ $i . "." }} </td>
-                        <td>{{ $ukm->nama_ukm }}</td>
-                        <td>{{ $ukm->nama_pemilik }}</td>
-                        <td>{{ $ukm->nik }}</td>
-                        <td>{{ $ukm->alamat }}</td>
-                        <td>{{ $ukm->no_telp }}</td>
-                        <td class="text-center" style="width: 22%">
-                            <button class="btn btn-primary btn-edit btn-sm"><span class="fa fa-eye"></span> View</button>
-                            <button class="btn btn-warning btn-edit btn-sm" id="{{ $ukm->id }}"><span class="fa fa-pen"></span> Edit</button>
-                            <button class="btn btn-danger btn-delete btn-sm" id="{{ $ukm->id }}"><span class="fa fa-trash"></span> Delete</button>
-                        </td>
-                    </tr>
-                    <?php
-                        $i++;
-                    ?>
-                @endforeach
+                <tr v-for="(ukm, index) in ukm" :key="index">
+                    <td>@{{ index + 1 }}</td>
+                    <td>@{{ ukm.nama_usaha }}</td>
+                    <td>@{{ ukm.nama_pemilik }}</td>
+                    <td>@{{ ukm.nik }}</td>
+                    <td>@{{ ukm.alamat }}</td>
+                    <td class="text-center"><button class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</button></td>
+                </tr>
             </tbody>
         </table>
         <div id="section-modal">
@@ -53,77 +39,29 @@ Data UKM
 
 
 @section('script')
+
 <script>
-    $('#table-ukm').DataTable();
 
-    $(document).on("click", "#btn-save", function () {
-        var mode = "store";
-        if ($("input[name='mode']").val() == "edit") {
-            mode = "update";
-        }
-        $.ajax({
-            "url": "/data_ukm/" + mode,
-            "type": "POST",
-            "data": $("#form-add-ukm").serialize(),
-            "dataType": "json",
-            success: function (data) {
-                if (data.status == "S") {
-                    alert("Data berhasil disimpan");
-                    location.reload();
-                } else if (data.status == "E") {
-                    alert("Nama UKM sudah ada sebelumnya");
-                }
-            }
-        })
-    })
+    var app = new Vue({
+        el: '#app',
+        data: {
+            ukm: ""
+        },
 
-    $(document).on("click", ".btn-edit", function () {
-        var id = $(this).attr('id')
-        $.ajax({
-            "url": "/data_ukm/edit",
-            "type": "POST",
-            "data": {
-                'id': id
+        mounted(){
+            this.initData();
+        },
+
+        methods:{
+            initData(){
+                var data = <?= json_encode($ukm); ?>;
+                this.ukm = data;
+                setTimeout(() => {
+                    $('#table-ukm').DataTable();
+                }, 10);
             },
-            success: function (res) {
-                $("#section-modal").html(res);
-                $("#modal-head-title").html("Edit UKM");
-                $("#ModalUkm").modal('show');
-            }
-        })
-    });
-
-    $("#btn-create").click(function () {
-        $.ajax({
-            "url": "/data_ukm/create",
-            "type": "GET",
-            success: function (res) {
-                $("#section-modal").html(res);
-                $("#modal-head-title").html("Tambah UKM");
-                $("#ModalUkm").modal('show');
-            }
-        })
-    });
-
-    $(document).on("click", ".btn-delete", function () {
-        var id = $(this).attr('id')
-        if (confirm('Apakah anda yakin ingin menghapus?')) {
-            $.ajax({
-                "url": "/data_ukm/delete",
-                "type": "POST",
-                "dataType": "json",
-                "data": {
-                    'id': id
-                },
-                success: function (res) {
-                    if (res == "success") {
-                        alert("Data berhasil dihapus");
-                        location.reload();
-                    }
-                }
-            })
         }
-    })
+    });
 
 </script>
 @endsection
