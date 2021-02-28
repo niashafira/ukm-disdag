@@ -55,8 +55,12 @@ Data Intervensi
                 initData(){
                     var data = <?= json_encode($intervensi); ?>;
                     data.forEach((intervensi, index) => {
-                        intervensi.formatedTglMulai = this.changeDateFormat(intervensi.tanggal_mulai);
-                        intervensi.formatedTglSelesai = this.changeDateFormat(intervensi.tanggal_selesai);
+                        if(intervensi.tanggal_mulai != null){
+                            intervensi.formatedTglMulai = this.changeDateFormat(intervensi.tanggal_mulai);
+                        }
+                        if(intervensi.tanggal_selesai != null){
+                            intervensi.formatedTglSelesai = this.changeDateFormat(intervensi.tanggal_selesai);
+                        }
                     });
                     this.intervensi = data;
                     setTimeout(() => {

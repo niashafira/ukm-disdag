@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ukm extends Model
+class Omset extends Model
 {
     use HasFactory;
-    protected $table = "ukm";
+
+    protected $table = "omset";
 
     protected $guarded = [];
 }

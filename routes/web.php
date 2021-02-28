@@ -38,6 +38,7 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/ukm/delete', [UkmController::class, 'destroy']);
     Route::post('/ukm/edit', [UkmController::class, 'edit']);
     Route::post('/ukm/update', [UkmController::class, 'update']);
+    Route::get('/ukm/importExcel', [UkmController::class, 'importExcel']);
 
     Route::get('/intervensi', [IntervensiController::class, 'index']);
     Route::get('/intervensi/create', [IntervensiController::class, 'create']);

@@ -27,9 +27,9 @@ class PelatihanController extends Controller
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pelatihan')->find($id);
         $intervensi_detail = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_ukm
+            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha
             from ukm_disdag.intervensi_detail AS a
-            INNER JOIN ukm_disdag.data_ukm AS b
+            INNER JOIN ukm_disdag.ukm AS b
             ON b.id = a.ukm_id
             WHERE a.intervensi_id = ". $id .";
         ");
@@ -44,9 +44,9 @@ class PelatihanController extends Controller
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pelatihan')->find($id);
         $intervensi_detail = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_ukm
+            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha
             from ukm_disdag.intervensi_detail AS a
-            INNER JOIN ukm_disdag.data_ukm AS b
+            INNER JOIN ukm_disdag.ukm AS b
             ON b.id = a.ukm_id
             WHERE a.intervensi_id = ". $id .";
         ");
@@ -64,7 +64,7 @@ class PelatihanController extends Controller
 
         foreach($request->intervensi_detail as $detail){
             unset($detail['readonly']);
-            unset($detail['nama_ukm']);
+            unset($detail['nama_usaha']);
             unset($detail['id']);
             $detail['intervensi_id'] = $id;
             IntervensiDetail::create($detail);
@@ -87,14 +87,14 @@ class PelatihanController extends Controller
             if ($intervensi_d['id'] == "") {
                 unset($intervensi_d['id']);
                 unset($intervensi_d['readonly']);
-                unset($intervensi_d['nama_ukm']);
+                unset($intervensi_d['nama_usaha']);
 
                 $intervensi_d['intervensi_id'] = $request->intervensi['id'];
                 IntervensiDetail::create($intervensi_d);
             }
             else{
                 $detail = IntervensiDetail::find($intervensi_d['id']);
-                unset($intervensi_d['nama_ukm']);
+                unset($intervensi_d['nama_usaha']);
                 $detail->update($intervensi_d);
             }
         }

@@ -33,6 +33,12 @@ Form Pelatihan
         <div class="row">
             <div class="col-4">
                 <div class="form-group">
+                    <label>Lokasi</label>
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.lokasi" autocomplete="off" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
                     <label>Tanggal Mulai</label>
                     <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.tanggal_mulai" autocomplete="off" type="date" class="form-control">
                 </div>
@@ -63,7 +69,7 @@ Form Pelatihan
                 <tr v-for="(detail, index) in intervensi_detail" :key="index">
                     <td class="text-center">@{{ index+1 }}</td>
                     <td>
-                        <input v-model="detail.nama_ukm" v-on:click="inputUkm(index)" id="input-ukm" class="form-control" type="text" readonly placeholder="Klik Disini" />
+                        <input v-model="detail.nama_usaha" v-on:click="inputUkm(index)" id="input-ukm" class="form-control" type="text" readonly placeholder="Klik Disini" />
                     </td>
                     <td>
                         <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="detail.keterangan" type="text" class="form-control" />
@@ -106,7 +112,7 @@ Form Pelatihan
                         </tr>
                         </thead>
                         <tr v-for="(ukm, index) in dataUkm" :key="index">
-                            <td>@{{ ukm.nama_ukm }}</td>
+                            <td>@{{ ukm.nama_usaha }}</td>
                             <td>@{{ ukm.nama_pemilik }}</td>
                             <td>@{{ ukm.nik }}</td>
                             <td>@{{ ukm.no_telp }}</td>
@@ -144,13 +150,14 @@ var app = new Vue({
                 jenis_intervensi: "pelatihan",
                 nama_intervensi: "",
                 deskripsi: "",
+                lokasi: "",
                 tanggal_mulai: "",
                 tanggal_selesai: ""
             },
             intervensi_detail: [
                 {
                     ukm_id: "",
-                    nama_ukm: "",
+                    nama_usaha: "",
                     intervensi_id: "",
                     keterangan: "",
                     readonly: false
@@ -181,8 +188,12 @@ var app = new Vue({
                 var data = <?= json_encode($intervensi); ?>;
                 var tanggal_mulai = new Date(data.tanggal_mulai);
                 var tanggal_selesai = new Date(data.tanggal_selesai);
-                data.tanggal_mulai = tanggal_mulai.toString("yyyy-MM-dd");
-                data.tanggal_selesai = tanggal_selesai.toString("yyyy-MM-dd");
+                if (data.tanggal_mulai) {
+                    data.tanggal_mulai = tanggal_mulai.toString("yyyy-MM-dd");
+                }
+                if (data.tanggal_selesai) {
+                    data.tanggal_selesai = tanggal_selesai.toString("yyyy-MM-dd");
+                }
 
                 this.intervensi = data;
 
@@ -220,7 +231,7 @@ var app = new Vue({
 
             selectUkm(index){
                 this.intervensi_detail[this.selectedDetail].ukm_id = this.dataUkm[index].id;
-                this.intervensi_detail[this.selectedDetail].nama_ukm = this.dataUkm[index].nama_ukm;
+                this.intervensi_detail[this.selectedDetail].nama_usaha = this.dataUkm[index].nama_usaha;
                 $("#modal-ukm").modal("hide");
 
                 this.$forceUpdate();
