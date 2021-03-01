@@ -1,19 +1,19 @@
- @extends('template-metronics.index')
+@extends('template-metronics.index')
 
 @section('title')
-Form Sertifikasi Halal
+Form Sertifikasi Merek
 @endsection
 
 @section('content')
 
     <div class="row">
         <div class="col-12">
-            <a v-if="mode == 'view'" :href="'/intervensi/halal/edit/'+ intervensi.id" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
-            <a :href="'/intervensi/SertifikatHalal'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
+            <a v-if="mode == 'view'" :href="'/intervensi/merek/edit/'+ intervensi.id" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
+            <a :href="'/intervensi/SertifikatMerek'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
         </div>
     </div>
 
-    <h3>Sertifikat Halal</h3>
+    <h3>Sertifikat Merek</h3>
     <hr>
     <form id="form-ref">
         <div class="row">
@@ -109,7 +109,7 @@ var app = new Vue({
             intervensi_detail: {
                 ukm_id: "",
                 nama_usaha: "",
-                intervensi_id: 23,
+                intervensi_id: 24,
                 keterangan: "",
                 no_permohonan: ""
             },
@@ -190,9 +190,9 @@ var app = new Vue({
                             },
                         });
 
-                        var url = "/intervensi/SertifikatHalal/store";
+                        var url = "/intervensi/SertifikatMerek/store";
                         if(this.mode == "edit"){
-                            url = "/intervensi/SertifikatHalal/update";
+                            url = "/intervensi/SertifikatMerek/update";
                         }
 
                         axios.post(url, data).then(response => {
@@ -205,7 +205,7 @@ var app = new Vue({
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
-                                window.location = "/intervensi/SertifikatHalal";
+                                window.location = "/intervensi/SertifikatMerek";
                             }
                         });
                     }

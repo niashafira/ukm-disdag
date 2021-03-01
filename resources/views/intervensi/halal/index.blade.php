@@ -14,6 +14,7 @@ Data Intervensi
             <thead>
                 <tr>
                     <th class="text-center" style="width:7%">No</th>
+                    <th>Nama Usaha</th>
                     <th>Tanggal Pendaftaran</th>
                     <th>No. Pendaftaran</th>
                     <th>Keterangan</th>
@@ -22,11 +23,11 @@ Data Intervensi
             </thead>
             <tr v-for="(intervensi, index) in intervensi" :key="index">
                 <td class="text-center">@{{index+1}}</td>
+                <td>@{{ intervensi.nama_usaha }}</td>
                 <td>@{{ intervensi.formatedTglPermohonan }}</td>
                 <td>@{{ intervensi.no_permohonan }}</td>
-                <td>@{{ intervensi.deskripsi }}</td>
+                <td>@{{ intervensi.keterangan }}</td>
                 <td class="text-center" style="width:10%">
-                    <a :href="'/intervensi/SertifikatHalal/view/'+ intervensi.id" class="btn btn-sm btn-info"><span class="fa fa-eye"></span></a>
                     <a :href="'/intervensi/SertifikatHalal/edit/'+ intervensi.id" class="btn btn-sm btn-warning"><span class="fa fa-pen"></span></a>
                 </td>
             </tr>
@@ -53,7 +54,7 @@ Data Intervensi
                 initData(){
                     var data = <?= json_encode($intervensi); ?>;
                     data.forEach((intervensi, index) => {
-                        intervensi.formatedTglPermohonan = this.changeDateFormat(intervensi.tgl_permohonan);
+                        intervensi.formatedTglPermohonan = this.changeDateFormat(intervensi.tanggal);
                     });
                     this.intervensi = data;
                     setTimeout(() => {

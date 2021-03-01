@@ -12,7 +12,14 @@ class SertifikatHalalController extends Controller
 {
     public function index()
     {
-        $intervensi = Intervensi::with('intervensiDetail')->where('jenis_intervensi', 'sertifikat halal')->get();
+        $intervensi = DB::select("
+            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha, a.tanggal, a.no_permohonan
+            from ukm_disdag.intervensi_detail AS a
+            INNER JOIN ukm_disdag.ukm AS b
+            ON b.id = a.ukm_id
+            WHERE a.intervensi_id = 23;
+        ");
+
         return view('intervensi.halal.index', compact('intervensi'));
     }
 
@@ -25,85 +32,33 @@ class SertifikatHalalController extends Controller
 
     public function edit($id)
     {
-        $intervensi = Intervensi::where('jenis_intervensi', 'sertifikat halal')->find($id);
-        $intervensi_detail = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_ukm
+        $intervensi = DB::select("
+            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha, a.tanggal, a.no_permohonan
             from ukm_disdag.intervensi_detail AS a
-            INNER JOIN ukm_disdag.data_ukm AS b
+            INNER JOIN ukm_disdag.ukm AS b
             ON b.id = a.ukm_id
-            WHERE a.intervensi_id = ". $id .";
+            WHERE a.intervensi_id = 23 AND a.id = " . $id . ";
         ");
-
-        $intervensi['intervensi_detail'] = $intervensi_detail;
 
         $mode = "edit";
         return view('intervensi.halal.form', compact('mode', 'intervensi'));
     }
 
-    public function view($id)
-    {
-        $intervensi = Intervensi::where('jenis_intervensi', 'sertifikat halal')->find($id);
-        $intervensi_detail = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_ukm
-            from ukm_disdag.intervensi_detail AS a
-            INNER JOIN ukm_disdag.data_ukm AS b
-            ON b.id = a.ukm_id
-            WHERE a.intervensi_id = ". $id .";
-        ");
-
-        $intervensi['intervensi_detail'] = $intervensi_detail;
-
-        $mode = "view";
-        return view('intervensi.pelatihan.form', compact('mode', 'intervensi'));
-    }
-
     public function store(Request $request)
     {
-        $intervensi = Intervensi::create($request->intervensi);
-        $id = $intervensi->id;
-
-        foreach($request->intervensi_detail as $detail){
-            unset($detail['readonly']);
-            unset($detail['nama_ukm']);
-            unset($detail['id']);
-            $detail['intervensi_id'] = $id;
-            IntervensiDetail::create($detail);
-        }
+        $intervensi_detail = $request->intervensi_detail;
+        unset($intervensi_detail['nama_usaha']);
+        IntervensiDetail::create($intervensi_detail);
 
         echo json_encode("sukses");
     }
 
     public function update(Request $request)
     {
-        $intervensi = Intervensi::find($request->intervensi['id']);
-        $new_intervensi = $request->intervensi;
-
-        unset($new_intervensi['created_at']);
-        unset($new_intervensi['updated_at']);
-        unset($new_intervensi['intervensi_detail']);
-        $intervensi->update($new_intervensi);
-
-        foreach($request->intervensi_detail as $intervensi_d){
-            if ($intervensi_d['id'] == "") {
-                unset($intervensi_d['id']);
-                unset($intervensi_d['readonly']);
-                unset($intervensi_d['nama_ukm']);
-
-                $intervensi_d['intervensi_id'] = $request->intervensi['id'];
-                IntervensiDetail::create($intervensi_d);
-            }
-            else{
-                $detail = IntervensiDetail::find($intervensi_d['id']);
-                unset($intervensi_d['nama_ukm']);
-                $detail->update($intervensi_d);
-            }
-        }
-
-        if (count($request->intervensi_detail_delete) != 0) {
-            foreach($request->intervensi_detail_delete as $intervensi_d_delete){
-                IntervensiDetail::destroy($intervensi_d_delete);
-            }
-        }
+        $input = $request->intervensi_detail;
+        $intervensi = IntervensiDetail::find($input['id']);
+        unset($input['nama_usaha']);
+        $intervensi->update($input);
 
         echo json_encode("sukses");
     }

@@ -1,7 +1,7 @@
 @extends('template-metronics.index')
 
 @section('title')
-Data Intervensi
+Data Intervensi Pemasaran
 @endsection
 
 @section('content')
@@ -9,12 +9,15 @@ Data Intervensi
 
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
-        <a href="/intervensi/pameran/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah Pameran</a>
+
+        <h2>Data Intervensi Pemasaran</h2><hr>
+
+        <a href="/intervensi/pemasaran/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah Pemasaran</a>
         <table id="table-intervensi" class="table table-bordered table-stripped">
             <thead>
                 <tr>
                     <th class="text-center" style="width:7%">No</th>
-                    <th>Nama Pameran</th>
+                    <th>Nama Pemasaran</th>
                     <th>Tanggal Mulai</th>
                     <th>Tanggal Selesai</th>
                     <th>Keterangan</th>
@@ -28,8 +31,8 @@ Data Intervensi
                 <td>@{{ intervensi.formatedTglSelesai }}</td>
                 <td>@{{ intervensi.deskripsi }}</td>
                 <td class="text-center" style="width:10%">
-                    <a :href="'/intervensi/pameran/view/'+ intervensi.id" class="btn btn-sm btn-info"><span class="fa fa-eye"></span></a>
-                    <a :href="'/intervensi/pameran/edit/'+ intervensi.id" class="btn btn-sm btn-warning"><span class="fa fa-pen"></span></a>
+                    <a :href="'/intervensi/pemasaran/view/'+ intervensi.id" class="btn btn-sm btn-info"><span class="fa fa-eye"></span></a>
+                    <a :href="'/intervensi/pemasaran/edit/'+ intervensi.id" class="btn btn-sm btn-warning"><span class="fa fa-pen"></span></a>
                 </td>
             </tr>
         </table>
@@ -61,7 +64,6 @@ Data Intervensi
                         if(intervensi.tanggal_selesai != null){
                             intervensi.formatedTglSelesai = this.changeDateFormat(intervensi.tanggal_selesai);
                         }
-
                     });
                     this.intervensi = data;
                     setTimeout(() => {

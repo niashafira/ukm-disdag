@@ -8,24 +8,24 @@ use App\Models\Intervensi;
 use App\Models\IntervensiDetail;
 use Illuminate\Http\Request;
 
-class PameranController extends Controller
+class PemasaranController extends Controller
 {
     public function index()
     {
-        $intervensi = Intervensi::with('intervensiDetail')->where('jenis_intervensi', 'pameran')->get();
-        return view('intervensi.pameran.index', compact('intervensi'));
+        $intervensi = Intervensi::with('intervensiDetail')->where('jenis_intervensi', 'pemasaran')->get();
+        return view('intervensi.pemasaran.index', compact('intervensi'));
     }
 
     public function create()
     {
         $intervensi = "";
         $mode = "create";
-        return view('intervensi.pameran.form', compact('mode','intervensi'));
+        return view('intervensi.pemasaran.form', compact('mode','intervensi'));
     }
 
     public function edit($id)
     {
-        $intervensi = Intervensi::where('jenis_intervensi', 'pameran')->find($id);
+        $intervensi = Intervensi::where('jenis_intervensi', 'pemasaran')->find($id);
         $intervensi_detail = DB::select("
             SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha
             from ukm_disdag.intervensi_detail AS a
@@ -37,12 +37,12 @@ class PameranController extends Controller
         $intervensi['intervensi_detail'] = $intervensi_detail;
 
         $mode = "edit";
-        return view('intervensi.pameran.form', compact('mode', 'intervensi'));
+        return view('intervensi.pemasaran.form', compact('mode', 'intervensi'));
     }
 
     public function view($id)
     {
-        $intervensi = Intervensi::where('jenis_intervensi', 'pameran')->find($id);
+        $intervensi = Intervensi::where('jenis_intervensi', 'pemasaran')->find($id);
         $intervensi_detail = DB::select("
             SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha
             from ukm_disdag.intervensi_detail AS a
@@ -54,7 +54,7 @@ class PameranController extends Controller
         $intervensi['intervensi_detail'] = $intervensi_detail;
 
         $mode = "view";
-        return view('intervensi.pameran.form', compact('mode', 'intervensi'));
+        return view('intervensi.pemasaran.form', compact('mode', 'intervensi'));
     }
 
     public function store(Request $request)

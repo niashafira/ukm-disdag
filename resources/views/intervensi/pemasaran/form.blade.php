@@ -1,32 +1,32 @@
 @extends('template-metronics.index')
 
 @section('title')
-Form Pameran
+Form Pemasaran
 @endsection
 
 @section('content')
 
     <div class="row">
         <div class="col-12">
-            <a v-if="mode == 'view'" :href="'/intervensi/pameran/edit/'+ intervensi.id" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
-            <a :href="'/intervensi/pameran'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
+            <a v-if="mode == 'view'" :href="'/intervensi/pemasaran/edit/'+ intervensi.id" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
+            <a :href="'/intervensi/pemasaran'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
         </div>
     </div>
 
-    <h3>Pameran / Bazar</h3>
+    <h3>Pemasaran</h3>
     <hr>
     <form id="form-ref">
         <div class="row">
             <div class="col">
                 <div class="form-group">
-                    <label>Nama Pameran</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.nama_intervensi" autocomplete="off" type="text" class="form-control" placeholder="Nama pameran">
+                    <label>Nama Pemasaran</label>
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.nama_intervensi" autocomplete="off" type="text" class="form-control" placeholder="Nama Pemasaran">
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label>Deskripsi</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.deskripsi" autocomplete="off" type="text" class="form-control" placeholder="Deskripsi pameran">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.deskripsi" autocomplete="off" type="text" class="form-control" placeholder="Deskripsi Pemasaran">
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@ Form Pameran
             <div class="col-4">
                 <div class="form-group">
                     <label>Lokasi</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.lokasi" autocomplete="off" type="text" class="form-control" placeholder="Lokasi">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.lokasi" autocomplete="off" type="text" class="form-control" placeholder="Lokasi Pemasaran">
                 </div>
             </div>
             <div class="col-4">
@@ -51,7 +51,7 @@ Form Pameran
             </div>
         </div>
     </form>
-    <h3 style="margin-top:3%">Detail Pameran</h3>
+    <h3 style="margin-top:3%">Detail Pemasaran</h3>
     <hr>
     <button v-if="mode != 'view'" v-on:click="addDetail()" style="margin-bottom: 2%" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Tambah UKM</button>
     <form id="form-detail">
@@ -84,7 +84,7 @@ Form Pameran
     </form>
 
     <div v-if="mode != 'view'">
-        <h3 style="margin-top:3%">Simpan Data pameran</h3>
+        <h3 style="margin-top:3%">Simpan Data pemasaran</h3>
         <hr>
 
         <button v-on:click="submit()" type="button" class="btn btn-success btn-sm"><span class="fa fa-check"></span> Simpan</button>
@@ -147,7 +147,7 @@ var app = new Vue({
                 "dataUkm": "/api/ukm"
             },
             intervensi: {
-                jenis_intervensi: "pameran",
+                jenis_intervensi: "pemasaran",
                 nama_intervensi: "",
                 deskripsi: "",
                 lokasi: "",
@@ -186,17 +186,14 @@ var app = new Vue({
 
             initDataEdit(){
                 var data = <?= json_encode($intervensi); ?>;
-                if(data.tanggal_mulai != null){
-                    var tanggal_mulai = new Date(data.tanggal_mulai);
+                var tanggal_mulai = new Date(data.tanggal_mulai);
+                var tanggal_selesai = new Date(data.tanggal_selesai);
+                if (data.tanggal_mulai) {
                     data.tanggal_mulai = tanggal_mulai.toString("yyyy-MM-dd");
-
                 }
-                if(data.tanggal_selesai != null){
-                    var tanggal_selesai = new Date(data.tanggal_selesai);
+                if (data.tanggal_selesai) {
                     data.tanggal_selesai = tanggal_selesai.toString("yyyy-MM-dd");
-
                 }
-
 
                 this.intervensi = data;
 
@@ -208,7 +205,6 @@ var app = new Vue({
                     {
                         id: "",
                         ukm_id: "",
-                        nama_usaha: "",
                         intervensi_id: "",
                         keterangan: "",
                         tanggal: "",
@@ -277,9 +273,9 @@ var app = new Vue({
                             },
                         });
 
-                        var url = "/intervensi/pameran/store";
+                        var url = "/intervensi/pemasaran/store";
                         if(this.mode == "edit"){
-                            url = "/intervensi/pameran/update";
+                            url = "/intervensi/pemasaran/update";
                         }
 
                         axios.post(url, data).then(response => {
@@ -292,7 +288,7 @@ var app = new Vue({
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
-                                window.location = "/intervensi/pameran";
+                                window.location = "/intervensi/pemasaran";
                             }
                         });
                     }
