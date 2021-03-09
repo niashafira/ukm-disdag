@@ -42,13 +42,17 @@ Route::post('register', [AuthController::class, 'register']);
     //DASHBOARD
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+
+    //UKM
     Route::get('/ukm', [UkmController::class, 'index'])->name('ukm');
     Route::get('/ukm/create', [UkmController::class, 'create'])->name('ukm');
     Route::post('/ukm/store', [UkmController::class, 'store'])->name('ukm');
     Route::post('/ukm/delete', [UkmController::class, 'destroy'])->name('ukm');
     Route::post('/ukm/edit', [UkmController::class, 'edit'])->name('ukm');
     Route::post('/ukm/update', [UkmController::class, 'update'])->name('ukm');
+    Route::get('/ukm/profil/{id}', [UkmController::class, 'show'])->name('ukm');
     Route::get('/ukm/importExcel', [UkmController::class, 'importExcel'])->name('ukm');
+    Route::get('/ukm/importRevisiUkm', [UkmController::class, 'importRevisiUkm'])->name('ukm');
 
     //PELATIHAN
     Route::get('/intervensi/pelatihan', [PelatihanController::class, 'index'])->name('intervensi');

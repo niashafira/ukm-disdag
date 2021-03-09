@@ -68,8 +68,20 @@ Form Pameran
 
                 <tr v-for="(detail, index) in intervensi_detail" :key="index">
                     <td class="text-center">@{{ index+1 }}</td>
-                    <td>
-                        <input v-model="detail.nama_usaha" v-on:click="inputUkm(index)" id="input-ukm" class="form-control" type="text" readonly placeholder="Klik Disini" />
+                    <td style="width: 50%">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input v-model="detail.nama_usaha" v-on:click="inputUkm(index)" id="input-ukm" class="form-control" type="text" readonly placeholder="Klik Disini" />
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Non Binaan
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                     <td>
                         <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="detail.keterangan" type="text" class="form-control" />
@@ -154,15 +166,7 @@ var app = new Vue({
                 tanggal_mulai: "",
                 tanggal_selesai: ""
             },
-            intervensi_detail: [
-                {
-                    ukm_id: "",
-                    nama_usaha: "",
-                    intervensi_id: "",
-                    keterangan: "",
-                    readonly: false
-                }
-            ],
+            intervensi_detail: [],
             selectedDetail: "",
             dataUkm: [],
             intervensi_detail_delete: [],
@@ -180,6 +184,8 @@ var app = new Vue({
             if(this.mode == 'edit' || this.mode == 'view'){
                 this.initDataEdit();
             }
+
+            this.addDetail();
         },
 
         methods: {
@@ -212,7 +218,8 @@ var app = new Vue({
                         intervensi_id: "",
                         keterangan: "",
                         tanggal: "",
-                        readonly: false
+                        readonly: false,
+                        nonBinaan: false
                     }
                 )
             },
