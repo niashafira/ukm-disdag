@@ -26,13 +26,7 @@ class PemasaranController extends Controller
     public function edit($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pemasaran')->find($id);
-        $intervensi_detail = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha
-            from ukm_disdag.intervensi_detail AS a
-            INNER JOIN ukm_disdag.ukm AS b
-            ON b.id = a.ukm_id
-            WHERE a.intervensi_id = ". $id .";
-        ");
+        $intervensi_detail = IntervensiDetail::where('intervensi_id', $id)->get();
 
         $intervensi['intervensi_detail'] = $intervensi_detail;
 
@@ -43,13 +37,7 @@ class PemasaranController extends Controller
     public function view($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pemasaran')->find($id);
-        $intervensi_detail = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha
-            from ukm_disdag.intervensi_detail AS a
-            INNER JOIN ukm_disdag.ukm AS b
-            ON b.id = a.ukm_id
-            WHERE a.intervensi_id = ". $id .";
-        ");
+        $intervensi_detail = IntervensiDetail::where('intervensi_id', $id)->get();
 
         $intervensi['intervensi_detail'] = $intervensi_detail;
 

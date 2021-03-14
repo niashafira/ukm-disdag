@@ -9,21 +9,24 @@ Data Intervensi
 
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
+        <h2>Data Intervensi Pameran / Bazar</h2><hr>
         <a href="/intervensi/pameran/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah Pameran</a>
         <table id="table-intervensi" class="table table-bordered table-stripped">
             <thead>
-                <tr>
-                    <th class="text-center" style="width:7%">No</th>
-                    <th>Nama Pameran</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Keterangan</th>
-                    <th class="text-center" style="width:25%">Aksi</th>
+                <tr class="bg-primary">
+                    <th class="text-center text-white">No</th>
+                    <th class="text-white" style="width:20%">Nama Pameran</th>
+                    <th class="text-white">Lokasi</th>
+                    <th class="text-white">Tanggal Mulai</th>
+                    <th class="text-white">Tanggal Selesai</th>
+                    <th class="text-white">Keterangan</th>
+                    <th class="text-center text-white" style="width:25%">Aksi</th>
                 </tr>
             </thead>
             <tr v-for="(intervensi, index) in intervensi" :key="index">
                 <td class="text-center">@{{index+1}}</td>
                 <td>@{{ intervensi.nama_intervensi }}</td>
+                <td>@{{ intervensi.lokasi }}</td>
                 <td>@{{ intervensi.formatedTglMulai }}</td>
                 <td>@{{ intervensi.formatedTglSelesai }}</td>
                 <td>@{{ intervensi.deskripsi }}</td>

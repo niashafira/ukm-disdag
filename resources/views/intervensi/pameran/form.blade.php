@@ -51,49 +51,81 @@ Form Pameran
             </div>
         </div>
     </form>
-    <h3 style="margin-top:3%">Detail Pameran</h3>
+    <h3 style="margin-top:3%">Data Peserta</h3>
     <hr>
     <button v-if="mode != 'view'" v-on:click="addDetail()" style="margin-bottom: 2%" class="btn btn-sm btn-primary"><span class="fa fa-plus"></span> Tambah UKM</button>
-    <form id="form-detail">
-        <table class="table table-bordered" id="table-detail-ref">
+    <div v-if="mode != 'view'">
+        <form id="form-detail">
+            <table class="table table-bordered" id="table-detail-ref">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>UKM</th>
+                        <th>Keterangan</th>
+                        <th v-if="mode != 'view'">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(detail, index) in intervensi_detail" :key="index">
+                        <td class="text-center">@{{ index+1 }}</td>
+                        <td style="width: 50%">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <input v-if="detail.status_binaan == true" v-model="detail.ukm_nama" v-on:click="inputUkm(index)" id="input-ukm" class="form-control" type="text" readonly placeholder="Klik Disini" />
+                                    <input v-else v-model="detail.ukm_nama" class="form-control" type="text" placeholder="Tuliskan Nama UKM" />
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-check">
+                                        <input v-on:change="changeStatusBinaan(detail)" class="form-check-input" type="checkbox" v-model="detail.status_binaan" :id="'status_binaan'+index">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Binaan
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="detail.keterangan" type="text" class="form-control" />
+                        </td>
+                        <td v-if="mode != 'view'" class="text-center">
+                            <button type="button" v-on:click="deleteDetail(detail, index)" class="btn btn-sm btn-danger btn-delete-ref"><span class="fa fa-trash"></span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div v-else>
+        <table class="table table-bordered">
             <thead>
-                <tr>
-                    <th>No</th>
-                    <th>UKM</th>
+                <tr class="bg-primary text-white">
+                    <th class="text-center" style="width:7%">No</th>
+                    <th>Nama UKM</th>
                     <th>Keterangan</th>
-                    <th v-if="mode != 'view'">Action</th>
+                    <th style="width: 15%">Status Binaan</th>
+                    <th style="width: 15%" class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-
                 <tr v-for="(detail, index) in intervensi_detail" :key="index">
-                    <td class="text-center">@{{ index+1 }}</td>
-                    <td style="width: 50%">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <input v-model="detail.nama_usaha" v-on:click="inputUkm(index)" id="input-ukm" class="form-control" type="text" readonly placeholder="Klik Disini" />
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        Non Binaan
-                                    </label>
-                                </div>
-                            </div>
+                    <td class="text-center">@{{ index + 1 }}</td>
+                    <td>@{{ detail.ukm_nama }}</td>
+                    <td>@{{ detail.keterangan }}</td>
+                    <td class="text-center">
+                        <div v-if="detail.status_binaan == true">
+                            <span class="badge badge-success">Binaan</span>
+                        </div>
+                        <div v-else>
+                            <span class="badge badge-warning">Bukan Binaan</span>
                         </div>
                     </td>
-                    <td>
-                        <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="detail.keterangan" type="text" class="form-control" />
-                    </td>
-                    <td v-if="mode != 'view'" class="text-center">
-                        <button type="button" v-on:click="deleteDetail(detail, index)" class="btn btn-sm btn-danger btn-delete-ref"><span class="fa fa-trash"></span></button>
+                    <td class="text-center">
+                        <button v-if="detail.status_binaan == true" class="btn btn-sm btn-info"><span class="fa fa-eye"></span> Lihat Profil</button>
                     </td>
                 </tr>
-
             </tbody>
         </table>
-    </form>
+    </div>
 
     <div v-if="mode != 'view'">
         <h3 style="margin-top:3%">Simpan Data pameran</h3>
@@ -175,23 +207,22 @@ var app = new Vue({
         },
 
         mounted(){
-            $("#jenisIntervensi").select2({
-                placeholder: "Pilih Jenis Intervensi"
-            });
-
             this.getUkm();
 
             if(this.mode == 'edit' || this.mode == 'view'){
                 this.initDataEdit();
             }
+            else {
+                this.addDetail();
+            }
 
-            this.addDetail();
         },
 
         methods: {
 
             initDataEdit(){
                 var data = <?= json_encode($intervensi); ?>;
+                console.log(data);
                 if(data.tanggal_mulai != null){
                     var tanggal_mulai = new Date(data.tanggal_mulai);
                     data.tanggal_mulai = tanggal_mulai.toString("yyyy-MM-dd");
@@ -214,14 +245,19 @@ var app = new Vue({
                     {
                         id: "",
                         ukm_id: "",
-                        nama_usaha: "",
+                        ukm_nama: "",
                         intervensi_id: "",
                         keterangan: "",
                         tanggal: "",
                         readonly: false,
-                        nonBinaan: false
+                        status_binaan: true
                     }
                 )
+            },
+
+            changeStatusBinaan(detail){
+                detail.ukm_id = "";
+                detail.ukm_nama = "";
             },
 
             async getUkm(){
@@ -242,7 +278,7 @@ var app = new Vue({
 
             selectUkm(index){
                 this.intervensi_detail[this.selectedDetail].ukm_id = this.dataUkm[index].id;
-                this.intervensi_detail[this.selectedDetail].nama_usaha = this.dataUkm[index].nama_usaha;
+                this.intervensi_detail[this.selectedDetail].ukm_nama = this.dataUkm[index].nama_usaha;
                 $("#modal-ukm").modal("hide");
 
                 this.$forceUpdate();

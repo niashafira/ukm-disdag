@@ -194,8 +194,6 @@ class UkmController extends Controller
 
         $json = json_decode(file_get_contents($path), true);
 
-        // echo json_encode($json);
-
         $ukm_nik_null = [];
 
         foreach ($json as $data) {
@@ -235,5 +233,70 @@ class UkmController extends Controller
                 'nama_pemilik' => $ukm['nama_pemilik']
             ])->delete();
         }
+    }
+
+    public function exportExcel(){
+        $data_ukm = Ukm::get();
+
+        $spreadsheet = new Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', "No");
+        $sheet->setCellValue('B1', "Nama UKM");
+        $sheet->setCellValue('C1', "Nama Pemilik");
+        $sheet->setCellValue('D1', "NIK");
+        $sheet->setCellValue('E1', "Alamat");
+        $sheet->setCellValue('F1', "No Telp");
+        $sheet->setCellValue('G1', "Jangkauan Pemasaran");
+        $sheet->setCellValue('H1', "No Siup");
+        $sheet->setCellValue('I1', "No NIB");
+        $sheet->setCellValue('J1', "No TDP");
+        $sheet->setCellValue('K1', "No IUMK");
+        $sheet->setCellValue('L1', "No PIRT");
+        $sheet->setCellValue('M1', "NO BPOM");
+        $sheet->setCellValue('N1', "Jumlah Pemodalan");
+        $sheet->setCellValue('O1', "Sumber Pemodalan");
+        $sheet->setCellValue('P1', "Jumlah Pinjaman");
+        $sheet->setCellValue('Q1', "Sumber Pinjaman");
+        $sheet->setCellValue('R1', "No Sertifikasi Halal");
+        $sheet->setCellValue('S1', "No Sertifikasi Merek");
+        $sheet->setCellValue('T1', "Jenis Produksi");
+        $sheet->setCellValue('U1', "Tahun Binaan");
+
+        $i = 2;
+        $no = 1;
+        foreach ($data_ukm as $ukm) {
+            $sheet->setCellValue('A'.$i, $no);
+            $sheet->setCellValue('B'.$i, $ukm['nama_ukm']);
+            $sheet->setCellValue('C'.$i, $ukm['nama_pemilik']);
+            $sheet->setCellValue('D'.$i, "'" . $ukm['nik']);
+            $sheet->setCellValue('E'.$i, $ukm['alamat']);
+            $sheet->setCellValue('F'.$i, $ukm['no_telp']);
+            $sheet->setCellValue('G'.$i, $ukm['jangkauan_pemasaran']);
+            $sheet->setCellValue('H'.$i, $ukm['no_siup']);
+            $sheet->setCellValue('I'.$i, $ukm['no_nib']);
+            $sheet->setCellValue('J'.$i, $ukm['no_tdp']);
+            $sheet->setCellValue('K'.$i, $ukm['no_iumk']);
+            $sheet->setCellValue('L'.$i, $ukm['no_pirt']);
+            $sheet->setCellValue('M'.$i, $ukm['no_bpom']);
+            $sheet->setCellValue('N'.$i, $ukm['jumlah_pemodalan']);
+            $sheet->setCellValue('O'.$i, $ukm['sumber_pemodalan']);
+            $sheet->setCellValue('P'.$i, $ukm['jumlah_pinjaman']);
+            $sheet->setCellValue('Q'.$i, $ukm['sumber_pinjaman']);
+            $sheet->setCellValue('R'.$i, $ukm['no_sertifikasi_halal']);
+            $sheet->setCellValue('S'.$i, $ukm['no_sertifikasi_merek']);
+            $sheet->setCellValue('T'.$i, $ukm['jenis_produksi']);
+            $sheet->setCellValue('U'.$i, $ukm['tahun_binaan']);
+
+            $i++;
+            $no++;
+        }
+
+       $filename = "Data_UKM.xlsx";
+       $writer = new Xlsx($spreadsheet);
+       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+       header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
+       $writer->save('php://output');
     }
 }

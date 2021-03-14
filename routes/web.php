@@ -11,6 +11,7 @@ use App\Http\Controllers\Intervensi\PemasaranController;
 use App\Http\Controllers\UkmController;
 use App\Http\Controllers\ReferensiController;
 use App\Http\Controllers\IntervensiController;
+use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -53,6 +54,7 @@ Route::post('register', [AuthController::class, 'register']);
     Route::get('/ukm/profil/{id}', [UkmController::class, 'show'])->name('ukm');
     Route::get('/ukm/importExcel', [UkmController::class, 'importExcel'])->name('ukm');
     Route::get('/ukm/importRevisiUkm', [UkmController::class, 'importRevisiUkm'])->name('ukm');
+    Route::get('/ukm/exportExcel', [UkmController::class, 'exportExcel'])->name('ukm');
 
     //PELATIHAN
     Route::get('/intervensi/pelatihan', [PelatihanController::class, 'index'])->name('intervensi');
@@ -69,6 +71,9 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/intervensi/pameran/store', [PameranController::class, 'store'])->name('intervensi');
     Route::post('/intervensi/pameran/update', [PameranController::class, 'update'])->name('intervensi');
     Route::get('/intervensi/pameran/view/{id}', [PameranController::class, 'view'])->name('intervensi');
+
+
+    Route::get('/importIntervensi', [PameranController::class, 'importUkmIntervensi']);
 
     //SERTIFIKAT HALAL
     Route::get('/intervensi/SertifikatHalal', [SertifikatHalalController::class, 'index'])->name('intervensi');
@@ -106,6 +111,10 @@ Route::post('register', [AuthController::class, 'register']);
     //USER
     Route::get('/data_user', [UserController::class, 'index']);
     Route::post('/data_user/delete', [UserController::class, 'destroy']);
+
+    //MONITORING
+    Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
+
 
 
 // });

@@ -108,29 +108,7 @@ License: You must have a valid license purchased only from themeforest(the above
 				<!--end::Aside-->
 				<!--begin::Wrapper-->
 				<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
-					<!--begin::Header-->
-					<div id="kt_header" class="header header-fixed">
-						<!--begin::Header Wrapper-->
-						<div class="header-wrapper rounded-top-xl d-flex flex-grow-1 align-items-center">
-							<!--begin::Container-->
-							<div class="container-fluid d-flex align-items-center justify-content-end justify-content-lg-between flex-wrap">
-								<!--begin::Menu Wrapper-->
-								<div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
-									<!--begin::Menu-->
-									<div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
-                                        <!--begin::Nav-->
-										@include('template-metronics.navigation')
-										<!--end::Nav-->
-									</div>
-									<!--end::Menu-->
-								</div>
-								<!--end::Menu Wrapper-->
-
-							</div>
-							<!--end::Container-->
-						</div>
-						<!--end::Header Wrapper-->
-					</div>
+					@include('template-metronics.navigation')
 					<!--end::Header-->
 					<!--begin::Content-->
 					<div style="margin-bottom:100px" class="content d-flex flex-column flex-column-fluid" id="kt_content">
