@@ -29,13 +29,16 @@ class DashboardController extends Controller
         $pemasaran = Intervensi::where('jenis_intervensi', '=', 'pemasaran');
         $count_pemasaran = $pemasaran->count();
 
+        $lainnya = Intervensi::where('jenis_intervensi', '=', 'lainnya');
+        $count_lainnya = $lainnya->count();
+
         $sertifikasi_halal = Intervensi::where('jenis_intervensi', '=', 'sertifikasi_halal');
         $count_sertifikasi_halal = $sertifikasi_halal->count();
 
         $sertifikasi_merek = Intervensi::where('jenis_intervensi', '=', 'sertifikasi_merek');
         $count_sertifikasi_merek = $sertifikasi_merek->count();
 
-        $count_jenis_intervensi = [$count_pelatihan, $count_pameran, $count_pemasaran, $count_sertifikasi_halal, $count_sertifikasi_merek];
+        $count_jenis_intervensi = [$count_pelatihan, $count_pameran, $count_pemasaran, $count_sertifikasi_halal, $count_sertifikasi_merek, $count_lainnya];
 
         return view('dashboard', compact(
             'count_ukm',

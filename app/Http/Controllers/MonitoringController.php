@@ -10,4 +10,9 @@ class MonitoringController extends Controller
     {
         return view('monitoring.index');
     }
+
+    public function filter(Request $request)
+    {
+        echo json_encode($request->all());
+    }
 }

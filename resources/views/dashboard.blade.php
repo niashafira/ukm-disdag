@@ -109,7 +109,7 @@ Dashboard
             count_intervensi_year: "",
             year_now: "",
             count_jenis_intervensi: [],
-            jenis_intervensi: ['Pelatihan', 'Pameran', 'Pemasaran', 'Sertifikasi Halal', 'Sertifikasi Merek']
+            jenis_intervensi: ['Pelatihan', 'Pameran', 'Pemasaran', 'Sertifikasi Halal', 'Sertifikasi Merek', 'Lainnya']
         },
 
         mounted(){

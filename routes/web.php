@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\intervensi\lainnyaController;
 use App\Http\Controllers\Intervensi\PelatihanController;
 use App\Http\Controllers\Intervensi\PameranController;
 use App\Http\Controllers\Intervensi\SertifikatHalalController;
@@ -99,6 +100,16 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/intervensi/pemasaran/update', [PemasaranController::class, 'update'])->name('intervensi');
     Route::get('/intervensi/pemasaran/view/{id}', [PemasaranController::class, 'view'])->name('intervensi');
 
+
+    //LAINNYA
+    Route::get('/intervensi/lainnya', [lainnyaController::class, 'index'])->name('intervensi');
+    Route::get('/intervensi/lainnya/create', [LainnyaController::class, 'create'])->name('intervensi');
+    Route::get('/intervensi/lainnya/edit/{id}', [LainnyaController::class, 'edit'])->name('intervensi');
+    Route::post('/intervensi/lainnya/store', [LainnyaController::class, 'store'])->name('intervensi');
+    Route::post('/intervensi/lainnya/update', [LainnyaController::class, 'update'])->name('intervensi');
+    Route::get('/intervensi/lainnya/view/{id}', [LainnyaController::class, 'view'])->name('intervensi');
+
+
     //REFERENSI
     Route::get('/referensi', [ReferensiController::class, 'index']);
     Route::get('/referensi/create', [ReferensiController::class, 'create']);
@@ -114,6 +125,7 @@ Route::post('register', [AuthController::class, 'register']);
 
     //MONITORING
     Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
+    Route::post('/monitoring/filter', [MonitoringController::class, 'filter'])->name('monitoring');
 
 
 

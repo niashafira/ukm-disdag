@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Intervensi;
 
 use App\Http\Controllers\Controller;
-use DB;
+use Illuminate\Support\Facades\DB;
 use App\Models\Intervensi;
 use App\Models\IntervensiDetail;
 use App\Models\Ukm;
@@ -97,11 +97,11 @@ class PameranController extends Controller
     }
 
     public function importUkmIntervensi(){
-        $start = "E574";
-        $end = "H643";
-        $intervensi_id = 65;
+        $start = "E229";
+        $end = "H238";
+        $intervensi_id = 77;
 
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path() . "/data/intervensi.xlsx");
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path() . "/data/intervensi2.xlsx");
         $spreadsheet->setActiveSheetIndex(3);
 
         $dataArray = $spreadsheet->getActiveSheet()->rangeToArray($start . ':' . $end,NULL,TRUE,TRUE,TRUE);
