@@ -61,7 +61,7 @@ Monitoring Intervensi
             <h5 style="margin-top:5%">Tanggal Intervensi</h5>
             <hr>
             <div class="form-group">
-                <input class="form-control" type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+                <input class="form-control" type="text" name="daterange" value="01/01/2019 - 01/15/2021" />
             </div>
 
             <h5 style="margin-top:5%">Spesifik Kata Kunci</h5>
@@ -88,15 +88,26 @@ Monitoring Intervensi
         <table class="table table-bordered" style="margin-top:3%">
             <thead class="bg-primary text-white">
                 <tr>
-                    <th>No</th>
-                    <th>Jenis Intervensi</th>
-                    <th>Nama Intervensi</th>
-                    <th>Lokasi</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Selesai</th>
-                    <th>Aksi</th>
+                    <th class="text-center">No</th>
+                    <th class="text-center">Jenis</th>
+                    <th class="text-center">Nama</th>
+                    <th class="text-center">Lokasi</th>
+                    <th class="text-nowrap text-center">Tanggal Mulai</th>
+                    <th class="text-nowrap text-center">Tanggal Selesai</th>
+                    <th class="text-center">Aksi</th>
                 </tr>
             </thead>
+            <tbody>
+                <tr v-for="(intervensi, index) in dataIntervensi" :key="index">
+                    <td>@{{ index + 1 }}</td>
+                    <td>@{{ intervensi.jenis_intervensi }}</td>
+                    <td>@{{ intervensi.nama_intervensi }}</td>
+                    <td>@{{ intervensi.lokasi }}</td>
+                    <td class="text-nowrap">@{{ intervensi.tanggal_mulai }}</td>
+                    <td class="text-nowrap">@{{ intervensi.tanggal_selesai }}</td>
+                    <td><button class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</button></td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

@@ -8,37 +8,45 @@ var app = new Vue({
 
         jenis_intervensi:[
             {
+                key: "semua",
                 jenis: "Semua",
                 checked: true
             },
             {
+                key: "pelatihan",
                 jenis: "Pelatihan",
                 checked: true
             },
             {
+                key: "pameran",
                 jenis: "Pameran / Bazar",
                 checked: true
             },
             {
+                key: "pemasaran",
                 jenis: "Pemasaran",
                 checked: true
             },
             {
+                key: "halal",
                 jenis: "Halal",
                 checked: true
             },
             {
+                key: "merek",
                 jenis: "Merek",
                 checked: true
             },
             {
+                key: "lainnya",
                 jenis: "Lainnya",
                 checked: true
             }
         ],
         tanggal_mulai: "",
         tanggal_selesai: "",
-        kata_kunci: ""
+        kata_kunci: "",
+        dataIntervensi: []
     },
 
     mounted(){
@@ -72,24 +80,27 @@ var app = new Vue({
         },
 
         submitFilter(){
+            var checked_jenis = [];
+            for (let i = 1; i < this.jenis_intervensi.length; i++) {
+                if(this.jenis_intervensi[i].checked == true){
+                    checked_jenis.push(this.jenis_intervensi[i]);
+                }
+
+            }
             var data = {
-                jenis_intervensi: this.jenis_intervensi,
+                jenis_intervensi: checked_jenis,
                 tanggal_mulai: this.tanggal_mulai,
                 tanggal_selesai: this.tanggal_selesai,
                 kata_kunci: this.kata_kunci
             };
 
             axios.post(this.url.filter, data).then(response => {
-                if(response.data == "sukses"){
-                    Swal.close();
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Data Berhasil Disimpan',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    window.location = "/intervensi/lainnya";
+                if(response.data.status == "S"){
+                    this.dataIntervensi = response.data.data;
+                    this.dataIntervensi.forEach((intervensi) => {
+                        intervensi.tanggal_mulai = new Date(intervensi.tanggal_mulai).toString("dd MMMM yyyy");
+                        intervensi.tanggal_selesai = new Date(intervensi.tanggal_selesai).toString("dd MMMM yyyy");
+                    });
                 }
             });
         }
