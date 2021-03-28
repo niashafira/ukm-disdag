@@ -32,7 +32,8 @@ License: You must have a valid license purchased only from themeforest(the above
 		<link href="{{asset('template-metronics/assets/plugins/custom/prismjs/prismjs.bundle.css')}}" rel="stylesheet" type="text/css" />
 		<link href="{{asset('template-metronics/assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
 		<link href="{{asset('template-metronics/assets/media/logos/favicon.ico')}}" rel="stylesheet" type="text/css" />
-		<link href="{{asset('css/jquery-ui.css')}}" rel="stylesheet" type="text/css" />
+		{{-- <link href="{{asset('css/jquery-ui.css')}}" rel="stylesheet" type="text/css" /> --}}
+		<link href="{{asset('lib/simple-pagination/simplePagination.css')}}" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
         @yield('style')
 		<!--end::Global Theme Styles-->
@@ -219,7 +220,9 @@ License: You must have a valid license purchased only from themeforest(the above
 		<script src="{{asset('template-metronics/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
 		{{-- <script src="{{asset('template-metronics/assets/assets/plugins/custom/gmaps/gmaps.js')}}"></script> --}}
 		<script src="{{asset('template-metronics/assets/js/pages/widgets.js')}}"></script>
-		<script src="{{asset('js/jquery-ui.min.js')}}"></script>
+		{{-- <script src="{{asset('js/jquery-ui.min.js')}}"></script> --}}
+		<script src="{{asset('lib/simple-pagination/jquery.simplePagination.js')}}"></script>
+
         <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>

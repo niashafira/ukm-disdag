@@ -21,7 +21,7 @@ class MonitoringController extends Controller
 
 
         $limit = " LIMIT 10";
-        $offset = " OFFSET 0";
+        $offset = " OFFSET " . $request->offset;
         $order_by = " ORDER BY tanggal_mulai DESC";
 
         $where = "";
