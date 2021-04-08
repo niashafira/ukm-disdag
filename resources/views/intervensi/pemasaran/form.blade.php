@@ -37,18 +37,6 @@ Form Intervensi Pemasaran
                     <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.lokasi" autocomplete="off" type="text" class="form-control" placeholder="Lokasi">
                 </div>
             </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <label>Tanggal Mulai</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.tanggal_mulai" autocomplete="off" type="date" class="form-control">
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="form-group">
-                    <label>Tanggal Selesai</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi.tanggal_selesai" autocomplete="off" type="date" class="form-control">
-                </div>
-            </div>
         </div>
     </form>
     <h3 style="margin-top:3%">Data Peserta</h3>
@@ -222,7 +210,7 @@ var app = new Vue({
 
             initDataEdit(){
                 var data = <?= json_encode($intervensi); ?>;
-                console.log(data);
+
                 if(data.tanggal_mulai != null){
                     var tanggal_mulai = new Date(data.tanggal_mulai);
                     data.tanggal_mulai = tanggal_mulai.toString("yyyy-MM-dd");
@@ -233,7 +221,6 @@ var app = new Vue({
                     data.tanggal_selesai = tanggal_selesai.toString("yyyy-MM-dd");
 
                 }
-
 
                 this.intervensi = data;
 

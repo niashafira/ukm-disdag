@@ -97,12 +97,12 @@ class PameranController extends Controller
     }
 
     public function importUkmIntervensi(){
-        $start = "E1224";
-        $end = "H1229";
-        $intervensi_id = 152;
+        $start = "E740";
+        $end = "H749";
+        $intervensi_id = 159;
 
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path() . "/data/intervensi2.xlsx");
-        $spreadsheet->setActiveSheetIndex(5);
+        $spreadsheet->setActiveSheetIndex(4);
 
         $dataArray = $spreadsheet->getActiveSheet()->rangeToArray($start . ':' . $end,NULL,TRUE,TRUE,TRUE);
 

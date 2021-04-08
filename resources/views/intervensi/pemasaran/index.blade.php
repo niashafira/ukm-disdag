@@ -18,8 +18,7 @@ Data Intervensi Pemasaran
                 <tr>
                     <th class="text-center" style="width:7%">No</th>
                     <th>Nama Pemasaran</th>
-                    <th>Tanggal Mulai</th>
-                    <th>Tanggal Selesai</th>
+                    <th>Lokasi</th>
                     <th>Keterangan</th>
                     <th class="text-center" style="width:25%">Aksi</th>
                 </tr>
@@ -27,8 +26,7 @@ Data Intervensi Pemasaran
             <tr v-for="(intervensi, index) in intervensi" :key="index">
                 <td class="text-center">@{{index+1}}</td>
                 <td>@{{ intervensi.nama_intervensi }}</td>
-                <td>@{{ intervensi.formatedTglMulai }}</td>
-                <td>@{{ intervensi.formatedTglSelesai }}</td>
+                <td>@{{ intervensi.lokasi }}</td>
                 <td>@{{ intervensi.deskripsi }}</td>
                 <td class="text-center" style="width:10%">
                     <a :href="'/intervensi/pemasaran/view/'+ intervensi.id" class="btn btn-sm btn-info"><span class="fa fa-eye"></span></a>

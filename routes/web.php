@@ -56,6 +56,7 @@ Route::post('register', [AuthController::class, 'register']);
     Route::get('/ukm/importExcel', [UkmController::class, 'importExcel'])->name('ukm');
     Route::get('/ukm/importRevisiUkm', [UkmController::class, 'importRevisiUkm'])->name('ukm');
     Route::get('/ukm/exportExcel', [UkmController::class, 'exportExcel'])->name('ukm');
+    Route::get('/ukm/updateField', [UkmController::class, 'updateField'])->name('ukm');
 
     //PELATIHAN
     Route::get('/intervensi/pelatihan', [PelatihanController::class, 'index'])->name('intervensi');
