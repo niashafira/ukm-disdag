@@ -93,7 +93,7 @@ Monitoring Intervensi
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="margin-top: 3%">
     <div class="col-md-12">
         <div class="dropdown">
             <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -106,41 +106,120 @@ Monitoring Intervensi
             </div>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered" style="margin-top:3%">
-                <thead class="bg-primary text-white">
-                    <tr>
-                        <th class="text-center">No</th>
-                        <th class="text-center">Jenis</th>
-                        <th class="text-center">Nama</th>
-                        <th class="text-center">Lokasi</th>
-                        <th class="text-center">Deskripsi</th>
-                        <th class="text-nowrap text-center">Tanggal Mulai</th>
-                        <th class="text-nowrap text-center">Tanggal Selesai</th>
-                        <th class="text-center">Aksi</th>
+        <div v-if="dataIntervensiCount > 0">
+            <div class="table-responsive">
+                <table class="table table-bordered" style="margin-top:3%">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th class="text-center">No</th>
+                            <th class="text-center">Jenis</th>
+                            <th class="text-center">Nama</th>
+                            <th class="text-center">Lokasi</th>
+                            <th class="text-center">Deskripsi</th>
+                            <th class="text-nowrap text-center">Tanggal Mulai</th>
+                            <th class="text-nowrap text-center">Tanggal Selesai</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(intervensi, index) in dataIntervensi" :key="index">
+                            <td>@{{ intervenProp.offset + 1 + index }}</td>
+                            <td>@{{ intervensi.jenis_intervensi }}</td>
+                            <td>@{{ intervensi.nama_intervensi }}</td>
+                            <td>@{{ intervensi.lokasi }}</td>
+                            <td>@{{ intervensi.deskripsi }}</td>
+                            <td class="text-nowrap">@{{ intervensi.tanggal_mulai }}</td>
+                            <td class="text-nowrap">@{{ intervensi.tanggal_selesai }}</td>
+                            <td><button class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <span>Menampilkan @{{ intervenProp.noStart }} - @{{ intervenProp.noEnd }} dari @{{ dataIntervensiCount }} data</span>
+                </div>
+                <div class="col-md-8 d-flex justify-content-end">
+                    <div id="paginationIntervensi"></div>
+                </div>
+            </div>
+        </div>
+
+        {{-- MEREK --}}
+        <div v-if="dataMerekCount > 0">
+            <h3 style="margin-top: 5%">Data Sertifikasi Merek</h3>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-primary text-white">
+                        <th>Nama UKM</th>
+                        <th>Tanggal Permohonan</th>
+                        <th>Status</th>
+                        <th>No Sertifikat</th>
+                        <th>Tanggal Sertifikat</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(intervensi, index) in dataIntervensi" :key="index">
-                        <td>@{{ intervenProp.offset + 1 + index }}</td>
-                        <td>@{{ intervensi.jenis_intervensi }}</td>
-                        <td>@{{ intervensi.nama_intervensi }}</td>
-                        <td>@{{ intervensi.lokasi }}</td>
-                        <td>@{{ intervensi.deskripsi }}</td>
-                        <td class="text-nowrap">@{{ intervensi.tanggal_mulai }}</td>
-                        <td class="text-nowrap">@{{ intervensi.tanggal_selesai }}</td>
-                        <td><button class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</button></td>
+                    <tr v-for="(merek, index) in dataMerek" :key="index">
+                        <td>@{{ merek.nama_usaha }}</td>
+                        <td>@{{ merek.tgl_berkas_kemenkumham }}</td>
+                        <td>
+                            <span v-if="merek.status == 'Menunggu Proses Cetak' || merek.status == 'Menunggu Tanggapan'" class="badge badge-warning">@{{ merek.status }}</span>
+                            <span v-if="merek.status == 'Sudah Keluar Sertifikat'" class="badge badge-success">@{{ merek.status }}</span>
+                            <span v-if="merek.status == 'Ditolak'" class="badge badge-danger">@{{ merek.status }}</span>
+                        </td>
+                        <td>@{{ merek.no_sertifikat }}</td>
+                        <td>@{{ merek.tgl_sertifikat }}</td>
                     </tr>
                 </tbody>
             </table>
+            <div class="row">
+                <div class="col-md-4">
+                    <span>Menampilkan @{{ filterMerek.noStart }} - @{{ filterMerek.noEnd }} dari @{{ dataMerekCount }} data</span>
+                </div>
+                <div class="col-md-8 d-flex justify-content-end">
+                    <div id="paginationMerek"></div>
+                </div>
+            </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-4">
-                <span>Menampilkan @{{ intervenProp.noStart }} - @{{ intervenProp.noEnd }} dari @{{ dataIntervensiCount }} data</span>
-            </div>
-            <div class="col-md-8 d-flex justify-content-end">
-                <div id="paginationIntervensi"></div>
+
+        {{-- HALAL --}}
+        <div v-if="dataHalalCount > 0">
+            <h3 style="margin-top: 5%">Data Sertifikasi Halal</h3>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-primary text-white">
+                        <th>Nama UKM</th>
+                        <th>Tanggal Permohonan</th>
+                        <th>Status</th>
+                        <th>No Sertifikat</th>
+                        <th>Tanggal Sertifikat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(halal, index) in dataHalal" :key="index">
+                        <td>@{{ halal.nama_usaha }}</td>
+                        <td>@{{ halal.tgl_permohonan }}</td>
+                        <td>
+                            <span v-if="halal.status == 'Menunggu Proses Cetak' || halal.status == 'Menunggu Tanggapan'" class="badge badge-warning">@{{ halal.status }}</span>
+                            <span v-if="halal.status == 'Sudah Keluar Sertifikat'" class="badge badge-success">@{{ halal.status }}</span>
+                            <span v-if="halal.status == 'Ditolak'" class="badge badge-danger">@{{ halal.status }}</span>
+                        </td>
+                        <td>@{{ halal.no_sertifikat }}</td>
+                        <td>@{{ halal.tgl_sertifikat }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-4">
+                    <span>Menampilkan @{{ filterHalal.noStart }} - @{{ filterHalal.noEnd }} dari @{{ dataHalalCount }} data</span>
+                </div>
+                <div class="col-md-8 d-flex justify-content-end">
+                    <div id="paginationHalal"></div>
+                </div>
             </div>
         </div>
     </div>
