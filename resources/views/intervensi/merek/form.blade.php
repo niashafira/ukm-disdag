@@ -9,38 +9,68 @@ Form Sertifikasi Merek
     <div class="row">
         <div class="col-12">
             <a v-if="mode == 'view'" :href="'/intervensi/merek/edit/'+ intervensi.id" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
-            <a :href="'/intervensi/SertifikatMerek'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
+            <a :href="'/intervensi/SertifikasiMerek'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
         </div>
     </div>
 
-    <h3>Sertifikat Merek</h3>
+    <h3>Pengajuan Sertifikasi Merek</h3>
     <hr>
     <form id="form-ref">
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <div class="form-group">
                     <label>UKM</label>
                     <input v-model="intervensi_detail.nama_usaha" v-on:click="inputUkm()" id="input-ukm" class="form-control" type="text" readonly placeholder="Klik Disini" />
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Nama Merek</label>
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.nama_merek" autocomplete="off" type="text" class="form-control" placeholder="Nama Merek">
+                </div>
+            </div>
+            <div class="col-md-4">
                 <div class="form-group">
                     <label>No. Permohonan</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.no_permohonan" autocomplete="off" type="text" class="form-control" placeholder="No. Pendaftaran">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.no_permohonan" autocomplete="off" type="text" class="form-control" placeholder="No. Permohonan">
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-4">
                 <div class="form-group">
-                    <label>Tanggal Permohonan</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.tanggal" autocomplete="off" type="date" class="form-control">
+                    <label>Tanggal Penerimaan Berkas di Kemenkumham</label>
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.tgl_berkas_kemenkumham" autocomplete="off" type="date" class="form-control">
                 </div>
             </div>
-            <div class="col">
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select class="form-control" v-model="intervensi_detail.status">
+                        <option selected value="didaftar">Didaftar</option>
+                        <option value="proses_cetak">Proses Cetak</option>
+                        <option value="menunggu_tanggapan">Menunggu Tanggapan</option>
+                        <option value="sudah_keluar_sertifikat">Sudah Keluar Sertifikat</option>
+                        <option value="ditolak">Ditolak</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4" v-if="intervensi_detail.status == 'sudah_keluar_sertifikat'">
+                <div class="form-group">
+                    <label>No Sertifikat</label>
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.no_sertifikat" autocomplete="off" type="text" class="form-control" placeholder="Nomor Sertifikat">
+                </div>
+            </div>
+            <div class="col-4" v-if="intervensi_detail.status == 'sudah_keluar_sertifikat'">
+                <div class="form-group">
+                    <label>Tanggal Sertifikat</label>
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.tgl_sertifikat" type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-4">
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.keterangan" autocomplete="off" type="text" class="form-control" placeholder="Deskripsi">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.keterangan" autocomplete="off" type="text" class="form-control" placeholder="Keterangan">
                 </div>
             </div>
         </div>
@@ -109,9 +139,13 @@ var app = new Vue({
             intervensi_detail: {
                 ukm_id: "",
                 nama_usaha: "",
-                intervensi_id: 24,
                 keterangan: "",
-                no_permohonan: ""
+                no_permohonan: "",
+                nama_merek: "",
+                tgl_berkas_kemenkumham: "",
+                status: "",
+                no_sertifikat: "",
+                tgl_sertifikat: ""
             },
             dataUkm: [],
             mode: <?= json_encode($mode); ?>
@@ -133,9 +167,6 @@ var app = new Vue({
 
             initDataEdit(){
                 var data = <?= json_encode($intervensi); ?>;
-                var tanggal = new Date(data[0].tanggal);
-
-                data[0].tanggal = tanggal.toString("yyyy-MM-dd");
 
                 this.intervensi_detail = data[0];
 
@@ -190,9 +221,9 @@ var app = new Vue({
                             },
                         });
 
-                        var url = "/intervensi/SertifikatMerek/store";
+                        var url = "/intervensi/SertifikasiMerek/store";
                         if(this.mode == "edit"){
-                            url = "/intervensi/SertifikatMerek/update";
+                            url = "/intervensi/SertifikasiMerek/update";
                         }
 
                         axios.post(url, data).then(response => {
@@ -205,7 +236,7 @@ var app = new Vue({
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
-                                window.location = "/intervensi/SertifikatMerek";
+                                window.location = "/intervensi/SertifikasiMerek";
                             }
                         });
                     }

@@ -6,8 +6,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\intervensi\lainnyaController;
 use App\Http\Controllers\Intervensi\PelatihanController;
 use App\Http\Controllers\Intervensi\PameranController;
-use App\Http\Controllers\Intervensi\SertifikatHalalController;
-use App\Http\Controllers\Intervensi\SertifikatMerekController;
+use App\Http\Controllers\Intervensi\SertifikasiHalalController;
+use App\Http\Controllers\Intervensi\SertifikasiMerekController;
 use App\Http\Controllers\Intervensi\PemasaranController;
 use App\Http\Controllers\UkmController;
 use App\Http\Controllers\ReferensiController;
@@ -78,20 +78,20 @@ Route::post('register', [AuthController::class, 'register']);
     Route::get('/importIntervensi', [PameranController::class, 'importUkmIntervensi']);
 
     //SERTIFIKAT HALAL
-    Route::get('/intervensi/SertifikatHalal', [SertifikatHalalController::class, 'index'])->name('intervensi');
-    Route::get('/intervensi/SertifikatHalal/create', [SertifikatHalalController::class, 'create'])->name('intervensi');
-    Route::get('/intervensi/SertifikatHalal/edit/{id}', [SertifikatHalalController::class, 'edit'])->name('intervensi');
-    Route::post('/intervensi/SertifikatHalal/store', [SertifikatHalalController::class, 'store'])->name('intervensi');
-    Route::post('/intervensi/SertifikatHalal/update', [SertifikatHalalController::class, 'update'])->name('intervensi');
-    Route::get('/intervensi/SertifikatHalal/view/{id}', [SertifikatHalalController::class, 'view'])->name('intervensi');
+    Route::get('/intervensi/SertifikasiHalal', [SertifikasiHalalController::class, 'index'])->name('intervensi');
+    Route::get('/intervensi/SertifikasiHalal/create', [SertifikasiHalalController::class, 'create'])->name('intervensi');
+    Route::get('/intervensi/SertifikasiHalal/edit/{id}', [SertifikasiHalalController::class, 'edit'])->name('intervensi');
+    Route::post('/intervensi/SertifikasiHalal/store', [SertifikasiHalalController::class, 'store'])->name('intervensi');
+    Route::post('/intervensi/SertifikasiHalal/update', [SertifikasiHalalController::class, 'update'])->name('intervensi');
+    Route::get('/intervensi/SertifikasiHalal/view/{id}', [SertifikatHalalController::class, 'view'])->name('intervensi');
 
     //SERTIFIKAT MEREK
-    Route::get('/intervensi/SertifikatMerek', [SertifikatMerekController::class, 'index'])->name('intervensi');
-    Route::get('/intervensi/SertifikatMerek/create', [SertifikatMerekController::class, 'create'])->name('intervensi');
-    Route::get('/intervensi/SertifikatMerek/edit/{id}', [SertifikatMerekController::class, 'edit'])->name('intervensi');
-    Route::post('/intervensi/SertifikatMerek/store', [SertifikatMerekController::class, 'store'])->name('intervensi');
-    Route::post('/intervensi/SertifikatMerek/update', [SertifikatMerekController::class, 'update'])->name('intervensi');
-    Route::get('/intervensi/SertifikatMerek/view/{id}', [SertifikatMerekController::class, 'view'])->name('intervensi');
+    Route::get('/intervensi/SertifikasiMerek', [SertifikasiMerekController::class, 'index'])->name('intervensi');
+    Route::get('/intervensi/SertifikasiMerek/create', [SertifikasiMerekController::class, 'create'])->name('intervensi');
+    Route::get('/intervensi/SertifikasiMerek/edit/{id}', [SertifikasiMerekController::class, 'edit'])->name('intervensi');
+    Route::post('/intervensi/SertifikasiMerek/store', [SertifikasiMerekController::class, 'store'])->name('intervensi');
+    Route::post('/intervensi/SertifikasiMerek/update', [SertifikasiMerekController::class, 'update'])->name('intervensi');
+    Route::get('/intervensi/SertifikasiMerek/view/{id}', [SertifikasiMerekController::class, 'view'])->name('intervensi');
 
     //Pemasaran
     Route::get('/intervensi/pemasaran', [PemasaranController::class, 'index'])->name('intervensi');

@@ -4,19 +4,19 @@ namespace App\Http\Controllers\Intervensi;
 
 use App\Http\Controllers\Controller;
 use App\Models\IntervensiDetail;
+use App\Models\SertifikasiMerek;
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB as DB;
 
-class SertifikatMerekController extends Controller
+class SertifikasiMerekController extends Controller
 {
     public function index()
     {
         $intervensi = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha, a.tanggal, a.no_permohonan
-            from ukm_disdag.intervensi_detail AS a
+            SELECT a.nama_merek, a.no_permohonan, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+            from ukm_disdag.sertifikasi_merek AS a
             INNER JOIN ukm_disdag.ukm AS b
-            ON b.id = a.ukm_id
-            WHERE a.intervensi_id = 24;
+            ON b.id = a.ukm_id;
         ");
 
         return view('intervensi.merek.index', compact('intervensi'));
@@ -32,11 +32,11 @@ class SertifikatMerekController extends Controller
     public function edit($id)
     {
         $intervensi = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha, a.tanggal, a.no_permohonan
-            from ukm_disdag.intervensi_detail AS a
+        SELECT a.nama_merek, a.no_permohonan, a.tgl_berkas_kemenkumham, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+            from ukm_disdag.sertifikasi_merek AS a
             INNER JOIN ukm_disdag.ukm AS b
             ON b.id = a.ukm_id
-            WHERE a.intervensi_id = 24 AND a.id = " . $id . ";
+            WHERE a.id = " . $id . ";
         ");
 
         $mode = "edit";
@@ -45,9 +45,9 @@ class SertifikatMerekController extends Controller
 
     public function store(Request $request)
     {
-        $intervensi_detail = $request->intervensi_detail;
-        unset($intervensi_detail['nama_usaha']);
-        IntervensiDetail::create($intervensi_detail);
+        $sertifikasi_merek = $request->intervensi_detail;
+        unset($sertifikasi_merek['nama_usaha']);
+        SertifikasiMerek::create($sertifikasi_merek);
 
         echo json_encode("sukses");
     }
@@ -55,7 +55,7 @@ class SertifikatMerekController extends Controller
     public function update(Request $request)
     {
         $input = $request->intervensi_detail;
-        $intervensi = IntervensiDetail::find($input['id']);
+        $intervensi = SertifikasiMerek::find($input['id']);
         unset($input['nama_usaha']);
         $intervensi->update($input);
 

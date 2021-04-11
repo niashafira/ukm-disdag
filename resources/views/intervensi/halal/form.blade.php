@@ -17,30 +17,46 @@ Form Sertifikasi Halal
     <hr>
     <form id="form-ref">
         <div class="row">
-            <div class="col-6">
+            <div class="col-4">
                 <div class="form-group">
                     <label>UKM</label>
                     <input v-model="intervensi_detail.nama_usaha" v-on:click="inputUkm()" id="input-ukm" class="form-control" type="text" readonly placeholder="Klik Disini" />
                 </div>
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label>No. Permohonan</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.no_permohonan" autocomplete="off" type="text" class="form-control" placeholder="No. Pendaftaran">
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
+            <div class="col-4">
                 <div class="form-group">
                     <label>Tanggal Permohonan</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.tanggal" autocomplete="off" type="date" class="form-control">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.tgl_permohonan" autocomplete="off" type="date" class="form-control">
                 </div>
             </div>
-            <div class="col">
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select class="form-control" v-model="intervensi_detail.status">
+                        <option selected value="didaftar">Didaftar</option>
+                        {{-- <option value="proses_cetak">Proses Cetak</option> --}}
+                        {{-- <option value="menunggu_tanggapan">Menunggu Tanggapan</option> --}}
+                        <option value="sudah_keluar_sertifikat">Sudah Keluar Sertifikat</option>
+                        <option value="ditolak">Ditolak</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-4" v-if="intervensi_detail.status == 'sudah_keluar_sertifikat'">
+                <div class="form-group">
+                    <label>No Sertifikat</label>
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.no_sertifikat" autocomplete="off" type="text" class="form-control" placeholder="Nomor Sertifikat">
+                </div>
+            </div>
+            <div class="col-4" v-if="intervensi_detail.status == 'sudah_keluar_sertifikat'">
+                <div class="form-group">
+                    <label>Tanggal Sertifikat</label>
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.tgl_sertifikat" type="date" class="form-control">
+                </div>
+            </div>
+            <div class="col-4">
                 <div class="form-group">
                     <label>Keterangan</label>
-                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.keterangan" autocomplete="off" type="text" class="form-control" placeholder="Deskripsi">
+                    <input {{ $mode == 'view' ? 'readonly' : '' }} v-model="intervensi_detail.keterangan" autocomplete="off" type="text" class="form-control" placeholder="Keterangan">
                 </div>
             </div>
         </div>
@@ -109,9 +125,11 @@ var app = new Vue({
             intervensi_detail: {
                 ukm_id: "",
                 nama_usaha: "",
-                intervensi_id: 23,
                 keterangan: "",
-                no_permohonan: ""
+                status: "",
+                no_sertifikat: "",
+                tgl_sertifikat: "",
+                tgl_permohonan: ""
             },
             dataUkm: [],
             mode: <?= json_encode($mode); ?>
@@ -133,9 +151,6 @@ var app = new Vue({
 
             initDataEdit(){
                 var data = <?= json_encode($intervensi); ?>;
-                var tanggal = new Date(data[0].tanggal);
-
-                data[0].tanggal = tanggal.toString("yyyy-MM-dd");
 
                 this.intervensi_detail = data[0];
 
@@ -190,9 +205,9 @@ var app = new Vue({
                             },
                         });
 
-                        var url = "/intervensi/SertifikatHalal/store";
+                        var url = "/intervensi/SertifikasiHalal/store";
                         if(this.mode == "edit"){
-                            url = "/intervensi/SertifikatHalal/update";
+                            url = "/intervensi/SertifikasiHalal/update";
                         }
 
                         axios.post(url, data).then(response => {
@@ -205,7 +220,7 @@ var app = new Vue({
                                     showConfirmButton: false,
                                     timer: 1500
                                 })
-                                window.location = "/intervensi/SertifikatHalal";
+                                window.location = "/intervensi/SertifikasiHalal";
                             }
                         });
                     }

@@ -53,19 +53,19 @@
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="/intervensi/SertifikatHalal" class="menu-link">
+                                            <a href="/intervensi/SertifikasiHalal" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
-                                                <span class="menu-text">Sertifikat Halal</span>
+                                                <span class="menu-text">Sertifikasi Halal</span>
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">
-                                            <a href="/intervensi/SertifikatMerek" class="menu-link">
+                                            <a href="/intervensi/SertifikasiMerek" class="menu-link">
                                                 <i class="menu-bullet menu-bullet-dot">
                                                     <span></span>
                                                 </i>
-                                                <span class="menu-text">Sertifikat Merek</span>
+                                                <span class="menu-text">Sertifikasi Merek</span>
                                             </a>
                                         </li>
                                         <li class="menu-item" aria-haspopup="true">

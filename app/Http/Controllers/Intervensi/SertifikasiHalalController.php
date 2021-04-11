@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\Intervensi;
 
 use App\Http\Controllers\Controller;
-use DB;
 use App\Models\Intervensi;
 use App\Models\IntervensiDetail;
+use App\Models\SertifikasiHalal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB as DB;
 
-class SertifikatHalalController extends Controller
+class SertifikasiHalalController extends Controller
 {
     public function index()
     {
         $intervensi = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha, a.tanggal, a.no_permohonan
-            from ukm_disdag.intervensi_detail AS a
+            SELECT a.tgl_permohonan, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+            from ukm_disdag.sertifikasi_halal AS a
             INNER JOIN ukm_disdag.ukm AS b
-            ON b.id = a.ukm_id
-            WHERE a.intervensi_id = 23;
+            ON b.id = a.ukm_id;
         ");
 
         return view('intervensi.halal.index', compact('intervensi'));
@@ -33,11 +33,11 @@ class SertifikatHalalController extends Controller
     public function edit($id)
     {
         $intervensi = DB::select("
-            SELECT a.id, a.ukm_id, a.intervensi_id, a.keterangan, b.nama_usaha, a.tanggal, a.no_permohonan
-            from ukm_disdag.intervensi_detail AS a
+            SELECT a.tgl_permohonan, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+            from ukm_disdag.sertifikasi_halal AS a
             INNER JOIN ukm_disdag.ukm AS b
             ON b.id = a.ukm_id
-            WHERE a.intervensi_id = 23 AND a.id = " . $id . ";
+            WHERE a.id = " . $id . ";
         ");
 
         $mode = "edit";
@@ -48,7 +48,7 @@ class SertifikatHalalController extends Controller
     {
         $intervensi_detail = $request->intervensi_detail;
         unset($intervensi_detail['nama_usaha']);
-        IntervensiDetail::create($intervensi_detail);
+        SertifikasiHalal::create($intervensi_detail);
 
         echo json_encode("sukses");
     }
@@ -56,7 +56,7 @@ class SertifikatHalalController extends Controller
     public function update(Request $request)
     {
         $input = $request->intervensi_detail;
-        $intervensi = IntervensiDetail::find($input['id']);
+        $intervensi = SertifikasiHalal::find($input['id']);
         unset($input['nama_usaha']);
         $intervensi->update($input);
 
