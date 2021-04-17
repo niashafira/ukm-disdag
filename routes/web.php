@@ -52,7 +52,7 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/ukm/delete', [UkmController::class, 'destroy'])->name('ukm');
     Route::post('/ukm/edit', [UkmController::class, 'edit'])->name('ukm');
     Route::post('/ukm/update', [UkmController::class, 'update'])->name('ukm');
-    Route::get('/ukm/profil/{id}', [UkmController::class, 'show'])->name('ukm');
+    Route::get('/ukm/{id}', [UkmController::class, 'show'])->name('ukm');
     Route::get('/ukm/importExcel', [UkmController::class, 'importExcel'])->name('ukm');
     Route::get('/ukm/importRevisiUkm', [UkmController::class, 'importRevisiUkm'])->name('ukm');
     Route::get('/ukm/exportExcel', [UkmController::class, 'exportExcel'])->name('ukm');

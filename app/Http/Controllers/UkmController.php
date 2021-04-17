@@ -6,6 +6,7 @@ use App\Models\Omset;
 use App\Models\Ukm;
 use App\Models\Ukm2;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -41,7 +42,16 @@ class UkmController extends Controller
 
     public function show($id)
     {
-        $data = Ukm::find($id);
+        $profil = Ukm::find($id);
+        $intervensi = $check_ukm_nik = DB::select(
+            "select a.* from ukm_disdag.intervensi a ".
+            "JOIN ukm_disdag.intervensi_detail b ".
+            "ON a.id = b.intervensi_id ".
+            "WHERE b.ukm_id = ".$id
+        );
+
+        $data['profil'] = $profil;
+        $data['intervensi'] = $intervensi;
         return view("ukm.view", compact('data'));
     }
 
