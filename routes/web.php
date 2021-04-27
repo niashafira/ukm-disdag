@@ -57,6 +57,13 @@ Route::post('register', [AuthController::class, 'register']);
     Route::get('/ukm/importRevisiUkm', [UkmController::class, 'importRevisiUkm'])->name('ukm');
     Route::get('/ukm/exportExcel', [UkmController::class, 'exportExcel'])->name('ukm');
     Route::get('/ukm/updateField', [UkmController::class, 'updateField'])->name('ukm');
+    //OMSET
+    Route::post('/ukm/omset/store', [UkmController::class, 'storeOmset'])->name('ukm');
+    Route::post('/ukm/omset/update', [UkmController::class, 'updateOmset'])->name('ukm');
+    Route::get('/ukm/omset/{id}', [UkmController::class, 'getOmset'])->name('ukm');
+    Route::get('/ukm/sertifikasi/{id}', [UkmController::class, 'getSertifikasi'])->name('ukm');
+    Route::post('/ukm/omset/delete', [UkmController::class, 'deleteOmset'])->name('ukm');
+
 
     //PELATIHAN
     Route::get('/intervensi/pelatihan', [PelatihanController::class, 'index'])->name('intervensi');

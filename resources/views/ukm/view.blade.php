@@ -89,6 +89,86 @@ Profil UKM
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
+                <h3>Sertifikasi Merek</h3>
+                <hr>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="bg-primary">
+                            <th class="text-white">Nama Merek</th>
+                            <th class="text-white">Tgl Permohonan</th>
+                            <th class="text-white">No Permohonan</th>
+                            <th class="text-white">Status</th>
+                            <th class="text-white">No Sertifikat</th>
+                            <th class="text-white">Tgl Sertifikat</th>
+                            <th class="text-white">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(merek, index) in sertifikasi.merek" :key="index">
+                            <td>@{{ merek.nama_merek }}</td>
+                            <td>@{{ merek.tgl_berkas_kemenkumham }}</td>
+                            <td>@{{ merek.no_permohonan }}</td>
+                            <td>@{{ merek.status }}</td>
+                            <td>@{{ merek.no_sertifikat }}</td>
+                            <td>@{{ merek.tgl_sertifikat }}</td>
+                            <td>@{{ merek.keterangan }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 3%">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3>Sertifikasi Halal</h3>
+                <hr>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="bg-primary">
+                            <th class="text-white">Tgl Permohonan</th>
+                            <th class="text-white">Status</th>
+                            <th class="text-white">No Sertifikat</th>
+                            <th class="text-white">Tgl Sertifikat</th>
+                            <th class="text-white">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(halal, index) in sertifikasi.halal" :key="index">
+                            <td>@{{ halal.tgl_permohonan }}</td>
+                            <td>@{{ halal.status }}</td>
+                            <td>@{{ halal.no_sertifikat }}</td>
+                            <td>@{{ halal.tgl_sertifikat }}</td>
+                            <td>@{{ halal.keterangan }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 3%">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3>Omset</h3>
+                <hr>
+                <button v-on:click="openModalOmset()" class="btn btn-sm btn-primary"><span class="fa fa-pen"></span> Edit Omset</button>
+
+                <div id="chartOmset"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 3%">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
                 <h3>Intervensi yang Diikuti</h3>
                 <hr>
                 <table id="table-intervensi" class="table table-bordered" style="margin-top:3%">
@@ -109,10 +189,96 @@ Profil UKM
                             <td>@{{ intervensi.nama_intervensi }}</td>
                             <td class="text-nowrap">@{{ intervensi.tanggal_mulai }}</td>
                             <td>@{{ intervensi.deskripsi }}</td>
-                            <td><a :href="intervensi.linkDetail" target="_blank" class="btn btn-sm btn-info"><span class="fa fa-eye"></span> Detail</a></td>
+                            <td><a :href="intervensi.linkDetail" target="_blank" class="btn btn-sm btn-info"><span
+                                        class="fa fa-eye"></span> Detail</a></td>
                         </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-omset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edit Data Omset</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button v-on:click="tambahOmset()" class="btn btn-sm btn-success"><span class="fa fa-plus"></span> Tambah</button>
+                <table class="table table-bordered" style="margin-top: 3%">
+                    <thead>
+                        <tr class="bg-primary">
+                            <th class="text-white text-center">No</th>
+                            <th class="text-white text-center">Bulan</th>
+                            <th class="text-white text-center">Jumlah Produk Terjual</th>
+                            <th class="text-white text-center">Omset</th>
+                            <th class="text-white text-center">Keterangan</th>
+                            <th class="text-white text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-if="newOmset != ''">
+                            <td></td>
+                            <td>
+                                <input id="bulan-omset" type="month" class="form-control" v-model="newOmset.tanggal">
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" v-model="newOmset.jml_produk_terjual">
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" v-model="newOmset.nominal">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" v-model="newOmset.keterangan">
+                            </td>
+                            <td>
+                                <button v-on:click="simpanOmset()" class="btn btn-success btn-sm"><span class="fa fa-check"></span> Simpan</button>
+                            </td>
+                        </tr>
+                        <tr v-for="(omset, index) in omset" :key="index">
+                            <td>@{{ index+1 }}</td>
+                            <td>
+                                <div v-if="omset.isEdit == false">@{{ omset.tanggal }}</div>
+                                <div v-else>
+                                    <input type="month" class="form-control" v-model="omset.tanggal">
+                                </div>
+                            </td>
+                            <td>
+                                <div v-if="omset.isEdit == false">@{{ omset.jml_produk_terjual }}</div>
+                                <div v-else>
+                                    <input type="number" class="form-control" v-model="omset.jml_produk_terjual">
+                                </div>
+                            </td>
+                            <td>
+                                <div v-if="omset.isEdit == false">@{{ omset.nominal }}</div>
+                                <div v-else>
+                                    <input type="number" class="form-control" v-model="omset.nominal">
+                                </div>
+                            </td>
+                            <td>
+                                <div v-if="omset.isEdit == false">@{{ omset.keterangan }}</div>
+                                <div v-else>
+                                    <input type="text" class="form-control" v-model="omset.keterangan">
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <button v-on:click="updateOmset(omset, index)" v-if="omset.isEdit == true" class="btn btn-success btn-sm"><span class="fa fa-check"></span></button>
+                                <button v-on:click="editOmset(omset)" v-if="omset.isEdit == false" class="btn btn-warning btn-sm"><span class="fa fa-pen"></span></button>
+                                <button v-on:click="deleteOmset(omset)" v-if="omset.isEdit == false" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -122,5 +288,5 @@ Profil UKM
 
 
 @section('script')
-    @include('ukm.viewJs')
+@include('ukm.viewJs')
 @endsection

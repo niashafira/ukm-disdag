@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Omset;
+use App\Models\SertifikasiHalal;
+use App\Models\SertifikasiMerek;
 use App\Models\Ukm;
 use App\Models\Ukm2;
 use Illuminate\Http\Request;
@@ -53,6 +55,56 @@ class UkmController extends Controller
         $data['profil'] = $profil;
         $data['intervensi'] = $intervensi;
         return view("ukm.view", compact('data'));
+    }
+
+    public function storeOmset(Request $request){
+        $omset = Omset::create($request->omset);
+
+        $res['status'] = "S";
+        $res['data'] = $omset;
+        echo json_encode($res);
+    }
+
+    public function updateOmset(Request $request){
+        $omset = Omset::find($request->omset['id']);
+
+        $input = $request->omset;
+        unset($input['created_at']);
+        unset($input['updated_at']);
+        unset($input['isEdit']);
+
+        $omset->update($input);
+
+        $res['status'] = "S";
+        $res['data'] = $omset;
+        echo json_encode($res);
+    }
+
+    public function deleteOmset(Request $request){
+        Omset::destroy($request->omset['id']);
+
+        $res['status'] = "S";
+        echo json_encode($res);
+    }
+
+    public function getOmset($id){
+        $omset = Omset::where('ukm_id', '=', $id)->orderBy('id', 'DESC')->get();
+
+        $res['status'] = "S";
+        $res['data'] = $omset;
+        echo json_encode($res);
+    }
+
+    public function getSertifikasi($id){
+        $halal = SertifikasiHalal::where('ukm_id', '=', $id)->get();
+        $merek = SertifikasiMerek::where('ukm_id', '=', $id)->get();
+
+        $sertifikasi['halal'] = $halal;
+        $sertifikasi['merek'] = $merek;
+
+        $res['status'] = "S";
+        $res['data'] = $sertifikasi;
+        echo json_encode($res);
     }
 
     public function edit(Request $request)
