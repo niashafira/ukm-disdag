@@ -134,6 +134,7 @@ Route::post('register', [AuthController::class, 'register']);
     //MONITORING
     Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
     Route::post('/monitoring/filter', [MonitoringController::class, 'filter'])->name('monitoring');
+    Route::post('/monitoring/exportExcel', [MonitoringController::class, 'exportExcel'])->name('monitoring');
 
 
 

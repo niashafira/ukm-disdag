@@ -70,7 +70,7 @@ Monitoring Intervensi
                     <h5>Tanggal Intervensi</h5>
                     <hr>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="daterange" value="01/01/2019 - 01/15/2021" />
+                        <input class="form-control" type="text" name="daterange" value="01/01/2017 - 05/06/2021" />
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@ Monitoring Intervensi
 
             <div class="row d-flex justify-content-center" style="margin-top:3%">
                 <div class="col-md-6">
-                    <button class="btn btn-sm btn-success btn-block" v-on:click="submitFilter('new')"><span class="fa fa-filter"></span> Filter</button>
+                    <button id="btn-filter" class="btn btn-sm btn-success btn-block" v-on:click="submitFilter('new')"><span class="fa fa-filter"></span> Filter</button>
                 </div>
             </div>
         </div>
@@ -95,53 +95,109 @@ Monitoring Intervensi
 
 <div class="row" style="margin-top: 3%">
     <div class="col-md-12">
-        <div class="dropdown">
-            <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="fa fa-print"></span> Export
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Cetak</a>
-                <a class="dropdown-item" href="#">Excel</a>
-                <a class="dropdown-item" href="#">PDF</a>
+        <button v-on:click="exportExcel()" class="btn btn-sm btn-success"><span class="fa fa-file-excel"></span> Export Excel</button>
+
+        {{-- PELATIHAN --}}
+        <div v-if="dataPelatihanCount > 0">
+            <h3 style="margin-top: 5%">Data Pelatihan</h3>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-primary text-white">
+                        <th class="text-center">Nama</th>
+                        <th class="text-center">Lokasi</th>
+                        <th class="text-center">Deskripsi</th>
+                        <th class="text-nowrap text-center">Tanggal Mulai</th>
+                        <th class="text-nowrap text-center">Tanggal Selesai</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(pelatihan, index) in dataPelatihan" :key="index">
+                        <td>@{{ pelatihan.nama_intervensi }}</td>
+                        <td>@{{ pelatihan.lokasi }}</td>
+                        <td>@{{ pelatihan.deskripsi }}</td>
+                        <td>@{{ pelatihan.tanggal_mulai }}</td>
+                        <td>@{{ pelatihan.tanggal_selesai }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-4">
+                    <span>Menampilkan @{{ filterPelatihan.noStart }} - @{{ filterPelatihan.noEnd }} dari @{{ dataPelatihanCount }} data</span>
+                </div>
+                <div class="col-md-8 d-flex justify-content-end">
+                    <div id="paginationPelatihan"></div>
+                </div>
             </div>
         </div>
 
-        <div v-if="dataIntervensiCount > 0">
-            <div class="table-responsive">
-                <table class="table table-bordered" style="margin-top:3%">
-                    <thead class="bg-primary text-white">
-                        <tr>
-                            <th class="text-center">No</th>
-                            <th class="text-center">Jenis</th>
-                            <th class="text-center">Nama</th>
-                            <th class="text-center">Lokasi</th>
-                            <th class="text-center">Deskripsi</th>
-                            <th class="text-nowrap text-center">Tanggal Mulai</th>
-                            <th class="text-nowrap text-center">Tanggal Selesai</th>
-                            <th class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(intervensi, index) in dataIntervensi" :key="index">
-                            <td>@{{ intervenProp.offset + 1 + index }}</td>
-                            <td>@{{ intervensi.jenis_intervensi }}</td>
-                            <td>@{{ intervensi.nama_intervensi }}</td>
-                            <td>@{{ intervensi.lokasi }}</td>
-                            <td>@{{ intervensi.deskripsi }}</td>
-                            <td class="text-nowrap">@{{ intervensi.tanggal_mulai }}</td>
-                            <td class="text-nowrap">@{{ intervensi.tanggal_selesai }}</td>
-                            <td><button class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</button></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+        {{-- PAMERAN --}}
+        <div v-if="dataPameranCount > 0">
+            <h3 style="margin-top: 5%">Data Pameran / Bazar</h3>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-primary text-white">
+                        <th class="text-center">Nama</th>
+                        <th class="text-center">Lokasi</th>
+                        <th class="text-center">Deskripsi</th>
+                        <th class="text-nowrap text-center">Tanggal Mulai</th>
+                        <th class="text-nowrap text-center">Tanggal Selesai</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(pameran, index) in dataPameran" :key="index">
+                        <td>@{{ pameran.nama_intervensi }}</td>
+                        <td>@{{ pameran.lokasi }}</td>
+                        <td>@{{ pameran.deskripsi }}</td>
+                        <td>@{{ pameran.tanggal_mulai }}</td>
+                        <td>@{{ pameran.tanggal_selesai }}</td>
+                    </tr>
+                </tbody>
+            </table>
             <div class="row">
                 <div class="col-md-4">
-                    <span>Menampilkan @{{ intervenProp.noStart }} - @{{ intervenProp.noEnd }} dari @{{ dataIntervensiCount }} data</span>
+                    <span>Menampilkan @{{ filterPameran.noStart }} - @{{ filterPameran.noEnd }} dari @{{ dataPameranCount }} data</span>
                 </div>
                 <div class="col-md-8 d-flex justify-content-end">
-                    <div id="paginationIntervensi"></div>
+                    <div id="paginationPameran"></div>
+                </div>
+            </div>
+        </div>
+
+        {{-- PEMASARAN --}}
+        <div v-if="dataPemasaranCount > 0">
+            <h3 style="margin-top: 5%">Data Pemasaran</h3>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="bg-primary text-white">
+                        <th class="text-center">Nama</th>
+                        <th class="text-center">Lokasi</th>
+                        <th class="text-center">Deskripsi</th>
+                        <th class="text-nowrap text-center">Tanggal Mulai</th>
+                        <th class="text-nowrap text-center">Tanggal Selesai</th>
+                        <th class="text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(pemasaran, index) in dataPemasaran" :key="index">
+                        <td>@{{ pemasaran.nama_intervensi }}</td>
+                        <td>@{{ pemasaran.lokasi }}</td>
+                        <td>@{{ pemasaran.deskripsi }}</td>
+                        <td>@{{ pemasaran.tanggal_mulai }}</td>
+                        <td>@{{ pemasaran.tanggal_selesai }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-md-4">
+                    <span>Menampilkan @{{ filterPemasaran.noStart }} - @{{ filterPemasaran.noEnd }} dari @{{ dataPemasaranCount }} data</span>
+                </div>
+                <div class="col-md-8 d-flex justify-content-end">
+                    <div id="paginationPemasaran"></div>
                 </div>
             </div>
         </div>
