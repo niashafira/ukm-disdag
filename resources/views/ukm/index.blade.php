@@ -10,13 +10,13 @@ Data UKM
         <a href="/ukm/create" class="btn btn-info btn-sm" id="btn-create"><span class="fa fa-plus"></span> Tambah UKM</a><br><br>
         <table id="table-ukm" class="table table-bordered table-stripped">
             <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Nama UKM</th>
-                    <th>Nama Pemilik UKM</th>
-                    <th>NIK</th>
-                    <th>Alamat</th>
-                    <th class="text-center" style="width:10%">Aksi</th>
+                <tr class="bg-primary">
+                    <th class="text-white">No.</th>
+                    <th class="text-white">Nama UKM</th>
+                    <th class="text-white">Nama Pemilik UKM</th>
+                    <th class="text-white">NIK</th>
+                    <th class="text-white">Alamat</th>
+                    <th class="text-center text-white" style="width:10%">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +26,7 @@ Data UKM
                     <td>@{{ ukm.nama_pemilik }}</td>
                     <td>@{{ ukm.nik }}</td>
                     <td>@{{ ukm.alamat }}</td>
-                    <td class="text-center"><button class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</button></td>
+                    <td class="text-center"><a :href="'/ukm/' + ukm.id" class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</a></td>
                 </tr>
             </tbody>
         </table>

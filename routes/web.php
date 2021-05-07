@@ -52,11 +52,18 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/ukm/delete', [UkmController::class, 'destroy'])->name('ukm');
     Route::post('/ukm/edit', [UkmController::class, 'edit'])->name('ukm');
     Route::post('/ukm/update', [UkmController::class, 'update'])->name('ukm');
-    Route::get('/ukm/profil/{id}', [UkmController::class, 'show'])->name('ukm');
+    Route::get('/ukm/{id}', [UkmController::class, 'show'])->name('ukm');
     Route::get('/ukm/importExcel', [UkmController::class, 'importExcel'])->name('ukm');
     Route::get('/ukm/importRevisiUkm', [UkmController::class, 'importRevisiUkm'])->name('ukm');
     Route::get('/ukm/exportExcel', [UkmController::class, 'exportExcel'])->name('ukm');
     Route::get('/ukm/updateField', [UkmController::class, 'updateField'])->name('ukm');
+    //OMSET
+    Route::post('/ukm/omset/store', [UkmController::class, 'storeOmset'])->name('ukm');
+    Route::post('/ukm/omset/update', [UkmController::class, 'updateOmset'])->name('ukm');
+    Route::get('/ukm/omset/{id}', [UkmController::class, 'getOmset'])->name('ukm');
+    Route::get('/ukm/sertifikasi/{id}', [UkmController::class, 'getSertifikasi'])->name('ukm');
+    Route::post('/ukm/omset/delete', [UkmController::class, 'deleteOmset'])->name('ukm');
+
 
     //PELATIHAN
     Route::get('/intervensi/pelatihan', [PelatihanController::class, 'index'])->name('intervensi');
@@ -127,6 +134,7 @@ Route::post('register', [AuthController::class, 'register']);
     //MONITORING
     Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
     Route::post('/monitoring/filter', [MonitoringController::class, 'filter'])->name('monitoring');
+    Route::post('/monitoring/exportExcel', [MonitoringController::class, 'exportExcel'])->name('monitoring');
 
 
 
