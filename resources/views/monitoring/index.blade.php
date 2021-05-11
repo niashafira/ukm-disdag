@@ -51,7 +51,7 @@ Monitoring Intervensi
     <div class="col-md-12 card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col">
                     <h5>Jenis Intervensi</h5>
                     <hr>
                     <div class="row">
@@ -66,7 +66,7 @@ Monitoring Intervensi
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col">
                     <h5>Tanggal Intervensi</h5>
                     <hr>
                     <div class="form-group">
@@ -74,19 +74,22 @@ Monitoring Intervensi
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                {{-- <div class="col-md-4">
                     <h5>Spesifik Kata Kunci</h5>
                     <hr>
                     <div class="form-group">
                         <input v-model="kata_kunci" class="form-control" type="text" placeholder="Spesifik kata kunci" />
                     </div>
-                </div>
+                </div> --}}
 
             </div>
 
             <div class="row d-flex justify-content-center" style="margin-top:3%">
                 <div class="col-md-6">
-                    <button id="btn-filter" class="btn btn-sm btn-success btn-block" v-on:click="submitFilter('new')"><span class="fa fa-filter"></span> Filter</button>
+                    <button id="btn-filter" class="btn btn-sm btn-success btn-block" v-on:click="exportExcel()"><span class="fa fa-file-excel"></span> Export Excel</button>
+                </div>
+                <div class="col-md-6">
+                    <button id="btn-filter" class="btn btn-sm btn-info btn-block" v-on:click="submitFilter('new')"><span class="fa fa-filter"></span> Filter</button>
                 </div>
             </div>
         </div>
@@ -95,7 +98,6 @@ Monitoring Intervensi
 
 <div class="row" style="margin-top: 3%">
     <div class="col-md-12">
-        <button v-on:click="exportExcel()" class="btn btn-sm btn-success"><span class="fa fa-file-excel"></span> Export Excel</button>
 
         {{-- PELATIHAN --}}
         <div v-if="dataPelatihanCount > 0">
@@ -119,6 +121,7 @@ Monitoring Intervensi
                         <td>@{{ pelatihan.deskripsi }}</td>
                         <td>@{{ pelatihan.tanggal_mulai }}</td>
                         <td>@{{ pelatihan.tanggal_selesai }}</td>
+                        <td><a :href="'/intervensi/pelatihan/view/' + pelatihan.id" target="_blank" class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</a></td>
                     </tr>
                 </tbody>
             </table>
@@ -154,6 +157,7 @@ Monitoring Intervensi
                         <td>@{{ pameran.deskripsi }}</td>
                         <td>@{{ pameran.tanggal_mulai }}</td>
                         <td>@{{ pameran.tanggal_selesai }}</td>
+                        <td><a :href="'/intervensi/pameran/view/' + pameran.id" target="_blank" class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</a></td>
                     </tr>
                 </tbody>
             </table>

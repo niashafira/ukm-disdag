@@ -416,6 +416,15 @@ var app = new Vue({
         },
 
         async exportExcel(){
+            Swal.fire({
+                title: 'Mohon Tunggu !',
+                html: '',
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                },
+            });
+
             var data = {
                 tanggal_mulai: this.tanggal_mulai,
                 tanggal_selesai: this.tanggal_selesai,
@@ -446,6 +455,8 @@ var app = new Vue({
             downloadLink.href = linkSource;
             downloadLink.download = fileName;
             downloadLink.click();
+
+            Swal.close();
         }
     },
 });
