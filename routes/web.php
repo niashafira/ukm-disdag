@@ -72,6 +72,7 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/intervensi/pelatihan/store', [PelatihanController::class, 'store'])->name('intervensi');
     Route::post('/intervensi/pelatihan/update', [PelatihanController::class, 'update'])->name('intervensi');
     Route::get('/intervensi/pelatihan/view/{id}', [PelatihanController::class, 'view'])->name('intervensi');
+    Route::post('/intervensi/pelatihan/export', [PelatihanController::class, 'exportExcel'])->name('intervensi');
 
     //PAMERAN
     Route::get('/intervensi/pameran', [PameranController::class, 'index'])->name('intervensi');
