@@ -9,6 +9,7 @@ Form Pameran
     <div class="row">
         <div class="col-12">
             <a v-if="mode == 'view'" :href="'/intervensi/pameran/edit/'+ intervensi.id" class="btn btn-sm btn-info" style="float:right; margin-left:10px"><span class="fa fa-pen"></span> Edit</a>
+            <button v-on:click="openModalExport()" v-if="mode == 'view'" class="btn btn-sm btn-success" style="float:right; margin-left:10px"><span class="fa fa-file-excel"></span> Export Excel</button>
             <a :href="'/intervensi/pameran'" class="btn btn-sm btn-warning" style="float:right;"><span class="fa fa-arrow-left"></span> Kembali</a>
         </div>
     </div>
@@ -169,6 +170,37 @@ Form Pameran
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="modal-export" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Setting Field</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span>Pilih field untuk ditampilkan :</span>
+                <div class="row">
+                    <div class="col-md-6" v-for="(field, index) in field_ukm" :key="index">
+                        <div class="form-check">
+                            <input :disabled="field.key == 'nama_usaha' ? true : false" v-model="field.checked" class="form-check-input" type="checkbox" value="" :id="field.key">
+                            <label class="form-check-label" :for="field.key">
+                                @{{ field.value }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button v-on:click="submitExport()" type="button" class="btn btn-success btn-sm"><span class="fa fa-file-excel"></span> Export</button>
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal"><span class="fa fa-times-circle"></span> Batal</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
 
 @endsection
 
@@ -185,163 +217,292 @@ Vue.directive('select', {
     },
 });
 var app = new Vue({
-        el: '#app',
-        data: {
-            api:{
-                "dataUkm": "/api/ukm"
+    el: '#app',
+    data: {
+        api:{
+            dataUkm: "/api/ukm",
+            export: "/intervensi/pameran/export"
+        },
+        intervensi: {
+            jenis_intervensi: "pameran",
+            nama_intervensi: "",
+            deskripsi: "",
+            lokasi: "",
+            tanggal_mulai: "",
+            tanggal_selesai: ""
+        },
+        intervensi_detail: [],
+        selectedDetail: "",
+        dataUkm: [],
+        intervensi_detail_delete: [],
+        mode: <?= json_encode($mode); ?>,
+        intervensi_detail_delete: [],
+        field_ukm:[
+            {
+                key: "nama_usaha",
+                value: "Nama UKM",
+                checked: true
             },
-            intervensi: {
-                jenis_intervensi: "pameran",
-                nama_intervensi: "",
-                deskripsi: "",
-                lokasi: "",
-                tanggal_mulai: "",
-                tanggal_selesai: ""
+            {
+                key: "nama_pemilik",
+                value: "Nama Pemilik",
+                checked: false
             },
-            intervensi_detail: [],
-            selectedDetail: "",
-            dataUkm: [],
-            intervensi_detail_delete: [],
-            mode: <?= json_encode($mode); ?>,
-            intervensi_detail_delete: []
+            {
+                key: "nik",
+                value: "NIK",
+                checked: false
+            },
+            {
+                key: "alamat",
+                value: "Alamat",
+                checked: false
+            },
+            {
+                key: "no_telp",
+                value: "Nomor Telpon",
+                checked: false
+            },
+            {
+                key: "jangkauan_pemasaran",
+                value: "Jangkauan Pemasaran",
+                checked: false
+            },
+            {
+                key: "email",
+                value: "Email",
+                checked: false
+            },
+            {
+                key: "no_siup",
+                value: "No SIUP",
+                checked: false
+            },
+            {
+                key: "no_nib",
+                value: "No NIB",
+                checked: false
+            },
+            {
+                key: "no_tdp",
+                value: "No TDP",
+                checked: false
+            },
+            {
+                key: "no_iumk",
+                value: "No IUMK",
+                checked: false
+            },
+            {
+                key: "no_pirt",
+                value: "No PIRT",
+                checked: false
+            },
+            {
+                key: "no_bpom",
+                value: "No BPOM",
+                checked: false
+            },
+            {
+                key: "jenis_produksi",
+                value: "Jenis Produksi",
+                checked: false
+            },
+            {
+                key: "tahun_binaan",
+                value: "Tahun Binaan",
+                checked: false
+            },
+            {
+                key: "status",
+                value: "Status",
+                checked: false
+            },
+            {
+                key: "npwp",
+                value: "NPWP",
+                checked: false
+            }
+
+        ],
+    },
+
+    mounted(){
+        this.getUkm();
+
+        if(this.mode == 'edit' || this.mode == 'view'){
+            this.initDataEdit();
+        }
+        else {
+            this.addDetail();
+        }
+
+    },
+
+    methods: {
+
+        initDataEdit(){
+            var data = <?= json_encode($intervensi); ?>;
+            console.log(data);
+            if(data.tanggal_mulai != null){
+                var tanggal_mulai = new Date(data.tanggal_mulai);
+                data.tanggal_mulai = tanggal_mulai.toString("yyyy-MM-dd");
+
+            }
+            if(data.tanggal_selesai != null){
+                var tanggal_selesai = new Date(data.tanggal_selesai);
+                data.tanggal_selesai = tanggal_selesai.toString("yyyy-MM-dd");
+
+            }
+
+
+            this.intervensi = data;
+
+            this.intervensi_detail = this.intervensi.intervensi_detail;
         },
 
-        mounted(){
-            this.getUkm();
-
-            if(this.mode == 'edit' || this.mode == 'view'){
-                this.initDataEdit();
-            }
-            else {
-                this.addDetail();
-            }
-
+        addDetail(){
+            this.intervensi_detail.push(
+                {
+                    id: "",
+                    ukm_id: "",
+                    ukm_nama: "",
+                    intervensi_id: "",
+                    keterangan: "",
+                    tanggal: "",
+                    readonly: false,
+                    status_binaan: true
+                }
+            )
         },
 
-        methods: {
+        changeStatusBinaan(detail){
+            detail.ukm_id = "";
+            detail.ukm_nama = "";
+        },
 
-            initDataEdit(){
-                var data = <?= json_encode($intervensi); ?>;
-                console.log(data);
-                if(data.tanggal_mulai != null){
-                    var tanggal_mulai = new Date(data.tanggal_mulai);
-                    data.tanggal_mulai = tanggal_mulai.toString("yyyy-MM-dd");
+        async getUkm(){
+            const response = await axios(this.api.dataUkm);
+            this.dataUkm = response.data;
 
-                }
-                if(data.tanggal_selesai != null){
-                    var tanggal_selesai = new Date(data.tanggal_selesai);
-                    data.tanggal_selesai = tanggal_selesai.toString("yyyy-MM-dd");
+            setTimeout(() => {
+                $("#table-ukm").DataTable();
+            }, 300);
+        },
 
-                }
+        inputUkm(indexDetail){
+            if (this.mode != 'view') {
+                $("#modal-ukm").modal("show");
+                this.selectedDetail = indexDetail;
+            }
+        },
 
+        selectUkm(index){
+            this.intervensi_detail[this.selectedDetail].ukm_id = this.dataUkm[index].id;
+            this.intervensi_detail[this.selectedDetail].ukm_nama = this.dataUkm[index].nama_usaha;
+            $("#modal-ukm").modal("hide");
 
-                this.intervensi = data;
+            this.$forceUpdate();
+        },
 
-                this.intervensi_detail = this.intervensi.intervensi_detail;
-            },
+        deleteDetail(intervensi, index){
 
-            addDetail(){
-                this.intervensi_detail.push(
-                    {
-                        id: "",
-                        ukm_id: "",
-                        ukm_nama: "",
-                        intervensi_id: "",
-                        keterangan: "",
-                        tanggal: "",
-                        readonly: false,
-                        status_binaan: true
+            if(intervensi.id != ""){
+                this.intervensi_detail_delete.push(intervensi.id);
+            }
+
+            this.intervensi_detail.splice(index, 1);
+        },
+
+        submit(){
+
+            var data = {
+                intervensi: this.intervensi,
+                intervensi_detail: this.intervensi_detail,
+                intervensi_detail_delete: this.intervensi_detail_delete
+            }
+
+            Swal.fire({
+                title: 'Apakah anda yakin ?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Mohon Tunggu !',
+                        html: '',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading()
+                        },
+                    });
+
+                    var url = "/intervensi/pameran/store";
+                    if(this.mode == "edit"){
+                        url = "/intervensi/pameran/update";
                     }
-                )
-            },
 
-            changeStatusBinaan(detail){
-                detail.ukm_id = "";
-                detail.ukm_nama = "";
-            },
-
-            async getUkm(){
-                const response = await axios(this.api.dataUkm);
-                this.dataUkm = response.data;
-
-                setTimeout(() => {
-                    $("#table-ukm").DataTable();
-                }, 300);
-            },
-
-            inputUkm(indexDetail){
-                if (this.mode != 'view') {
-                    $("#modal-ukm").modal("show");
-                    this.selectedDetail = indexDetail;
-                }
-            },
-
-            selectUkm(index){
-                this.intervensi_detail[this.selectedDetail].ukm_id = this.dataUkm[index].id;
-                this.intervensi_detail[this.selectedDetail].ukm_nama = this.dataUkm[index].nama_usaha;
-                $("#modal-ukm").modal("hide");
-
-                this.$forceUpdate();
-            },
-
-            deleteDetail(intervensi, index){
-
-                if(intervensi.id != ""){
-                    this.intervensi_detail_delete.push(intervensi.id);
-                }
-
-                this.intervensi_detail.splice(index, 1);
-            },
-
-            submit(){
-
-                var data = {
-                    intervensi: this.intervensi,
-                    intervensi_detail: this.intervensi_detail,
-                    intervensi_detail_delete: this.intervensi_detail_delete
-                }
-
-                Swal.fire({
-                    title: 'Apakah anda yakin ?',
-                    text: "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            title: 'Mohon Tunggu !',
-                            html: '',
-                            allowOutsideClick: false,
-                            onBeforeOpen: () => {
-                                Swal.showLoading()
-                            },
-                        });
-
-                        var url = "/intervensi/pameran/store";
-                        if(this.mode == "edit"){
-                            url = "/intervensi/pameran/update";
+                    axios.post(url, data).then(response => {
+                        if(response.data == "sukses"){
+                            Swal.close();
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Data Berhasil Disimpan',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            window.location = "/intervensi/pameran";
                         }
-
-                        axios.post(url, data).then(response => {
-                            if(response.data == "sukses"){
-                                Swal.close();
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: 'Data Berhasil Disimpan',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-                                window.location = "/intervensi/pameran";
-                            }
-                        });
-                    }
-                });
-            }
+                    });
+                }
+            });
         },
+
+        openModalExport(){
+            $("#modal-export").modal("show");
+        },
+
+        async submitExport(){
+            Swal.fire({
+                title: 'Mohon Tunggu !',
+                html: '',
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                },
+            });
+            let checkedField = [];
+            this.field_ukm.forEach((field, index) => {
+                if(field.checked == true){
+                    checkedField.push(field);
+                }
+            });
+
+            let data = {
+                id: this.intervensi.id,
+                field: checkedField
+            }
+
+            const response = await axios.post(this.api.export, data);
+
+            if(response.data.status == "S"){
+                var linkSource = response.data.excel;
+                var downloadLink = document.createElement("a");
+                var fileName = this.intervensi.nama_intervensi + '.xlsx';
+
+                downloadLink.href = linkSource;
+                downloadLink.download = fileName;
+                downloadLink.click();
+
+                Swal.close();
+            }
+        }
+    },
 });
 
 </script>

@@ -126,8 +126,14 @@ class PelatihanController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue("A1", "Nama Pelatihan : {$pelatihan['nama_intervensi']}");
         $sheet->setCellValue("A2", "Lokasi : {$pelatihan['lokasi']}");
-        $sheet->setCellValue("A3", "Tanggal Mulai : " . date("d-m-Y", strtotime($pelatihan['tanggal_mulai'])));
-        $sheet->setCellValue("A4", "Tanggal Selesai : " . date("d-m-Y", strtotime($pelatihan['tanggal_selesai'])));
+        if(date("d-m-Y", strtotime($pelatihan['tanggal_mulai'])) != null){
+            $tanggal_mulai = date("d-m-Y", strtotime($pelatihan['tanggal_mulai']));
+        }
+        if(date("d-m-Y", strtotime($pelatihan['tanggal_selesai'])) != null){
+            $tanggal_selesai = date("d-m-Y", strtotime($pelatihan['tanggal_selesai']));
+        }
+        $sheet->setCellValue("A3", "Tanggal Mulai : " . $tanggal_mulai);
+        $sheet->setCellValue("A4", "Tanggal Selesai : " . $tanggal_selesai);
         $sheet->setCellValue("A5", "Deskripsi : {$pelatihan['deskripsi']}");
         $sheet->setCellValue("A6", "Jumlah Peserta : " . count($data));
 

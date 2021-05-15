@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\intervensi\lainnyaController;
+use App\Http\Controllers\intervensi\LainnyaController;
 use App\Http\Controllers\Intervensi\PelatihanController;
 use App\Http\Controllers\Intervensi\PameranController;
 use App\Http\Controllers\Intervensi\SertifikasiHalalController;
@@ -81,7 +81,7 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/intervensi/pameran/store', [PameranController::class, 'store'])->name('intervensi');
     Route::post('/intervensi/pameran/update', [PameranController::class, 'update'])->name('intervensi');
     Route::get('/intervensi/pameran/view/{id}', [PameranController::class, 'view'])->name('intervensi');
-
+    Route::post('/intervensi/pameran/export', [PameranController::class, 'exportExcel'])->name('intervensi');
 
     Route::get('/importIntervensi', [PameranController::class, 'importUkmIntervensi']);
 
@@ -108,15 +108,17 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/intervensi/pemasaran/store', [PemasaranController::class, 'store'])->name('intervensi');
     Route::post('/intervensi/pemasaran/update', [PemasaranController::class, 'update'])->name('intervensi');
     Route::get('/intervensi/pemasaran/view/{id}', [PemasaranController::class, 'view'])->name('intervensi');
+    Route::post('/intervensi/pemasaran/export', [PemasaranController::class, 'exportExcel'])->name('intervensi');
 
 
     //LAINNYA
-    Route::get('/intervensi/lainnya', [lainnyaController::class, 'index'])->name('intervensi');
+    Route::get('/intervensi/lainnya', [LainnyaController::class, 'index'])->name('intervensi');
     Route::get('/intervensi/lainnya/create', [LainnyaController::class, 'create'])->name('intervensi');
     Route::get('/intervensi/lainnya/edit/{id}', [LainnyaController::class, 'edit'])->name('intervensi');
     Route::post('/intervensi/lainnya/store', [LainnyaController::class, 'store'])->name('intervensi');
     Route::post('/intervensi/lainnya/update', [LainnyaController::class, 'update'])->name('intervensi');
     Route::get('/intervensi/lainnya/view/{id}', [LainnyaController::class, 'view'])->name('intervensi');
+    Route::post('/intervensi/lainnya/export', [LainnyaController::class, 'exportExcel'])->name('intervensi');
 
 
     //REFERENSI
