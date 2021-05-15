@@ -31,12 +31,11 @@ Route::get('/', function () {
 });
 
 Route::get('/', [AuthController::class, 'showFormLogin'])->name('login');
-Route::get('login', [AuthController::class, 'showFormLogin'])->name('login');
+Route::get('login', [AuthController::class, 'showFormLogin']);
 Route::post('login', [AuthController::class, 'login']);
-Route::get('register', [AuthController::class, 'showFormRegister'])->name('register');
-Route::post('register', [AuthController::class, 'register']);
+Route::get('register', [AuthController::class, 'register']);
 
-// Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function () {
 
     //LOGIN
     Route::get('/logout', [AuthController::class, 'logout']);
@@ -140,9 +139,9 @@ Route::post('register', [AuthController::class, 'register']);
     Route::post('/monitoring/exportExcel', [MonitoringController::class, 'exportExcel'])->name('monitoring');
 
 
+    //API
+    Route::get('api/ukm', [UkmController::class, 'getAll']);
 
-// });
+});
 
 
-//API
-Route::get('api/ukm', [UkmController::class, 'getAll']);
