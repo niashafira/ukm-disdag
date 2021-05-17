@@ -138,9 +138,7 @@ Dashboard
             count_intervensi_year: "",
             year_now: "",
             count_jenis_intervensi: [],
-            jenis_intervensi: ['Pelatihan', 'Pameran', 'Pemasaran', 'Sertifikasi Halal', 'Sertifikasi Merek',
-                'Lainnya'
-            ],
+            jenis_intervensi: ['Pelatihan', 'Pameran', 'Pemasaran', 'Sertifikasi Halal', 'Sertifikasi Merek'],
             pertumbuhan_intervensi: []
         },
 
@@ -181,7 +179,7 @@ Dashboard
                             }
                         },
                     }],
-                    colors: ['#00e396', '#feb019', '#008ffb', '#ff4560', '#775dd0', '#a917bb']
+                    colors: ['#00e396', '#feb019', '#008ffb', '#ff4560', '#775dd0']
                 };
 
                 var chart = new ApexCharts(document.querySelector("#chart"), options);

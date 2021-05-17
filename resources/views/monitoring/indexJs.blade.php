@@ -19,8 +19,8 @@ var app = new Vue({
                 checked: true
             },
             {
-                key: "pameran",
-                jenis: "Pameran / Bazar",
+                key: "merek",
+                jenis: "Sertifikasi Merek",
                 checked: true
             },
             {
@@ -34,13 +34,8 @@ var app = new Vue({
                 checked: true
             },
             {
-                key: "merek",
-                jenis: "Sertifikasi Merek",
-                checked: true
-            },
-            {
-                key: "lainnya",
-                jenis: "Lainnya",
+                key: "pameran",
+                jenis: "Pameran / Bazar",
                 checked: true
             }
         ],
@@ -150,7 +145,7 @@ var app = new Vue({
                     },
                     pameran:{
                         offset: this.filterPameran.offset,
-                        checked: this.jenis_intervensi[2].checked
+                        checked: this.jenis_intervensi[5].checked
                     },
                     pemasaran:{
                         offset: this.filterPemasaran.offset,
@@ -162,7 +157,7 @@ var app = new Vue({
                     },
                     merek: {
                         offset: this.filterMerek.offset,
-                        checked: this.jenis_intervensi[5].checked
+                        checked: this.jenis_intervensi[2].checked
                     }
                 };
 

@@ -42,7 +42,7 @@ class DashboardController extends Controller
         $sertifikasi_merek = SertifikasiMerek::get();
         $count_sertifikasi_merek = $sertifikasi_merek->count();
 
-        $count_jenis_intervensi = [$count_pelatihan, $count_pameran, $count_pemasaran, $count_sertifikasi_halal, $count_sertifikasi_merek, $count_lainnya];
+        $count_jenis_intervensi = [$count_pelatihan, $count_pameran, $count_pemasaran, $count_sertifikasi_halal, $count_sertifikasi_merek];
 
         //GRAFIK PERTUMBUHAN INTERVENSI
         $pertumbuhan_intervensi = $this->pertumbuhanIntervensi();
