@@ -114,10 +114,10 @@ Form Pelatihan
                     <td>@{{ detail.keterangan }}</td>
                     <td class="text-center">
                         <div v-if="detail.status_binaan == true">
-                            <span class="badge badge-success">Binaan</span>
+                            <span class="badge badge-success">Terdaftar</span>
                         </div>
                         <div v-else>
-                            <span class="badge badge-warning">Bukan Binaan</span>
+                            <span class="badge badge-warning">Tidak Terdaftar</span>
                         </div>
                     </td>
                     <td class="text-center">
