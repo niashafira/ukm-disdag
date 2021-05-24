@@ -125,6 +125,24 @@ class UkmController extends Controller
 
     }
 
+    public function checkDuplicate(Request $request){
+        $data = Ukm::where('nik', '=', $request->nik)->get();
+        if($data === null){
+            return response()->json([
+                'status' => 'S',
+                'state' => 'NIK belum pernah digunakan'
+            ]);
+        }
+        else{
+            return response()->json([
+                'status' => 'E',
+                'msg' => 'NIK sudah pernah digunakan',
+                'data' => $data
+            ]);
+        }
+
+    }
+
     public function getAll(){
         $data_ukm = Ukm::get();
 

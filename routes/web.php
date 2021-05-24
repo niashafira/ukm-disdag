@@ -56,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ukm/importRevisiUkm', [UkmController::class, 'importRevisiUkm'])->name('ukm');
     Route::get('/ukm/exportExcel', [UkmController::class, 'exportExcel'])->name('ukm');
     Route::get('/ukm/updateField', [UkmController::class, 'updateField'])->name('ukm');
+    Route::post('/ukm/checkDuplicate', [UkmController::class, 'checkDuplicate'])->name('ukm');
     //OMSET
     Route::post('/ukm/omset/store', [UkmController::class, 'storeOmset'])->name('ukm');
     Route::post('/ukm/omset/update', [UkmController::class, 'updateOmset'])->name('ukm');

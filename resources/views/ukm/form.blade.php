@@ -184,8 +184,12 @@ Form UKM
                                             </div>
                                             <div class="col-xl-6">
                                                 <div class="form-group">
-                                                    <label>NIK Pemilik</label>
-                                                    <input v-model="ukm.nik" type="text" class="form-control form-control-solid form-control-lg" name="nikPemilik" placeholder="NIK Pemilik" />
+                                                    <label>
+                                                        NIK Pemilik
+                                                        <span style="cursor: pointer" v-on:click="openModalDuplicate()" v-if="this.statusDuplicate == true" class="badge badge-warning"><span class="fa flaticon-warning"></span> NIK sudah pernah terdaftar. Klik disini </span>
+                                                        <span v-if="this.statusDuplicate == false" class="badge badge-success"><span class="fa flaticon2-check-mark"></span> NIK belum pernah terdaftar. </span>
+                                                    </label>
+                                                    <input v-on:focusout="checkDuplicate()" v-model="ukm.nik" type="text" class="form-control form-control-solid form-control-lg" name="nikPemilik" placeholder="NIK Pemilik" />
                                                 </div>
                                             </div>
                                         </div>
@@ -429,6 +433,43 @@ Form UKM
         </div>
     </div>
 </div>
+
+<div id="modal-duplicate" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">UKM dengan NIK : @{{ duplicate.nik }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            <div class="modal-body table-responsive">
+                <table id="table-ukm" class="table table-bordered">
+                    <thead class="bg-primary">
+                    <tr>
+                        <th class="text-white">No</th>
+                        <th class="text-white">NIK</th>
+                        <th class="text-white">Nama UKM</th>
+                        <th class="text-white">Pemilik</th>
+                        <th class="text-white">Alamat</th>
+                        <th class="text-white">No Telfon</th>
+                    </tr>
+                    </thead>
+                    <tr v-for="(ukm, index) in duplicate.data" :key="index">
+                        <td>@{{ index + 1 }}</td>
+                        <td>@{{ ukm.nik }}</td>
+                        <td>@{{ ukm.nama_usaha }}</td>
+                        <td>@{{ ukm.nama_pemilik }}</td>
+                        <td>@{{ ukm.alamat }}</td>
+                        <td>@{{ ukm.no_telp }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @endsection
 
 @section('script')

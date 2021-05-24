@@ -3,7 +3,8 @@ var app = new Vue({
         el: '#app',
         data: {
             api:{
-                "dataUkm": "/api/ukm"
+                dataUkm: "/api/ukm",
+                checkDuplicate: "/ukm/checkDuplicate"
             },
             ukm: {
                 nama_pemilik: "",
@@ -27,7 +28,9 @@ var app = new Vue({
                 no_sertifikasi_halal: "",
                 no_sertifikasi_merek: "",
             },
-            omset: []
+            omset: [],
+            statusDuplicate: null,
+            duplicate: {}
 
         },
 
@@ -54,6 +57,25 @@ var app = new Vue({
                         $(this)[0].dispatchEvent(new Event('input'));
                     });
                 }, 100);
+            },
+
+            async checkDuplicate(){
+                this.statusDuplicate = null;
+                if(this.ukm.nik != ""){
+                    const response = await axios.post(this.api.checkDuplicate, {nik: this.ukm.nik});
+                    ((response.data.status == 'E') ? this.statusDuplicate = true : this.statusDuplicate = false)
+                    if(response.data.status == 'E'){
+                        this.statusDuplicate = true;
+                        this.duplicate.nik = this.ukm.nik;
+                        this.duplicate.data = response.data.data;
+
+                    }
+                }
+
+            },
+
+            openModalDuplicate(){
+                $("#modal-duplicate").modal("show");
             },
 
             simpan(){
