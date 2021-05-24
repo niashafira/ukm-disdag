@@ -37,7 +37,7 @@
         <div class="col-md-4 offset-md-4" style="margin-top: 2rem">
             <div class="card" style="background-color: #eceaea; box-shadow: 2px 2px #888888;">
                 <div class="card-header">
-                    <h5 class="text-center">SISTEM MANAJEMEN UMKM</h5>
+                    <h5 class="text-center">SISTEM INFORMASI UMKM</h5>
                 </div>
                 <form id="loginForm">
                 <div class="card-body">
