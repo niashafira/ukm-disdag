@@ -171,6 +171,14 @@ Form Intervensi Pemasaran
             <div class="modal-body">
                 <span>Pilih field untuk ditampilkan :</span>
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input v-model="semua" v-on:click="checkAll()" class="form-check-input" type="checkbox" value="" id="semua">
+                            <label class="form-check-label" for="semua">
+                                Pilih Semua
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-md-6" v-for="(field, index) in field_ukm" :key="index">
                         <div class="form-check">
                             <input :disabled="field.key == 'nama_usaha' ? true : false" v-model="field.checked" class="form-check-input" type="checkbox" value="" :id="field.key">
@@ -310,8 +318,8 @@ var app = new Vue({
                 value: "NPWP",
                 checked: false
             }
-
         ],
+        semua: false
     },
 
     mounted(){
@@ -365,6 +373,29 @@ var app = new Vue({
         changeStatusBinaan(detail){
             detail.ukm_id = "";
             detail.ukm_nama = "";
+        },
+
+        checkAll(){
+            let status = false;
+            if(this.semua == false){
+                status = true;
+            }
+            this.field_ukm.forEach((field, index) => {
+                if(field.key != "nama_usaha"){
+                    field.checked = status;
+                }
+            });
+        },
+
+        checkField(){
+            let status = true
+            for (let i = 0; i < this.field_ukm.length; i++) {
+                if(this.field_ukm[i].checked == false){
+                    status = false;
+                }
+            }
+
+            this.semua = status;
         },
 
         async getUkm(){

@@ -183,9 +183,17 @@ Form Pelatihan
             <div class="modal-body">
                 <span>Pilih field untuk ditampilkan :</span>
                 <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-check">
+                            <input v-model="semua" v-on:click="checkAll()" class="form-check-input" type="checkbox" value="" id="semua">
+                            <label class="form-check-label" for="semua">
+                                Pilih Semua
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-md-6" v-for="(field, index) in field_ukm" :key="index">
                         <div class="form-check">
-                            <input :disabled="field.key == 'nama_usaha' ? true : false" v-model="field.checked" class="form-check-input" type="checkbox" value="" :id="field.key">
+                            <input v-on:change="checkField()" :disabled="field.key == 'nama_usaha' ? true : false" v-model="field.checked" class="form-check-input" type="checkbox" value="" :id="field.key">
                             <label class="form-check-label" :for="field.key">
                                 @{{ field.value }}
                             </label>
@@ -284,11 +292,6 @@ var app = new Vue({
                 checked: false
             },
             {
-                key: "no_tdp",
-                value: "No TDP",
-                checked: false
-            },
-            {
                 key: "no_iumk",
                 value: "No IUMK",
                 checked: false
@@ -323,8 +326,8 @@ var app = new Vue({
                 value: "NPWP",
                 checked: false
             }
-
         ],
+        semua: false
     },
 
     mounted(){
@@ -385,6 +388,29 @@ var app = new Vue({
                 $("#modal-ukm").modal("show");
                 this.selectedDetail = indexDetail;
             }
+        },
+
+        checkAll(){
+            let status = false;
+            if(this.semua == false){
+                status = true;
+            }
+            this.field_ukm.forEach((field, index) => {
+                if(field.key != "nama_usaha"){
+                    field.checked = status;
+                }
+            });
+        },
+
+        checkField(){
+            let status = true
+            for (let i = 0; i < this.field_ukm.length; i++) {
+                if(this.field_ukm[i].checked == false){
+                    status = false;
+                }
+            }
+
+            this.semua = status;
         },
 
         selectUkm(index){
