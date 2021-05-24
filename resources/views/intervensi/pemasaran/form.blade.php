@@ -300,7 +300,7 @@ var app = new Vue({
             },
             {
                 key: "jenis_produksi",
-                value: "Jenis Produksi",
+                value: "Jenis Produk",
                 checked: false
             },
             {
