@@ -511,4 +511,27 @@ class UkmController extends Controller
             }
         }
     }
+
+    public function compareBinaan(){
+        $path = storage_path() . "/data/ukm_binaan.xlsx";
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
+        $spreadsheet->setActiveSheetIndex(0);
+        $dataArray = $spreadsheet->getActiveSheet()->rangeToArray('B3:I202',NULL,TRUE,TRUE,TRUE);
+        $final = [];
+        foreach ($dataArray as $source) {
+            $ukm = Ukm::where('nik', '=', $source['D'])
+            ->orWhere('nama_usaha', '=', $source['B'])
+            ->first();
+
+            $result['new'] = $source;
+            // $result['exist'] = $ukm;
+
+            if($ukm === null){
+                array_push($final, $result);
+            }
+
+        }
+
+        echo json_encode($final);
+    }
 }

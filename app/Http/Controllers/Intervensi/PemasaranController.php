@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use DataTables;
 
 class PemasaranController extends Controller
 {
@@ -96,6 +97,13 @@ class PemasaranController extends Controller
         }
 
         echo json_encode("sukses");
+    }
+
+    public function getListDT(Request $request){
+        $data = Intervensi::whereBetween('tanggal_mulai', [$request->input('tanggalMulai'), $request->input('tanggalSelesai')])
+                ->where('jenis_intervensi', '=', 'pemasaran');
+
+        return Datatables::of($data)->make(true);
     }
 
     public function exportExcel(Request $request){

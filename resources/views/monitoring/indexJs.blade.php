@@ -4,7 +4,12 @@ var app = new Vue({
     data: {
         url:{
             filter: "/monitoring/filter",
-            exportExcel: "/monitoring/exportExcel"
+            exportExcel: "/monitoring/exportExcel",
+            pelatihanDT: "/intervensi/pelatihan/getListDT",
+            pameranDT: "/intervensi/pameran/getListDT",
+            pemasaranDT: "/intervensi/pemasaran/getListDT",
+            halalDT: "/intervensi/SertifikasiHalal/getListDT",
+            merekDT: "/intervensi/SertifikasiMerek/getListDT",
         },
 
         jenis_intervensi:[
@@ -39,59 +44,59 @@ var app = new Vue({
                 checked: true
             }
         ],
-        tanggal_mulai: "2017-01-01",
-        tanggal_selesai: "2021-06-05",
-        kata_kunci: "",
-        dataIntervensi: [],
-        dataIntervensiCount: 0,
-        intervenProp: {
-            offset: 0,
-            noStart: 0,
-            noEnd: 0
-        },
-        filterHalal:{
-            offset: 0,
-            noStart: 0,
-            noEnd: 0
-        },
-        filterMerek:{
-            offset: 0,
-            noStart: 0,
-            noEnd: 0
-        },
-        filterPelatihan:{
-            offset: 0,
-            noStart: 0,
-            noEnd: 0
-        },
-        filterPameran:{
-            offset: 0,
-            noStart: 0,
-            noEnd: 0
-        },
-        filterPemasaran:{
-            offset: 0,
-            noStart: 0,
-            noEnd: 0
-        },
-        dataHalal: [],
-        dataHalalCount: "",
-        dataMerek: [],
-        dataMerekCount: "",
-        dataPelatihan: [],
-        dataPelatihanCount: "",
-        dataPameran: [],
-        dataPameranCount: "",
-        dataPemasaran: [],
-        dataPemasaranCount: ""
+        tanggal_mulai: "01/01/2017",
+        tanggal_selesai: new Date().toString("MM/dd/yyyy"),
+        intervensiTabs: [
+            {
+                nama: "Pelatihan",
+                id: "tab-pelatihan",
+                icon: "flaticon2-line-chart",
+                active: true
+            },
+            {
+                nama: "Bazar/Pameran",
+                id: "tab-pameran",
+                icon: "flaticon-business",
+                active: true
+            },
+            {
+                nama: "Pemasaran",
+                id: "tab-pemasaran",
+                icon: "flaticon2-shopping-cart",
+                active: true
+            },
+            {
+                nama: "Sertifikasi Halal",
+                id: "tab-halal",
+                icon: "flaticon-file-2",
+                active: true
+            },
+            {
+                nama: "Sertifikasi Merek",
+                id: "tab-merek",
+                icon: "flaticon-clipboard",
+                active: true
+            },
+        ],
+        dataTable:{}
+
     },
 
     async mounted(){
-        await this.submitFilter('new');
-        this.setPaginataion();
+        this.initDateRange();
+        this.getPelatihanDT();
+        this.getPameranDT();
+        this.getPemasaranDT();
+        this.getHalalDT();
+        this.getMerekDT();
+        this.setActiveTab();
     },
 
     methods: {
+        initDateRange(){
+            $("#date-range").val(this.tanggal_mulai + " - " + this.tanggal_selesai);
+        },
+
         onChangeIntervensi(jenis){
             if(jenis.jenis == "Semua"){
                 if(jenis.checked == true){
@@ -117,300 +122,329 @@ var app = new Vue({
 
         },
 
-        async submitFilter(type){
-            if(type == 'new'){
-                this.intervenProp.offset = 0;
-            }
-            var checked_jenis = [];
-            for (let i = 1; i < this.jenis_intervensi.length; i++) {
-                if(this.jenis_intervensi[i].checked == true){
-                    checked_jenis.push(this.jenis_intervensi[i]);
-                }
-
+        submitFilter(){
+            if(!this.validateIntervensi()){
+                alert("Jenis intervensi tidak boleh kosong");
+                return false;
             }
 
-            if(checked_jenis.length == 0){
-                alert("Jenis Intervensi tidak boleh kosong");
+            //PELATIHAN
+            if(this.jenis_intervensi[1].checked == true){
+                this.getPelatihanDT();
+                this.intervensiTabs[0].active = true;
             }
             else{
-                var data = {
-                    jenis_intervensi: checked_jenis,
-                    tanggal_mulai: this.tanggal_mulai,
-                    tanggal_selesai: this.tanggal_selesai,
-                    kata_kunci: this.kata_kunci,
-                    offset: this.intervenProp.offset,
-                    pelatihan:{
-                        offset: this.filterPelatihan.offset,
-                        checked: this.jenis_intervensi[1].checked
-                    },
-                    pameran:{
-                        offset: this.filterPameran.offset,
-                        checked: this.jenis_intervensi[5].checked
-                    },
-                    pemasaran:{
-                        offset: this.filterPemasaran.offset,
-                        checked: this.jenis_intervensi[3].checked
-                    },
-                    halal: {
-                        offset: this.filterHalal.offset,
-                        checked: this.jenis_intervensi[4].checked
-                    },
-                    merek: {
-                        offset: this.filterMerek.offset,
-                        checked: this.jenis_intervensi[2].checked
-                    }
-                };
+                this.intervensiTabs[0].active = false;
+            }
 
-                const response = await axios.post(this.url.filter, data);
-                if(response.data.status == "S"){
+            //MEREK
+            if(this.jenis_intervensi[2].checked == true){
+                this.getMerekDT();
+                this.intervensiTabs[4].active = true;
+            }
+            else{
+                this.intervensiTabs[4].active = false;
+            }
 
-                    if(response.data.data.length > 0){
-                        this.dataIntervensi = response.data.data;
-                        this.dataIntervensiCount = response.data.count[0].count;
-                        this.dataIntervensi.forEach((intervensi) => {
-                            if(intervensi.tanggal_mulai != undefined){
-                                intervensi.tanggal_mulai = new Date(intervensi.tanggal_mulai).toString("dd MMMM yyyy");
-                            }
-                            if(intervensi.tanggal_selesai != undefined){
-                                intervensi.tanggal_selesai = new Date(intervensi.tanggal_selesai).toString("dd MMMM yyyy");
-                            }
-                        });
-                        this.intervenProp.noStart = this.intervenProp.offset + 1;
-                        this.intervenProp.noEnd = this.intervenProp.offset + this.dataIntervensi.length;
-                    }
-                    else{
-                        this.this.intervenProp.offset = 0;
-                        this.intervenProp.noStart = 0;
-                        this.intervenProp.noEnd = 0;
-                        this.dataIntervensiCount = 0;
-                        this.dataIntervensi = [];
-                    }
+            //PEMASARAN
+            if(this.jenis_intervensi[3].checked == true){
+                this.getPemasaranDT();
+                this.intervensiTabs[2].active = true;
+            }
+            else{
+                this.intervensiTabs[2].active = false;
+            }
 
-                    //SERTIFIKASI HALAL
-                    if(response.data.halal.length > 0){
-                        this.dataHalal = response.data.halal;
-                        this.dataHalal.forEach((halal, index) => {
-                            halal.tgl_permohonan = new Date(halal.tgl_permohonan).toString("dd MMMM yyyy");
+            //HALAL
+            if(this.jenis_intervensi[4].checked == true){
+                this.getHalalDT();
+                this.intervensiTabs[3].active = true;
+            }
+            else{
+                this.intervensiTabs[3].active = false;
+            }
 
-                            if(halal.tgl_sertifikat != undefined){
-                                halal.tgl_sertifikat = new Date(halal.tgl_sertifikat).toString("dd MMMM yyyy");
-                            }
+            //PAMERAN
+            if(this.jenis_intervensi[5].checked == true){
+                this.getPameranDT();
+                this.intervensiTabs[1].active = true;
+            }
+            else{
+                this.intervensiTabs[1].active = false;
+            }
 
-                            if(halal.status == "ditolak"){
-                                halal.status = "Ditolak"
-                            }
-                            else if(halal.status == "proses_cetak"){
-                                halal.status = "Menunggu Proses Cetak"
-                            }
-                            else if(halal.status == "menunggu_tanggapan"){
-                                halal.status = "Menunggu Tanggapan"
-                            }
-                            else if(halal.status == "sudah_keluar_sertifikat"){
-                                halal.status = "Sudah Keluar Sertifikat"
-                            }
-                        });
-                        this.dataHalalCount = response.data.count_halal[0].count;
-                        this.filterHalal.noStart = this.filterHalal.offset + 1;
-                        this.filterHalal.noEnd = this.filterHalal.offset + this.dataHalal.length;
-                    }
-                    else{
-                        this.filterHalal.offset = 0;
-                        this.filterHalal.noStart = 0;
-                        this.filterHalal.noEnd = 0;
-                        this.dataHalalCount = 0;
-                        this.dataHalal = [];
-                    }
+            setTimeout( () => {
+                this.setActiveTab();
+            }, 10);
 
-                    //SERTIFIKASI MEREK
-                    if(response.data.merek.length > 0){
-                        this.dataMerek = response.data.merek;
-                        this.dataMerek.forEach((merek, index) => {
-                            merek.tgl_berkas_kemenkumham = new Date(merek.tgl_berkas_kemenkumham).toString("dd MMMM yyyy");
+        },
 
-                            if(merek.tgl_sertifikat != undefined){
-                                merek.tgl_sertifikat = new Date(merek.tgl_sertifikat).toString("dd MMMM yyyy");
-                            }
+        validateIntervensi(){
+            for (let i = 0; i < this.jenis_intervensi.length; i++) {
+                if(this.jenis_intervensi[i].checked == true) return true;
+            }
 
-                            if(merek.status == "ditolak"){
-                                merek.status = "Ditolak"
-                            }
-                            else if(merek.status == "proses_cetak"){
-                                merek.status = "Menunggu Proses Cetak"
-                            }
-                            else if(merek.status == "menunggu_tanggapan"){
-                                merek.status = "Menunggu Tanggapan"
-                            }
-                            else if(merek.status == "sudah_keluar_sertifikat"){
-                                merek.status = "Sudah Keluar Sertifikat"
-                            }
-                        });
-                        this.dataMerekCount = response.data.count_merek[0].count;
-                        this.filterMerek.noStart = this.filterMerek.offset + 1;
-                        this.filterMerek.noEnd = this.filterMerek.offset + this.dataMerek.length;
-                    }
-                    else{
-                        this.filterMerek.offset = 0;
-                        this.filterMerek.noStart = 0;
-                        this.filterMerek.noEnd = 0;
-                        this.dataMerekCount = 0;
-                        this.dataMerek = [];
-                    }
+            return false;
+        },
 
-                    //PELATIHAN
-                    if(response.data.pelatihan.length > 0){
-                        this.dataPelatihan = response.data.pelatihan;
-                        this.dataPelatihan.forEach((pelatihan, index) => {
-                            if(pelatihan.tanggal_mulai != undefined){
-                                pelatihan.tanggal_mulai = new Date(pelatihan.tanggal_mulai).toString("dd MMMM yyyy");
-                            }
-                            if(pelatihan.tanggal_selesai != undefined){
-                                pelatihan.tanggal_selesai = new Date(pelatihan.tanggal_selesai).toString("dd MMMM yyyy");
-                            }
-
-                        });
-                        this.dataPelatihanCount = response.data.count_pelatihan[0].count;
-                        this.filterPelatihan.noStart = this.filterPelatihan.offset + 1;
-                        this.filterPelatihan.noEnd = this.filterPelatihan.offset + this.dataPelatihan.length;
-                    }
-                    else{
-                        this.filterPelatihan.offset = 0;
-                        this.filterPelatihan.noStart = 0;
-                        this.filterPelatihan.noEnd = 0;
-                        this.dataPelatihanCount = 0;
-                        this.dataPelatihan = [];
-                    }
-
-                    //PAMERAN
-                    if(response.data.pameran.length > 0){
-                        this.dataPameran = response.data.pameran;
-                        this.dataPameran.forEach((pameran, index) => {
-                            if(pameran.tanggal_mulai != undefined){
-                                pameran.tanggal_mulai = new Date(pameran.tanggal_mulai).toString("dd MMMM yyyy");
-                            }
-                            if(pameran.tanggal_selesai != undefined){
-                                pameran.tanggal_selesai = new Date(pameran.tanggal_selesai).toString("dd MMMM yyyy");
-                            }
-
-                        });
-                        this.dataPameranCount = response.data.count_pameran[0].count;
-                        this.filterPameran.noStart = this.filterPameran.offset + 1;
-                        this.filterPameran.noEnd = this.filterPameran.offset + this.dataPameran.length;
-                    }
-                    else{
-                        this.filterPameran.offset = 0;
-                        this.filterPameran.noStart = 0;
-                        this.filterPameran.noEnd = 0;
-                        this.dataPameranCount = 0;
-                        this.dataPameran = [];
-                    }
-
-                    //PAMERAN
-                    if(response.data.pemasaran.length > 0){
-                        this.dataPemasaran = response.data.pemasaran;
-                        this.dataPemasaran.forEach((pemasaran, index) => {
-                            if(pemasaran.tanggal_mulai != undefined){
-                                pemasaran.tanggal_mulai = new Date(pemasaran.tanggal_mulai).toString("dd MMMM yyyy");
-                            }
-                            if(pemasaran.tanggal_selesai != undefined){
-                                pemasaran.tanggal_selesai = new Date(pemasaran.tanggal_selesai).toString("dd MMMM yyyy");
-                            }
-
-                        });
-                        this.dataPemasaranCount = response.data.count_pemasaran[0].count;
-                        this.filterPemasaran.noStart = this.filterPemasaran.offset + 1;
-                        this.filterPemasaran.noEnd = this.filterPemasaran.offset + this.dataPemasaran.length;
-                    }
-                    else{
-                        this.filterPemasaran.offset = 0;
-                        this.filterPemasaran.noStart = 0;
-                        this.filterPemasaran.noEnd = 0;
-                        this.dataPemasaranCount = 0;
-                        this.dataPemasaran = [];
-                    }
-
-                    if(type == "new"){
-                        await this.setPaginataion();
-                        this.setPaginataion();
-                    }
+        setActiveTab(){
+            for (let i = 0; i < this.intervensiTabs.length; i++) {
+                if(this.intervensiTabs[i].active == true){
+                    $("#link-"+this.intervensiTabs[i].id).click();
+                    return false;
                 }
             }
         },
 
-        setPaginataion(){
-            $("#paginationIntervensi").pagination({
-                items: app.dataIntervensiCount,
-                itemsOnPage: 10,
-                cssStyle: 'light-theme',
-                prevText: "Sebelumnya",
-                nextText: "Selanjutnya",
-                onPageClick: function(pageNumber) {
-                    app.intervenProp.offset = (pageNumber - 1) * 10;
-                    app.submitFilter("changePage");
-                }
+        getPelatihanDT(){
+            this.dataTable.pelatihan = $('#table-pelatihan').DataTable({
+                processing: true,
+                serverSide: true,
+                destroy: true,
+                ajax: {
+                    url: this.url.pelatihanDT,
+                    data: (d) => {
+                        return $.extend( {}, d, {
+                            tanggalMulai: new Date(this.tanggal_mulai).toString("yyyy-MM-dd"),
+                            tanggalSelesai: new Date(this.tanggal_selesai).toString("yyyy-MM-dd")
+                        });
+                    }
+                },
+                columns: [
+                    {
+                        data: null,
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'nama_intervensi'},
+                    {data: 'lokasi'},
+                    {
+                        data: 'tanggal_mulai',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            return new Date(row.tanggal_mulai).toString("dd MMMM yyyy")
+                        }
+                    },
+                    {
+                        data: 'tanggal_selesai',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            return new Date(row.tanggal_selesai).toString("dd MMMM yyyy")
+                        }
+                    },
+                    {data: 'deskripsi'}
+                ]
             });
+        },
 
-            $("#paginationHalal").pagination({
-                items: app.dataHalalCount,
-                itemsOnPage: 10,
-                cssStyle: 'light-theme',
-                prevText: "Sebelumnya",
-                nextText: "Selanjutnya",
-                onPageClick: function(pageNumber) {
-                    app.filterHalal.offset = (pageNumber - 1) * 10;
-                    app.submitFilter("changePage");
-                }
+        getPameranDT(){
+            this.dataTable.pameran = $('#table-pameran').DataTable({
+                processing: true,
+                serverSide: true,
+                destroy: true,
+                ajax: {
+                    url: this.url.pameranDT,
+                    data: (d) => {
+                        return $.extend( {}, d, {
+                            tanggalMulai: new Date(this.tanggal_mulai).toString("yyyy-MM-dd"),
+                            tanggalSelesai: new Date(this.tanggal_selesai).toString("yyyy-MM-dd")
+                        });
+                    }
+                },
+                columns: [
+                    {
+                        data: null,
+                        sortable: false,
+                        sortable: false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'nama_intervensi'},
+                    {data: 'lokasi'},
+                    {
+                        data: 'tanggal_mulai',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            return new Date(row.tanggal_mulai).toString("dd MMMM yyyy")
+                        }
+                    },
+                    {
+                        data: 'tanggal_selesai',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            return new Date(row.tanggal_selesai).toString("dd MMMM yyyy")
+                        }
+                    },
+                    {data: 'deskripsi'}
+                ]
             });
+        },
 
-            $("#paginationMerek").pagination({
-                items: app.dataMerekCount,
-                itemsOnPage: 10,
-                cssStyle: 'light-theme',
-                prevText: "Sebelumnya",
-                nextText: "Selanjutnya",
-                onPageClick: function(pageNumber) {
-                    app.filterMerek.offset = (pageNumber - 1) * 10;
-                    app.submitFilter("changePage");
-                }
+        getPemasaranDT(){
+            this.dataTable.pemasaran = $('#table-pemasaran').DataTable({
+                processing: true,
+                serverSide: true,
+                destroy: true,
+                ajax: {
+                    url: this.url.pemasaranDT,
+                    data: (d) => {
+                        return $.extend( {}, d, {
+                            tanggalMulai: new Date(this.tanggal_mulai).toString("yyyy-MM-dd"),
+                            tanggalSelesai: new Date(this.tanggal_selesai).toString("yyyy-MM-dd")
+                        });
+                    }
+                },
+                columns: [
+                    {
+                        data: null,
+                        sortable: false,
+                        sortable: false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'nama_intervensi'},
+                    {data: 'lokasi'},
+                    {
+                        data: 'tanggal_mulai',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            return new Date(row.tanggal_mulai).toString("dd MMMM yyyy")
+                        }
+                    },
+                    {
+                        data: 'tanggal_selesai',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            return new Date(row.tanggal_selesai).toString("dd MMMM yyyy")
+                        }
+                    },
+                    {data: 'deskripsi'}
+                ]
             });
+        },
 
-            $("#paginationPelatihan").pagination({
-                items: app.dataPelatihanCount,
-                itemsOnPage: 10,
-                cssStyle: 'light-theme',
-                prevText: "Sebelumnya",
-                nextText: "Selanjutnya",
-                onPageClick: function(pageNumber) {
-                    app.filterPelatihan.offset = (pageNumber - 1) * 10;
-                    app.submitFilter("changePage");
-                }
+        getHalalDT(){
+            this.dataTable.halal = $('#table-halal').DataTable({
+                processing: true,
+                serverSide: true,
+                destroy: true,
+                ajax: {
+                    url: this.url.halalDT,
+                    data: (d) => {
+                        return $.extend( {}, d, {
+                            tanggalMulai: new Date(this.tanggal_mulai).toString("yyyy-MM-dd"),
+                            tanggalSelesai: new Date(this.tanggal_selesai).toString("yyyy-MM-dd")
+                        });
+                    }
+                },
+                columns: [
+                    {
+                        data: null,
+                        sortable: false,
+                        sortable: false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'nama_usaha'},
+                    {
+                        data: 'tgl_permohonan',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            return new Date(row.tgl_permohonan).toString("dd MMMM yyyy")
+                        }
+                    },
+                    {
+                        data: 'status',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            if(row.status == "sudah_keluar_sertifikat") return "Sudah Keluar Sertifikat";
+                            else if(row.status == "didaftar") return "Didaftar";
+                            else if(row.status == "ditolak") return "Ditolak";
+                        }
+                    },
+                    {data: 'no_sertifikat'},
+                    {
+                        data: 'tgl_sertifikat',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            if(row.tgl_sertifikat == null) return row.tgl_sertifikat;
+                            return new Date(row.tgl_sertifikat).toString("dd MMMM yyyy");
+                        }
+                    },
+                    {data: 'keterangan'}
+                ]
             });
+        },
 
-            $("#paginationPemasaran").pagination({
-                items: app.dataPemasaranCount,
-                itemsOnPage: 10,
-                cssStyle: 'light-theme',
-                prevText: "Sebelumnya",
-                nextText: "Selanjutnya",
-                onPageClick: function(pageNumber) {
-                    app.filterPemasaran.offset = (pageNumber - 1) * 10;
-                    app.submitFilter("changePage");
-                }
-            });
-
-            $("#paginationPameran").pagination({
-                items: app.dataPameranCount,
-                itemsOnPage: 10,
-                cssStyle: 'light-theme',
-                prevText: "Sebelumnya",
-                nextText: "Selanjutnya",
-                onPageClick: function(pageNumber) {
-                    app.filterPameran.offset = (pageNumber - 1) * 10;
-                    app.submitFilter("changePage");
-                }
+        getMerekDT(){
+            this.dataTable.merek = $('#table-merek').DataTable({
+                processing: true,
+                serverSide: true,
+                destroy: true,
+                ajax: {
+                    url: this.url.merekDT,
+                    data: (d) => {
+                        return $.extend( {}, d, {
+                            tanggalMulai: new Date(this.tanggal_mulai).toString("yyyy-MM-dd"),
+                            tanggalSelesai: new Date(this.tanggal_selesai).toString("yyyy-MM-dd")
+                        });
+                    }
+                },
+                columns: [
+                    {
+                        data: null,
+                        sortable: false,
+                        sortable: false,
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {data: 'nama_usaha'},
+                    {data: 'nama_merek'},
+                    {data: 'no_permohonan'},
+                    {
+                        data: 'tgl_berkas_kemenkumham',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            if(row.tgl_berkas_kemenkumham == null) return row.tgl_berkas_kemenkumham;
+                            return new Date(row.tgl_berkas_kemenkumham).toString("dd MMMM yyyy");
+                        }
+                    },
+                    {
+                        data: 'status',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            if(row.status == "sudah_keluar_sertifikat") return "Sudah Keluar Sertifikat";
+                            else if(row.status == "proses_cetak") return "Proses Cetak";
+                            else if(row.status == "menunggu_tanggapan") return "Menuggu Tanggapan";
+                            else if(row.status == "ditolak") return "Ditolak";
+                        }
+                    },
+                    {data: 'no_sertifikat'},
+                    {
+                        data: 'tgl_sertifikat',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            if(row.tgl_sertifikat == null) return row.tgl_sertifikat;
+                            return new Date(row.tgl_sertifikat).toString("dd MMMM yyyy");
+                        }
+                    },
+                ]
             });
         },
 
         async exportExcel(){
+            if(!this.validateIntervensi()){
+                alert("Jenis intervensi tidak boleh kosong");
+                return false;
+            }
+
             Swal.fire({
                 title: 'Mohon Tunggu !',
                 html: '',
@@ -420,9 +454,12 @@ var app = new Vue({
                 },
             });
 
+            let tanggal_mulai = new Date(this.tanggal_mulai).toString('dd-MM-yyyy');
+            let tanggal_selesai = new Date(this.tanggal_selesai).toString('dd-MM-yyyy');
+
             var data = {
-                tanggal_mulai: this.tanggal_mulai,
-                tanggal_selesai: this.tanggal_selesai,
+                tanggal_mulai: tanggal_mulai,
+                tanggal_selesai: tanggal_selesai,
                 kata_kunci: this.kata_kunci,
                 pelatihan:{
                     checked: this.jenis_intervensi[1].checked

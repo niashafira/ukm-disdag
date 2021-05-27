@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB as DB;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
+use DataTables;
 
 class PelatihanController extends Controller
 {
@@ -62,6 +63,13 @@ class PelatihanController extends Controller
         }
 
         echo json_encode("sukses");
+    }
+
+    public function getListDT(Request $request){
+        $data = Intervensi::whereBetween('tanggal_mulai', [$request->input('tanggalMulai'), $request->input('tanggalSelesai')])
+                ->where('jenis_intervensi', '=', 'pelatihan');
+
+        return Datatables::of($data)->make(true);
     }
 
     public function update(Request $request)

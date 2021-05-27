@@ -7,6 +7,7 @@ use App\Models\IntervensiDetail;
 use App\Models\SertifikasiMerek;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as DB;
+use DataTables;
 
 class SertifikasiMerekController extends Controller
 {
@@ -60,5 +61,18 @@ class SertifikasiMerekController extends Controller
         $intervensi->update($input);
 
         echo json_encode("sukses");
+    }
+
+    public function getListDT(Request $request){
+        $data = DB::select("
+        SELECT a.nama_merek, a.no_permohonan, a.tgl_berkas_kemenkumham, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+        from ukm_disdag.sertifikasi_merek AS a
+        INNER JOIN ukm_disdag.ukm AS b
+        ON b.id = a.ukm_id
+        WHERE a.tgl_berkas_kemenkumham between '{$request->input('tanggalMulai')}' AND '{$request->input('tanggalSelesai')}'
+        ORDER BY a.tgl_berkas_kemenkumham DESC"
+    );
+
+        return Datatables::of($data)->make(true);
     }
 }

@@ -10,6 +10,7 @@ use App\Models\Ukm;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use DataTables;
 
 class PameranController extends Controller
 {
@@ -94,6 +95,13 @@ class PameranController extends Controller
         }
 
         echo json_encode("sukses");
+    }
+
+    public function getListDT(Request $request){
+        $data = Intervensi::whereBetween('tanggal_mulai', [$request->input('tanggalMulai'), $request->input('tanggalSelesai')])
+                ->where('jenis_intervensi', '=', 'pameran');
+
+        return Datatables::of($data)->make(true);
     }
 
     public function importUkmIntervensi(){

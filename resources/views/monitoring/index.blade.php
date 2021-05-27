@@ -39,6 +39,15 @@ Monitoring Intervensi
         .checkbox-menu li.active label:focus {
             background-color: #b8b8ff;
         }
+
+        .dataTables_wrapper .dataTable th.sorting_asc, .dataTables_wrapper .dataTable td.sorting_asc{
+            color: white !important;
+        }
+
+        .dataTables_wrapper .dataTable th.sorting_desc, .dataTables_wrapper .dataTable td.sorting_desc{
+            color: white !important;
+        }
+
     </style>
 @endsection
 
@@ -70,27 +79,26 @@ Monitoring Intervensi
                     <h5>Tanggal Intervensi</h5>
                     <hr>
                     <div class="form-group">
-                        <input class="form-control" type="text" name="daterange" value="01/01/2017 - 05/06/2021" />
+                        <input id="date-range" class="form-control" type="text" name="daterange" value="" />
                     </div>
                 </div>
-
-                {{-- <div class="col-md-4">
-                    <h5>Spesifik Kata Kunci</h5>
-                    <hr>
-                    <div class="form-group">
-                        <input v-model="kata_kunci" class="form-control" type="text" placeholder="Spesifik kata kunci" />
-                    </div>
-                </div> --}}
 
             </div>
 
-            <div class="row d-flex justify-content-center" style="margin-top:3%">
-                <div class="col-md-6">
-                    <button id="btn-filter" class="btn btn-sm btn-success btn-block" v-on:click="exportExcel()"><span class="fa fa-file-excel"></span> Export Excel</button>
+            <div class="row d-flex justify-content-end" style="margin-top:3%">
+                <div class="col-md-3">
+                    {{-- <div class="btn-group" role="group" aria-label="Basic example">
+
+                    </div> --}}
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <button id="btn-filter" class="btn btn-sm btn-success mr-2" v-on:click="exportExcel()"><span class="fa fa-file-excel"></span> Export Excel</button>
+                        <button id="btn-filter" class="btn btn-sm btn-info mr-2" v-on:click="submitFilter('new')"><span class="fa fa-filter"></span> Filter</button>
+                    </div>
+                    {{-- <button id="btn-filter" class="btn btn-sm btn-success" v-on:click="exportExcel()"><span class="fa fa-file-excel"></span> Export Excel</button> --}}
                 </div>
-                <div class="col-md-6">
-                    <button id="btn-filter" class="btn btn-sm btn-info btn-block" v-on:click="submitFilter('new')"><span class="fa fa-filter"></span> Filter</button>
-                </div>
+                {{-- <div class="col-md-3">
+                    <button id="btn-filter" class="btn btn-sm btn-info" v-on:click="submitFilter('new')"><span class="fa fa-filter"></span> Filter</button>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -98,192 +106,112 @@ Monitoring Intervensi
 
 <div class="row" style="margin-top: 3%">
     <div class="col-md-12">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" v-for="(tab, index) in intervensiTabs" :key="index" v-if="tab.active == true">
+                <a :id="'link-' + tab.id" class="nav-link" data-toggle="tab" :href="'#'+tab.id">
+                    <span class="nav-icon">
+                        <i :class="tab.icon"></i>
+                    </span>
+                    <span class="nav-text">@{{ tab.nama }}</span>
+                </a>
+            </li>
+        </ul>
 
-        {{-- PELATIHAN --}}
-        <div v-if="dataPelatihanCount > 0">
-            <h3 style="margin-top: 5%">Data Pelatihan</h3>
-            <hr>
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="bg-primary text-white">
-                        <th class="text-center">Nama</th>
-                        <th class="text-center">Lokasi</th>
-                        <th class="text-center">Deskripsi</th>
-                        <th class="text-nowrap text-center">Tanggal Mulai</th>
-                        <th class="text-nowrap text-center">Tanggal Selesai</th>
-                        <th class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(pelatihan, index) in dataPelatihan" :key="index">
-                        <td>@{{ pelatihan.nama_intervensi }}</td>
-                        <td>@{{ pelatihan.lokasi }}</td>
-                        <td>@{{ pelatihan.deskripsi }}</td>
-                        <td>@{{ pelatihan.tanggal_mulai }}</td>
-                        <td>@{{ pelatihan.tanggal_selesai }}</td>
-                        <td><a :href="'/intervensi/pelatihan/view/' + pelatihan.id" target="_blank" class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</a></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col-md-4">
-                    <span>Menampilkan @{{ filterPelatihan.noStart }} - @{{ filterPelatihan.noEnd }} dari @{{ dataPelatihanCount }} data</span>
-                </div>
-                <div class="col-md-8 d-flex justify-content-end">
-                    <div id="paginationPelatihan"></div>
+        <div class="tab-content mt-5" id="myTabContent">
+            <div class="tab-pane fade active show" id="tab-pelatihan" role="tabpanel" aria-labelledby="tab-pelatihan">
+                <div class="col-md-12 table-responsive">
+                    <table id="table-pelatihan" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-white bg-primary">No</th>
+                                <th class="text-white bg-primary">Nama Pelatihan</th>
+                                <th class="text-white bg-primary">Lokasi</th>
+                                <th class="text-white bg-primary">Tanggal Mulai</th>
+                                <th class="text-white bg-primary">Tanggal Selesai</th>
+                                <th class="text-white bg-primary">Keterangan</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        {{-- PAMERAN --}}
-        <div v-if="dataPameranCount > 0">
-            <h3 style="margin-top: 5%">Data Pameran / Bazar</h3>
-            <hr>
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="bg-primary text-white">
-                        <th class="text-center">Nama</th>
-                        <th class="text-center">Lokasi</th>
-                        <th class="text-center">Deskripsi</th>
-                        <th class="text-nowrap text-center">Tanggal Mulai</th>
-                        <th class="text-nowrap text-center">Tanggal Selesai</th>
-                        <th class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(pameran, index) in dataPameran" :key="index">
-                        <td>@{{ pameran.nama_intervensi }}</td>
-                        <td>@{{ pameran.lokasi }}</td>
-                        <td>@{{ pameran.deskripsi }}</td>
-                        <td>@{{ pameran.tanggal_mulai }}</td>
-                        <td>@{{ pameran.tanggal_selesai }}</td>
-                        <td><a :href="'/intervensi/pameran/view/' + pameran.id" target="_blank" class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</a></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col-md-4">
-                    <span>Menampilkan @{{ filterPameran.noStart }} - @{{ filterPameran.noEnd }} dari @{{ dataPameranCount }} data</span>
-                </div>
-                <div class="col-md-8 d-flex justify-content-end">
-                    <div id="paginationPameran"></div>
+            <div class="tab-pane fade" id="tab-pameran" role="tabpanel" aria-labelledby="tab-pameran">
+                <div class="col-md-12 table-responsive">
+                    <table id="table-pameran" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-white bg-primary">No</th>
+                                <th class="text-white bg-primary">Nama</th>
+                                <th class="text-white bg-primary">Lokasi</th>
+                                <th class="text-white bg-primary">Tanggal Mulai</th>
+                                <th class="text-white bg-primary">Tanggal Selesai</th>
+                                <th class="text-white bg-primary">Keterangan</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        {{-- PEMASARAN --}}
-        <div v-if="dataPemasaranCount > 0">
-            <h3 style="margin-top: 5%">Data Pemasaran</h3>
-            <hr>
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="bg-primary text-white">
-                        <th class="text-center">Nama</th>
-                        <th class="text-center">Lokasi</th>
-                        <th class="text-center">Deskripsi</th>
-                        <th class="text-nowrap text-center">Tanggal Mulai</th>
-                        <th class="text-nowrap text-center">Tanggal Selesai</th>
-                        <th class="text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(pemasaran, index) in dataPemasaran" :key="index">
-                        <td>@{{ pemasaran.nama_intervensi }}</td>
-                        <td>@{{ pemasaran.lokasi }}</td>
-                        <td>@{{ pemasaran.deskripsi }}</td>
-                        <td>@{{ pemasaran.tanggal_mulai }}</td>
-                        <td>@{{ pemasaran.tanggal_selesai }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col-md-4">
-                    <span>Menampilkan @{{ filterPemasaran.noStart }} - @{{ filterPemasaran.noEnd }} dari @{{ dataPemasaranCount }} data</span>
-                </div>
-                <div class="col-md-8 d-flex justify-content-end">
-                    <div id="paginationPemasaran"></div>
+            <div class="tab-pane fade" id="tab-pemasaran" role="tabpanel" aria-labelledby="tab-pemasaran">
+                <div class="col-md-12 table-responsive">
+                    <table id="table-pemasaran" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-white bg-primary">No</th>
+                                <th class="text-white bg-primary">Nama</th>
+                                <th class="text-white bg-primary">Lokasi</th>
+                                <th class="text-white bg-primary">Tanggal Mulai</th>
+                                <th class="text-white bg-primary">Tanggal Selesai</th>
+                                <th class="text-white bg-primary">Keterangan</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        {{-- MEREK --}}
-        <div v-if="dataMerekCount > 0">
-            <h3 style="margin-top: 5%">Data Sertifikasi Merek</h3>
-            <hr>
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="bg-primary text-white">
-                        <th>Nama UKM</th>
-                        <th>Tanggal Permohonan</th>
-                        <th>Status</th>
-                        <th>No Sertifikat</th>
-                        <th>Tanggal Sertifikat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(merek, index) in dataMerek" :key="index">
-                        <td>@{{ merek.nama_usaha }}</td>
-                        <td>@{{ merek.tgl_berkas_kemenkumham }}</td>
-                        <td>
-                            <span v-if="merek.status == 'Menunggu Proses Cetak' || merek.status == 'Menunggu Tanggapan'" class="badge badge-warning">@{{ merek.status }}</span>
-                            <span v-if="merek.status == 'Sudah Keluar Sertifikat'" class="badge badge-success">@{{ merek.status }}</span>
-                            <span v-if="merek.status == 'Ditolak'" class="badge badge-danger">@{{ merek.status }}</span>
-                        </td>
-                        <td>@{{ merek.no_sertifikat }}</td>
-                        <td>@{{ merek.tgl_sertifikat }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col-md-4">
-                    <span>Menampilkan @{{ filterMerek.noStart }} - @{{ filterMerek.noEnd }} dari @{{ dataMerekCount }} data</span>
-                </div>
-                <div class="col-md-8 d-flex justify-content-end">
-                    <div id="paginationMerek"></div>
+            <div class="tab-pane fade" id="tab-halal" role="tabpanel" aria-labelledby="tab-halal">
+                <div class="col-md-12 table-responsive">
+                    <table id="table-halal" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-white bg-primary">No</th>
+                                <th class="text-white bg-primary">Nama UKM</th>
+                                <th class="text-white bg-primary">Tanggal Permohonan</th>
+                                <th class="text-white bg-primary">Status</th>
+                                <th class="text-white bg-primary">No Sertifikat</th>
+                                <th class="text-white bg-primary">Tanggal Sertifikat</th>
+                                <th class="text-white bg-primary">Keterangan</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
-        </div>
 
-
-        {{-- HALAL --}}
-        <div v-if="dataHalalCount > 0">
-            <h3 style="margin-top: 5%">Data Sertifikasi Halal</h3>
-            <hr>
-            <table class="table table-bordered">
-                <thead>
-                    <tr class="bg-primary text-white">
-                        <th>Nama UKM</th>
-                        <th>Tanggal Permohonan</th>
-                        <th>Status</th>
-                        <th>No Sertifikat</th>
-                        <th>Tanggal Sertifikat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(halal, index) in dataHalal" :key="index">
-                        <td>@{{ halal.nama_usaha }}</td>
-                        <td>@{{ halal.tgl_permohonan }}</td>
-                        <td>
-                            <span v-if="halal.status == 'Menunggu Proses Cetak' || halal.status == 'Menunggu Tanggapan'" class="badge badge-warning">@{{ halal.status }}</span>
-                            <span v-if="halal.status == 'Sudah Keluar Sertifikat'" class="badge badge-success">@{{ halal.status }}</span>
-                            <span v-if="halal.status == 'Ditolak'" class="badge badge-danger">@{{ halal.status }}</span>
-                        </td>
-                        <td>@{{ halal.no_sertifikat }}</td>
-                        <td>@{{ halal.tgl_sertifikat }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="row">
-                <div class="col-md-4">
-                    <span>Menampilkan @{{ filterHalal.noStart }} - @{{ filterHalal.noEnd }} dari @{{ dataHalalCount }} data</span>
-                </div>
-                <div class="col-md-8 d-flex justify-content-end">
-                    <div id="paginationHalal"></div>
+            <div class="tab-pane fade" id="tab-merek" role="tabpanel" aria-labelledby="tab-merek">
+                <div class="col-md-12 table-responsive">
+                    <table id="table-merek" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-white bg-primary">No</th>
+                                <th class="text-white bg-primary">Nama UKM</th>
+                                <th class="text-white bg-primary">Nama Merek</th>
+                                <th class="text-white bg-primary">No Permohonan</th>
+                                <th class="text-white bg-primary">Tanggal Permohonan</th>
+                                <th class="text-white bg-primary">Status</th>
+                                <th class="text-white bg-primary">No Sertifikat</th>
+                                <th class="text-white bg-primary">Tanggal Sertifikat</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
+
         </div>
+
     </div>
 </div>
+
+
 
 
 @endsection

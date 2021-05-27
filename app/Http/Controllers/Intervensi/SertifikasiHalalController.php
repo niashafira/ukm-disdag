@@ -8,6 +8,7 @@ use App\Models\IntervensiDetail;
 use App\Models\SertifikasiHalal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB as DB;
+use DataTables;
 
 class SertifikasiHalalController extends Controller
 {
@@ -61,5 +62,18 @@ class SertifikasiHalalController extends Controller
         $intervensi->update($input);
 
         echo json_encode("sukses");
+    }
+
+    public function getListDT(Request $request){
+        $data = DB::select("
+            SELECT a.tgl_permohonan, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+            from ukm_disdag.sertifikasi_halal AS a
+            INNER JOIN ukm_disdag.ukm AS b
+            ON b.id = a.ukm_id
+            WHERE a.tgl_permohonan between '" . $request->input('tanggalMulai') . "' and '" . $request->input('tanggalSelesai') . "'
+            ORDER BY a.tgl_permohonan DESC"
+        );
+
+        return Datatables::of($data)->make(true);
     }
 }

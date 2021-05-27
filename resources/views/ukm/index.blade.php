@@ -26,7 +26,7 @@ Data UKM
                     <td>@{{ ukm.nama_pemilik }}</td>
                     <td>@{{ ukm.nik }}</td>
                     <td>@{{ ukm.alamat }}</td>
-                    <td class="text-center"><a :href="'/ukm/' + ukm.id" class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</a></td>
+                    <td class="text-center"><a :href="'/ukm/view/' + ukm.id" class="btn btn-sm btn-success"><span class="fa fa-eye"></span> Detail</a></td>
                 </tr>
             </tbody>
         </table>
