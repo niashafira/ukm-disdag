@@ -1,0 +1,290 @@
+[
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Seleksi kerjasama dengan Gabungan Pengusaha Ekspor Indonesia",
+            "lokasi": "Ruang Rapat Siola lt.2",
+            "tanggal_mulai": "2021-01-21",
+            "tanggal_selesai": "2021-01-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E5",
+            "end": "I26"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Sosialisasi dan demo pengenalan Remeals",
+            "lokasi": "Ruang pertemuan 203 Ged.Siola lt.2",
+            "tanggal_mulai": "2021-01-21",
+            "tanggal_selesai": "2021-01-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E27",
+            "end": "I68"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pemasaran",
+            "nama_intervensi": "Penyediaan Kedelai Murah bagi ukm Tempe",
+            "lokasi": "Siola lt 1",
+            "tanggal_mulai": "2021-01-06",
+            "tanggal_selesai": "2021-01-06",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E69",
+            "end": "I91"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pemasaran",
+            "nama_intervensi": "Penyediaan Kedelai Murah bagi ukm Tempe Periode II",
+            "lokasi": "Siola lt 1",
+            "tanggal_mulai": "2021-01-13",
+            "tanggal_selesai": "2021-01-13",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E92",
+            "end": "I130"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pemasaran",
+            "nama_intervensi": "Kerjasama penyediaan makan untuk penanganan covid di Asrama Haji Hotel",
+            "lokasi": "Hotel Asrama Haji Surabaya",
+            "tanggal_mulai": "2021-02-22",
+            "tanggal_selesai": "2021-03-07",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E131",
+            "end": "I134"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pemasaran",
+            "nama_intervensi": "Kerjasama ekspor produk UKM dengan PT.SCM",
+            "lokasi": "Siola lt 1",
+            "tanggal_mulai": "2021-01-01",
+            "tanggal_selesai": "2021-12-31",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E135",
+            "end": "I137"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "pelatihan dan pendampiIgan dlm mencentak 100ukm siap ekspor,GPEI di Resto D26",
+            "lokasi": "Resto DK26",
+            "tanggal_mulai": "2021-03-21",
+            "tanggal_selesai": "2021-03-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E139",
+            "end": "I155"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Pameran Batik Bordir & Craft 2021",
+            "lokasi": "Atrium Mall Grand City",
+            "tanggal_mulai": "2021-03-24",
+            "tanggal_selesai": "2021-03-28",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E156",
+            "end": "I159"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Pameran Men's Fashion Style 2021",
+            "lokasi": "Atrium mall Ciputra World",
+            "tanggal_mulai": "2021-04-02",
+            "tanggal_selesai": "2021-04-04",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E160",
+            "end": "I163"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Pameran Women Week 2021",
+            "lokasi": "Atrium Mall Grand City",
+            "tanggal_mulai": "2021-04-02",
+            "tanggal_selesai": "2021-04-04",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E164",
+            "end": "I169"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Pameran Surabaya Virtual Expo 2021",
+            "lokasi": "https://virtualexpoukm.surabaya.go.id/",
+            "tanggal_mulai": "2021-04-09",
+            "tanggal_selesai": "2021-04-11",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E170",
+            "end": "I323"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Gelar Produk Hari Kartini",
+            "lokasi": "Graha Sawunggaling Lantai 6",
+            "tanggal_mulai": "2021-04-21",
+            "tanggal_selesai": "2021-04-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E324",
+            "end": "I345"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pemasaran",
+            "nama_intervensi": "Kerjasama UMKM dengan Cafe Glass",
+            "lokasi": "Cafe Glass",
+            "tanggal_mulai": "2021-05-04",
+            "tanggal_selesai": "2021-05-04",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E346",
+            "end": "I354"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pemasaran",
+            "nama_intervensi": "Kerjasama Pesanan Parcel Pemerintah Kota Surabaya",
+            "lokasi": "Dinas Perdagangan Kota Surabaya",
+            "tanggal_mulai": "2021-05-01",
+            "tanggal_selesai": "2021-05-01",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E355",
+            "end": "I397"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan terkait Kualitas dan Kemasan Produk Sesi 1",
+            "lokasi": "Convention Hall Siola Lantai 2",
+            "tanggal_mulai": "2021-05-20",
+            "tanggal_selesai": "2021-05-20",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E398",
+            "end": "I418"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan terkait Kualitas dan Kemasan Produk Sesi 2",
+            "lokasi": "Convention Hall Siola Lantai 2",
+            "tanggal_mulai": "2021-05-20",
+            "tanggal_selesai": "2021-05-20",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E419",
+            "end": "I439"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan terkait Kualitas dan Kemasan Produk Sesi 3",
+            "lokasi": "Convention Hall Siola Lantai 2",
+            "tanggal_mulai": "2021-05-21",
+            "tanggal_selesai": "2021-05-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E440",
+            "end": "I459"
+        }
+    },
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan terkait Kualitas dan Kemasan Produk Sesi 4",
+            "lokasi": "Convention Hall Siola Lantai 2",
+            "tanggal_mulai": "2021-05-25",
+            "tanggal_selesai": "2021-05-25",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E460",
+            "end": "I478"
+        }
+    }
+]

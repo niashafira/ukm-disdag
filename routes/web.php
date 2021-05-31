@@ -43,6 +43,10 @@ Route::group(['middleware' => 'auth'], function () {
     //DASHBOARD
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    //INTERVENSI
+    Route::get('/intervensi/getIntervensiDetail', [IntervensiController::class, 'getIntervensiDetail'])->name('intervensi');
+    Route::get('/intervensi/getIntervensiDT', [IntervensiController::class, 'getIntervensiDT'])->name('intervensi');
+    Route::post('/intervensi/create', [IntervensiController::class, 'create'])->name('intervensi');
 
     //UKM
     Route::get('/ukm', [UkmController::class, 'index'])->name('ukm');
@@ -52,19 +56,20 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/ukm/edit', [UkmController::class, 'edit'])->name('ukm');
     Route::post('/ukm/update', [UkmController::class, 'update'])->name('ukm');
     Route::get('/ukm/view/{id}', [UkmController::class, 'show'])->name('ukm');
-    Route::get('/ukm/importExcel', [UkmController::class, 'importExcel'])->name('ukm');
+    Route::get('/ukm/importExcel', [UkmController::class, 'importNewData'])->name('ukm');
     Route::get('/ukm/importRevisiUkm', [UkmController::class, 'importRevisiUkm'])->name('ukm');
     Route::get('/ukm/exportExcel', [UkmController::class, 'exportExcel'])->name('ukm');
     Route::get('/ukm/updateField', [UkmController::class, 'updateField'])->name('ukm');
     Route::post('/ukm/checkDuplicate', [UkmController::class, 'checkDuplicate'])->name('ukm');
-    Route::get('/ukm/compareBinaan', [UkmController::class, 'compareBinaan'])->name('ukm');
+    Route::get('/ukm/compareBinaanByNik', [UkmController::class, 'compareBinaanByNik'])->name('ukm');
+    Route::get('/ukm/checkDuplicateByNama', [UkmController::class, 'checkDuplicateByNama'])->name('ukm');
+
     //OMSET
     Route::post('/ukm/omset/store', [UkmController::class, 'storeOmset'])->name('ukm');
     Route::post('/ukm/omset/update', [UkmController::class, 'updateOmset'])->name('ukm');
     Route::get('/ukm/omset/{id}', [UkmController::class, 'getOmset'])->name('ukm');
     Route::get('/ukm/sertifikasi/{id}', [UkmController::class, 'getSertifikasi'])->name('ukm');
     Route::post('/ukm/omset/delete', [UkmController::class, 'deleteOmset'])->name('ukm');
-
 
     //PELATIHAN
     Route::get('/intervensi/pelatihan', [PelatihanController::class, 'index'])->name('intervensi');
@@ -86,7 +91,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/intervensi/pameran/export', [PameranController::class, 'exportExcel'])->name('intervensi');
     Route::get('/intervensi/pameran/getListDT', [PameranController::class, 'getListDT'])->name('intervensi');
 
-    Route::get('/importIntervensi', [PameranController::class, 'importUkmIntervensi']);
+    Route::get('/importIntervensi', [PameranController::class, 'mainImport']);
 
     //SERTIFIKAT HALAL
     Route::get('/intervensi/SertifikasiHalal', [SertifikasiHalalController::class, 'index'])->name('intervensi');

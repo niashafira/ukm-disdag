@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use App\Models\Omset;
 use App\Models\SertifikasiHalal;
 use App\Models\SertifikasiMerek;
@@ -13,6 +14,8 @@ use Mockery\Undefined;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use \stdClass;
+use DataTables;
+use Exception;
 
 class UkmController extends Controller
 {
@@ -125,7 +128,7 @@ class UkmController extends Controller
 
     }
 
-    public function checkDuplicate(Request $request){
+    public function checkDuplicateByNik(Request $request){
         $data = Ukm::where('nik', '=', $request->nik)->get();
         if($data === null){
             return response()->json([
@@ -143,10 +146,83 @@ class UkmController extends Controller
 
     }
 
-    public function getAll(){
-        $data_ukm = Ukm::get();
+    //Cek duplicate ukm berdasarkan nama ukm dan nama pemilik
+    public function checkDuplicateByNama(){
+        $ukm_duplicate = [];
+        $ukm_duplicate_count = 0;
 
-        return response()->json($data_ukm);
+        $data_ukm = Ukm::all();
+
+        try{
+            $temp = [];
+            for ($i=0; $i < count($data_ukm); $i++) {
+                $isDuplicate = false;
+                for ($j=0; $j < count($temp); $j++) {
+                    if($data_ukm[$i]['nama_usaha'] == $temp[$j]['nama_usaha'] && $data_ukm[$i]['nama_pemilik'] == $temp[$j]['nama_pemilik']){
+                        $isDuplicate = true;
+                        $ukm_duplicate_count++;
+                        array_push($ukm_duplicate, $data_ukm[$i]);
+                    }
+                }
+                if($isDuplicate == false){
+                    array_push($temp, $data_ukm[$i]);
+                }
+            }
+
+            return response()->json([
+                'ukm_duplicate' => $ukm_duplicate,
+                'ukm_duplicate_count' => $ukm_duplicate_count
+            ], 500);
+
+        } catch(Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getAll(){
+        try{
+            $data = Ukm::all();
+
+            return Datatables::of($data)->make(true);
+        } catch(Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+
+    }
+
+    public function importNewData(){
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path() . "/fix/ukm.xlsx");
+        $spreadsheet->setActiveSheetIndex(0);
+
+        $dataArray = $spreadsheet->getActiveSheet()->rangeToArray('B6:N1262',NULL,TRUE,TRUE,TRUE);
+
+        foreach ($dataArray as $source) {
+            $temp['nama_usaha'] = $source['B'];
+            $temp['nama_pemilik'] = $source['C'];
+            $temp['nik'] = preg_replace( '/^((?=^)(\s*))|((\s*)(?>$))/si', '', $source['D']);
+            $temp['no_siup'] = $source['E'];
+            $temp['alamat'] = $source['F'];
+            $temp['kecamatan'] = preg_replace( '/^((?=^)(\s*))|((\s*)(?>$))/si', '', $source['G']);
+            $temp['kelurahan'] = preg_replace( '/^((?=^)(\s*))|((\s*)(?>$))/si', '', $source['H']);
+            $temp['jenis_produksi'] = $source['I'];
+            $temp['no_telp'] = $source['K'];
+            $temp['tahun_binaan'] = $source['N'];
+
+            $res_ukm = Ukm::create($temp);
+            $this->saveKategori($res_ukm['id'], $source['J']);
+        }
+
+        echo json_encode($dataArray);
+    }
+
+    public function saveKategori($ukm_id, $kategori){
+        $data['ukm_id'] = $ukm_id;
+        $data['kategori'] = $kategori;
+        Kategori::create($data);
     }
 
     public function importExcel(){
@@ -360,7 +436,7 @@ class UkmController extends Controller
     }
 
     public function store2($ukm){
-        $ukm = Ukm2::create($ukm);
+        $ukm = Ukm::create($ukm);
     }
 
     public function deleteUkmDup($ukm){
@@ -513,20 +589,23 @@ class UkmController extends Controller
     }
 
     public function compareBinaan(){
-        $path = storage_path() . "/data/ukm_binaan.xlsx";
+        $path = storage_path() . "/fix/ukm_binaan.xlsx";
         $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($path);
         $spreadsheet->setActiveSheetIndex(0);
         $dataArray = $spreadsheet->getActiveSheet()->rangeToArray('B3:I202',NULL,TRUE,TRUE,TRUE);
         $final = [];
         foreach ($dataArray as $source) {
-            $ukm = Ukm::where('nik', '=', $source['D'])
-            ->orWhere('nama_usaha', '=', $source['B'])
+            $ukm = Ukm::where('nik', '=', preg_replace( '/^((?=^)(\s*))|((\s*)(?>$))/si', '', $source['D']))
+            ->orWhereRaw('lower(nama_usaha) = (?)', [preg_replace( '/^((?=^)(\s*))|((\s*)(?>$))/si', '', strtolower($source['B']))])
             ->first();
 
             $result['new'] = $source;
-            // $result['exist'] = $ukm;
+            $result['exist'] = $ukm;
 
-            if($ukm === null){
+            if($ukm != null){
+                Ukm::where('id', $ukm->id)->update([
+                    'isBinaan' => true
+                ]);
                 array_push($final, $result);
             }
 

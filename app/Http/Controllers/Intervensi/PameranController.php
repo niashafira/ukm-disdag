@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Intervensi;
 use App\Models\IntervensiDetail;
 use App\Models\Ukm;
+use App\Models\UkmTidakTerdaftar;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use DataTables;
+use Exception;
 
 class PameranController extends Controller
 {
@@ -104,49 +106,139 @@ class PameranController extends Controller
         return Datatables::of($data)->make(true);
     }
 
-    public function importUkmIntervensi(){
-        $start = "E740";
-        $end = "H749";
-        $intervensi_id = 159;
+    public function mainImport(){
+        set_time_limit(0);
 
-        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path() . "/data/intervensi2.xlsx");
-        $spreadsheet->setActiveSheetIndex(4);
+        $path = storage_path() . "/fix/intervensi.json";
+        $json = json_decode(file_get_contents($path), true);
 
-        $dataArray = $spreadsheet->getActiveSheet()->rangeToArray($start . ':' . $end,NULL,TRUE,TRUE,TRUE);
+        DB::beginTransaction();
 
-        $ukm_binaan = [];
-        $ukm_non_binaan = [];
+        try{
+            for ($i=0; $i < count($json); $i++) {
+                $json[$i]['peserta'] = $this->getUkmTerdaftar($json[$i]['excel']);
+            }
+
+            for ($i=0; $i < count($json); $i++) {
+                $intervensi = Intervensi::create($json[$i]['intervensi']);
+                for ($j=0; $j < count($json[$i]['peserta']['terdaftar']); $j++) {
+                    $this->saveIntervensiDetail($intervensi->id, $json[$i]['peserta']['terdaftar'][$j]);
+                }
+
+                for ($j=0; $j < count($json[$i]['peserta']['tidak_terdaftar']); $j++) {
+                    $json[$i]['peserta']['tidak_terdaftar'][$j]['intervensi_id'] = $intervensi->id;
+                    UkmTidakTerdaftar::create($json[$i]['peserta']['tidak_terdaftar'][$j]);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'data' => $json
+            ]);
+
+        } catch(Exception $e){
+            DB::rollBack();
+
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
+
+    }
+
+    function getUkmTerdaftar($excel){
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path() . "/fix/intervensi.xlsx");
+        $spreadsheet->setActiveSheetIndex($excel['sheet']);
+
+        $dataArray = $spreadsheet->getActiveSheet()->rangeToArray($excel['start'] . ':' . $excel['end'],NULL,TRUE,TRUE,TRUE);
+        $peserta['terdaftar'] = [];
+        $peserta['jml_terdaftar'] = 0;
+        $peserta['tidak_terdaftar'] = [];
+        $peserta['jml_tidak_terdaftar'] = 0;
+
         foreach ($dataArray as $index => $ukm) {
-            $input = [];
             $ukm['G'] = ltrim($ukm['G'], '‘');
             $dataArray[$index]['G'] = $ukm['G'];
+            $ukm['G'] = str_replace("'","",$ukm['G']);
 
-            $check_ukm_nik = DB::select("select * from ukm_disdag.ukm
-            where nik = ''
-            or (lower(nama_pemilik) = '". strtolower($ukm['F']) ."' and lower(nama_usaha) = '". strtolower($ukm['E']) ."')");
+            $check_ukm_nik = Ukm::where('nik', '=', $ukm['G'])->first();
+            $check_ukm_nama = Ukm::whereRaw("lower(nama_usaha) = (?) and lower(nama_pemilik) = (?)", [strtolower($ukm['E']), mb_strtolower($ukm['F'])])->first();
 
-            if(isset($check_ukm_nik[0]->id)){
-                array_push($ukm_binaan, $check_ukm_nik[0]);
-                $input['ukm_id'] = $check_ukm_nik[0]->id;
-                $input['ukm_nama'] = $check_ukm_nik[0]->nama_usaha;
-                $input['intervensi_id'] = $intervensi_id;
-                $input['status_binaan'] = true;
+            if(isset($check_ukm_nik->id)){
+                array_push($peserta['terdaftar'], $check_ukm_nik);
+                $peserta['jml_terdaftar']++;
+            }
+            elseif(isset($check_ukm_nama->id)) {
+                array_push($peserta['terdaftar'], $check_ukm_nama);
+                $peserta['jml_terdaftar']++;
             }
             else{
-                array_push($ukm_non_binaan, ['ukm_nama' => $ukm['E']]);
-                $input['ukm_nama'] = $ukm['E'];
-                $input['intervensi_id'] = $intervensi_id;
-                $input['status_binaan'] = false;
+                array_push($peserta['tidak_terdaftar'], [
+                    'nama_usaha' => $ukm['E'],
+                    "nama_pemilik" => $ukm['F'],
+                    "nik" => $ukm['G'],
+                    "alamat" => $ukm['H'],
+                    "no_telp" => $ukm['I'],
+                    "isActive" => false,
+                ]);
+                $peserta['jml_tidak_terdaftar']++;
             }
-
-            IntervensiDetail::create($input);
-
 
         }
 
-        echo json_encode($ukm_binaan);
-
+        return $peserta;
     }
+
+    function saveIntervensiDetail($intervensi_id, $ukm){
+        $input['ukm_id'] = $ukm->id;
+        $input['intervensi_id'] = $intervensi_id;
+
+        IntervensiDetail::create($input);
+    }
+
+    // public function importUkmIntervensi(){
+    //     $start = "E740";
+    //     $end = "H749";
+    //     $intervensi_id = 159;
+
+    //     $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(storage_path() . "/data/intervensi2.xlsx");
+    //     $spreadsheet->setActiveSheetIndex(4);
+
+    //     $dataArray = $spreadsheet->getActiveSheet()->rangeToArray($start . ':' . $end,NULL,TRUE,TRUE,TRUE);
+
+    //     $ukm_binaan = [];
+    //     $ukm_non_binaan = [];
+    //     foreach ($dataArray as $index => $ukm) {
+    //         $input = [];
+    //         $ukm['G'] = ltrim($ukm['G'], '‘');
+    //         $dataArray[$index]['G'] = $ukm['G'];
+
+    //         $check_ukm_nik = DB::select("select * from ukm_disdag.ukm
+    //         where nik = ''
+    //         or (lower(nama_pemilik) = '". strtolower($ukm['F']) ."' and lower(nama_usaha) = '". strtolower($ukm['E']) ."')");
+
+    //         if(isset($check_ukm_nik[0]->id)){
+    //             array_push($ukm_binaan, $check_ukm_nik[0]);
+    //             $input['ukm_id'] = $check_ukm_nik[0]->id;
+    //             $input['ukm_nama'] = $check_ukm_nik[0]->nama_usaha;
+    //             $input['intervensi_id'] = $intervensi_id;
+    //             $input['status_binaan'] = true;
+    //         }
+    //         else{
+    //             array_push($ukm_non_binaan, ['ukm_nama' => $ukm['E']]);
+    //             $input['ukm_nama'] = $ukm['E'];
+    //             $input['intervensi_id'] = $intervensi_id;
+    //             $input['status_binaan'] = false;
+    //         }
+
+    //         IntervensiDetail::create($input);
+
+    //     }
+
+    //     echo json_encode($ukm_binaan);
+
+    // }
 
     public function exportExcel(Request $request){
         $intervensi = Intervensi::find($request->id);

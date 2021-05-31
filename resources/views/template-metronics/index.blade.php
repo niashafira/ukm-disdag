@@ -234,6 +234,54 @@ License: You must have a valid license purchased only from themeforest(the above
             $("#nav-data").click(function(){
                 window.location.href = "/ukm";
             });
+
+            function showLoading(){
+                Swal.fire({
+                    title: 'Mohon Tunggu !',
+                    html: '',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading()
+                    },
+                });
+            }
+
+            function getUkm(){
+                $('#table-ukm').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    destroy: true,
+                    order: [[ 1, "asc" ]],
+                    ajax: {
+                        url: "/api/ukm",
+                    },
+                    columns: [
+                        {
+                            data: null,
+                            sortable: false,
+                            searchable: false,
+                            class: 'text-center',
+                            render: function (data, type, row, meta) {
+                                return meta.row + meta.settings._iDisplayStart + 1;
+                            }
+                        },
+                        {data: 'nama_usaha'},
+                        {data: 'nama_pemilik'},
+                        {data: 'nik'},
+                        {data: 'no_telp'},
+                        {data: 'alamat'},
+                        {
+                            data: 'null',
+                            sortable: false,
+                            class: 'text-nowrap text-center',
+                            render: function (data, type, row, meta) {
+                                let btn = "<button onclick='selectUkm(\"" + row.nama_usaha + "\",\"" + row.nama_pemilik + "\", \"" + row.nik + "\", \"" + row.alamat + "\", \"" + row.id + "\")' class='btn btn-sm btn-success'><span class='fa fa-check'></span> Pilih</button>";
+                                return btn;
+                            }
+                        }
+                    ]
+                });
+            }
         </script>
         @yield('script')
 	</body>

@@ -11,13 +11,13 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 use DataTables;
+use Exception;
 
 class PelatihanController extends Controller
 {
     public function index()
     {
-        $intervensi = Intervensi::with('intervensiDetail')->where('jenis_intervensi', 'pelatihan')->get();
-        return view('intervensi.pelatihan.index', compact('intervensi'));
+        return view('intervensi.pelatihan.index');
     }
 
     public function create()
@@ -41,13 +41,12 @@ class PelatihanController extends Controller
     public function view($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pelatihan')->find($id);
-        $intervensi_detail = IntervensiDetail::where('intervensi_id', $id)->get();
-
-        $intervensi['intervensi_detail'] = $intervensi_detail;
 
         $mode = "view";
-        return view('intervensi.pelatihan.form', compact('mode', 'intervensi'));
+        return view('intervensi.pelatihan.view', compact('mode', 'intervensi'));
     }
+
+    //API SECTION
 
     public function store(Request $request)
     {
