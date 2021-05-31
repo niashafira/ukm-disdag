@@ -34,6 +34,12 @@
             this.setValidation();
 
             if(this.mode == 'edit') this.initData();
+
+            setTimeout(function () {
+                $("#table-peserta").DataTable({
+                    destroy: true,
+                });
+            }, 1000);
         },
 
         methods: {
@@ -61,8 +67,14 @@
             },
 
             deleteintervensiDetail(ukm, index){
+                $("#table-peserta").DataTable().destroy();
+
                 if(ukm.id != undefined) this.intervensiDetailDelete.push(ukm.id);
                 this.intervensiDetail.splice(index, 1);
+
+                setTimeout(function () {
+                    $("#table-peserta").DataTable();
+                }, 500);
             },
 
             checkDuplicateintervensiDetail(id){
@@ -179,7 +191,9 @@
             });
         }
         else{
-            app.intervensiDetail.push({
+            $("#table-peserta").DataTable().destroy();
+
+            app.intervensiDetail.unshift({
                 nama_usaha: nama_usaha,
                 nama_pemilik: nama_pemilik,
                 nik: nik,
@@ -187,7 +201,19 @@
                 ukm_id: id,
                 keterangan: ""
             });
+
+            setTimeout(function () {
+                $("#table-peserta").DataTable();
+            }, 1000);
             $("#modal-ukm").modal("hide");
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: "Peserta berhasil ditambahkan",
+                showConfirmButton: false,
+                timer: 1000
+            });
         }
     }
 

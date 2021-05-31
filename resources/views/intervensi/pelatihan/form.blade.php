@@ -74,9 +74,9 @@ Form Pelatihan
 
     <h3 style="margin-top: 3%">Data Peserta</h3>
     <hr>
-    <button v-on:click="openModalUkm()" class="btn btn-sm btn-info"><span class="fa fa-plus"> Tambah Peserta</span></button>
+    <button style="margin-bottom: 3%" v-on:click="openModalUkm()" class="btn btn-sm btn-info"><span class="fa fa-plus"> Tambah Peserta</span></button>
 
-    <table class="table table-bordered" style="margin-top: 2%">
+    <table id="table-peserta" class="table table-bordered">
         <thead class="bg-primary">
             <tr>
                 <th class="text-white text-center">No</th>
@@ -89,10 +89,7 @@ Form Pelatihan
             </tr>
         </thead>
         <tbody>
-            <tr v-if="intervensiDetail.length == 0">
-                <td colspan="7" class="text-center">Data tidak ditemukan</td>
-            </tr>
-            <tr v-else v-for="(ukm, index) in intervensiDetail" :key="index">
+            <tr v-for="(ukm, index) in intervensiDetail" :key="index">
                 <td class="text-center">@{{ index + 1 }}</td>
                 <td>@{{ ukm.nama_usaha }}</td>
                 <td>@{{ ukm.nama_pemilik }}</td>
