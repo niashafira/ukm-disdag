@@ -28,7 +28,7 @@ class IntervensiController extends Controller
     public function getIntervensiDetail(Request $request){
         try{
             $data = DB::select("
-                SELECT a.id, a.ukm_id, a.intervensi_id, b.nama_usaha, b.nama_pemilik, b.nik, b.alamat
+                SELECT a.id, a.ukm_id, a.intervensi_id, b.nama_usaha, b.nama_pemilik, b.nik, b.alamat, a.keterangan
                 from ukm_disdag.intervensi_detail AS a
                 JOIN ukm_disdag.ukm AS b
                 ON b.id = a.ukm_id
@@ -86,5 +86,60 @@ class IntervensiController extends Controller
                 'message' => "Data gagal disimpan"
             ]);
         }
+    }
+
+    public function update(Request $request){
+        try{
+            DB::beginTransaction();
+
+            if(count($request->intervensiDetail) == 0){
+                return response()->json([
+                    'status' => "E",
+                    'message' => "Peserta tidak boleh kosong"
+                ]);
+            }
+
+            $intervensi = Intervensi::find($request->intervensi['id']);
+            $intervensi->update($request->intervensi);
+
+            foreach ($request->intervensiDetail as $detail) {
+                if(isset($detail['id'])){
+                    $intervensiDetail = IntervensiDetail::find($detail['id']);
+                    $intervensiDetail->update([
+                        'ukm_id' => $detail['ukm_id'],
+                        'keterangan' => $detail['keterangan']
+                    ]);
+                }
+                else{
+                    $detail['intervensi_id'] = $request->intervensi['id'];
+                    IntervensiDetail::create([
+                        'intervensi_id' => $intervensi->id,
+                        'ukm_id' => $detail['ukm_id'],
+                        'keterangan' => $detail['keterangan']
+                    ]);
+                }
+            }
+
+            if(isset($request->intervensiDetailDelete) && count($request->intervensiDetailDelete) > 0){
+                foreach ($request->intervensiDetailDelete as $d) {
+                    IntervensiDetail::destroy($d);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            DB::rollback();
+            return response()->json([
+                'status' => "E",
+                'message' => "Data gagal disimpan"
+            ]);
+        }
+
     }
 }

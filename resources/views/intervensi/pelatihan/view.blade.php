@@ -66,6 +66,7 @@ Detail Pelatihan
                     <th class="text-white">Pemilik</th>
                     <th class="text-white">NIK</th>
                     <th class="text-white">Alamat</th>
+                    <th class="text-white">Keterangan</th>
                     <th style="width: 15%" class="text-center text-white">Aksi</th>
                 </tr>
             </thead>
@@ -76,6 +77,7 @@ Detail Pelatihan
                     <td>@{{ detail.nama_pemilik }}</td>
                     <td>@{{ detail.nik }}</td>
                     <td>@{{ detail.alamat }}</td>
+                    <td>@{{ detail.keterangan }}</td>
                     <td class="text-center">
                         <a :href="'/ukm/view/' + detail.ukm_id" target="_blank" class="btn btn-sm btn-info"><span class="fa fa-eye"></span> Lihat Profil</a>
                     </td>

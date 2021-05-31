@@ -47,6 +47,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/intervensi/getIntervensiDetail', [IntervensiController::class, 'getIntervensiDetail'])->name('intervensi');
     Route::get('/intervensi/getIntervensiDT', [IntervensiController::class, 'getIntervensiDT'])->name('intervensi');
     Route::post('/intervensi/create', [IntervensiController::class, 'create'])->name('intervensi');
+    Route::post('/intervensi/update', [IntervensiController::class, 'update'])->name('intervensi');
 
     //UKM
     Route::get('/ukm', [UkmController::class, 'index'])->name('ukm');

@@ -14,40 +14,60 @@
         data: {
             api:{
                 dataUkm: "/api/ukm",
-                create: "/intervensi/create"
+                create: "/intervensi/create",
+                update: "/intervensi/update",
+                intervensiDetail: "/intervensi/getIntervensiDetail"
             },
-            peserta: [],
+            intervensiDetail: [],
+            intervensiDetailDelete: [],
             dataUkm: [],
             intervensi: {
                 jenis_intervensi: 'pelatihan'
             },
-            intervensiDetail: [],
-            validation: {}
+            validation: {},
+            mode: ""
 
         },
 
         mounted(){
+            this.mode = {!! json_encode($mode) !!};
             this.setValidation();
+
+            if(this.mode == 'edit') this.initData();
         },
 
         methods: {
+
+            initData(){
+                this.intervensi = {!! json_encode($intervensi) !!};
+                this.intervensi.tanggal_mulai = new Date(this.intervensi.tanggal_mulai).toString('yyyy-MM-dd');
+                this.intervensi.tanggal_selesai = new Date(this.intervensi.tanggal_selesai).toString('yyyy-MM-dd');
+
+                this.getIntervensiDetail();
+            },
+
+            async getIntervensiDetail(){
+                const response = await axios(this.api.intervensiDetail + "?intervensiId=" + this.intervensi.id);
+
+                if(response.data.status == "S"){
+                    this.intervensiDetail = response.data.data;
+                }
+
+            },
+
             openModalUkm(){
                 getUkm();
                 $("#modal-ukm").modal("show");
             },
 
-            deletePeserta(id){
-                for (let i = 0; i < this.peserta.length; i++) {
-                    if(this.peserta[i].id == id) {
-                        this.peserta.splice(i, 1);
-                        return false;
-                    }
-                }
+            deleteintervensiDetail(ukm, index){
+                if(ukm.id != undefined) this.intervensiDetailDelete.push(ukm.id);
+                this.intervensiDetail.splice(index, 1);
             },
 
-            checkDuplicatePeserta(id){
-                for (let i = 0; i < this.peserta.length; i++) {
-                    if(this.peserta[i].id == id) return true
+            checkDuplicateintervensiDetail(id){
+                for (let i = 0; i < this.intervensiDetail.length; i++) {
+                    if(this.intervensiDetail[i].id == id) return true
                 }
 
                 return false;
@@ -69,17 +89,14 @@
                                 showLoading();
                                 let data = {
                                     intervensi: this.intervensi,
-                                    intervensiDetail: []
+                                    intervensiDetail: this.intervensiDetail,
+                                    intervensiDetailDelete: this.intervensiDetailDelete
                                 };
 
-                                this.peserta.forEach((p, index) => {
-                                    data.intervensiDetail.push({
-                                        ukm_id: p.id,
-                                        keterangan: p.keterangan
-                                    });
-                                });
+                                let url = this.api.create;
+                                if(this.mode == 'edit') url = this.api.update;
 
-                                const response = await axios.post(this.api.create, data);
+                                const response = await axios.post(url, data);
                                 Swal.close();
 
                                 if(response.data.status == "S"){
@@ -154,7 +171,7 @@
     });
 
     function selectUkm(nama_usaha, nama_pemilik, nik, alamat, id){
-        if(app.checkDuplicatePeserta(id)){
+        if(app.checkDuplicateintervensiDetail(id)){
             Swal.fire({
                 icon: 'error',
                 title: '',
@@ -162,12 +179,12 @@
             });
         }
         else{
-            app.peserta.push({
+            app.intervensiDetail.push({
                 nama_usaha: nama_usaha,
                 nama_pemilik: nama_pemilik,
                 nik: nik,
                 alamat: alamat,
-                id: id,
+                ukm_id: id,
                 keterangan: ""
             });
             $("#modal-ukm").modal("hide");

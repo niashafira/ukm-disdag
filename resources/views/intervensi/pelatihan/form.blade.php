@@ -89,17 +89,17 @@ Form Pelatihan
             </tr>
         </thead>
         <tbody>
-            <tr v-if="peserta.length == 0">
+            <tr v-if="intervensiDetail.length == 0">
                 <td colspan="7" class="text-center">Data tidak ditemukan</td>
             </tr>
-            <tr v-else v-for="(ukm, index) in peserta" :key="index">
+            <tr v-else v-for="(ukm, index) in intervensiDetail" :key="index">
                 <td class="text-center">@{{ index + 1 }}</td>
                 <td>@{{ ukm.nama_usaha }}</td>
                 <td>@{{ ukm.nama_pemilik }}</td>
                 <td>@{{ ukm.nik }}</td>
                 <td>@{{ ukm.alamat }}</td>
                 <td><input type="text" class="form-control form-control-sm" placeholder="Keterangan" v-model="ukm.keterangan"></td>
-                <td class="text-center"><button v-on:click="deletePeserta(ukm.id)" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button></td>
+                <td class="text-center"><button v-on:click="deleteintervensiDetail(ukm, index)" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button></td>
             </tr>
         </tbody>
     </table>
