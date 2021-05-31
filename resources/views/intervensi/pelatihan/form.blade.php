@@ -29,45 +29,45 @@ Form Pelatihan
     <form id="form-intervensi">
     <table class="table table-striped" style="font-size: 14px;">
             <tr>
-                <td style="width: 15%">Nama Pelatihan</td>
-                <td style="width: 2%"> : </td>
-                <td>
-                    <div class="form-group">
+                <td class="align-middle" style="width: 15%">Nama Pelatihan</td>
+                <td class="align-middle" style="width: 2%"> : </td>
+                <td class="align-middle">
+                    <div class="form-group" style="margin-bottom: 0">
                         <input name="nama_intervensi" v-model="intervensi.nama_intervensi" type="text" class="form-control form-control-sm" placeholder="Nama Pelatihan">
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>Lokasi</td>
-                <td> : </td>
-                <td>
-                    <div class="form-group">
+                <td class="align-middle">Lokasi</td>
+                <td class="align-middle"> : </td>
+                <td class="align-middle">
+                    <div class="form-group" style="margin-bottom: 0">
                         <input name="lokasi" v-model="intervensi.lokasi" type="text" class="form-control form-control-sm" placeholder="Lokasi">
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>Tanggal Mulai</td>
-                <td> : </td>
-                <td>
-                    <div class="form-group">
+                <td class="align-middle">Tanggal Mulai</td>
+                <td class="align-middle"> : </td>
+                <td class="align-middle">
+                    <div class="form-group" style="margin-bottom: 0">
                         <input name="tanggal_mulai" v-model="intervensi.tanggal_mulai" type="date" class="form-control form-control-sm">
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>Tanggal Selesai</td>
-                <td> : </td>
-                <td>
-                    <div class="form-group">
+                <td class="align-middle">Tanggal Selesai</td>
+                <td class="align-middle"> : </td>
+                <td class="align-middle">
+                    <div class="form-group" style="margin-bottom: 0">
                         <input name="tanggal_selesai" v-model="intervensi.tanggal_selesai" type="date" class="form-control form-control-sm">
                     </div>
                 </td>
             </tr>
             <tr>
-                <td>Keterangan</td>
-                <td> : </td>
-                <td><input name="keterangan" v-model="intervensi.deskripsi" type="text" class="form-control form-control-sm" placeholder="Keterangan"></td>
+                <td class="align-middle">Keterangan</td>
+                <td class="align-middle"> : </td>
+                <td class="align-middle"><input name="keterangan" v-model="intervensi.deskripsi" type="text" class="form-control form-control-sm" placeholder="Keterangan"></td>
             </tr>
         </table>
     </form>
