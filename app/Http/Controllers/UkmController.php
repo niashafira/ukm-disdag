@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\IntervensiDetail;
 use App\Models\Kategori;
 use App\Models\Omset;
 use App\Models\SertifikasiHalal;
 use App\Models\SertifikasiMerek;
 use App\Models\Ukm;
-use App\Models\Ukm2;
+use App\Models\UkmTidakTerdaftar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Mockery\Undefined;
@@ -16,6 +17,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use \stdClass;
 use DataTables;
 use Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx\Rels;
 
 class UkmController extends Controller
 {
@@ -26,6 +28,11 @@ class UkmController extends Controller
         return view('ukm.index', compact('ukm'));
     }
 
+    public function tidakTerdaftar()
+    {
+        return view('ukm.tidakTerdaftar.index');
+    }
+
     public function create()
     {
         $mode = "create";
@@ -34,15 +41,68 @@ class UkmController extends Controller
 
     public function store(Request $request)
     {
-        $ukm = Ukm::create($request->ukm);
-        $id = $ukm->id;
+        try{
+            DB::beginTransaction();
 
-        foreach($request->omset as $omset){
-            $omset['ukm_id'] = $id;
-            Omset::create($omset);
+            $ukm = Ukm::create($request->ukm);
+            $id = $ukm->id;
+
+            if(isset($request->omset)){
+                foreach($request->omset as $omset){
+                    $omset['ukm_id'] = $id;
+                    Omset::create($omset);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            DB::rollback();
+            return response()->json([
+                'status' => "E",
+                'message' => "Data gagal disimpan"
+            ]);
         }
+    }
 
-        echo json_encode("sukses");
+    public function sinkronUkm(Request $request){
+        try{
+            DB::beginTransaction();
+
+            if(isset($request->ukm)){
+                $ukm = Ukm::create($request->ukm);
+                $ukm_id = $ukm->id;
+            }
+            else{
+                $ukm_id = $request->ukm_id;
+            }
+
+            IntervensiDetail::create([
+                'ukm_id' => $ukm_id,
+                'intervensi_id' => $request->intervensi_id
+            ]);
+
+            UkmTidakTerdaftar::destroy($request->ukmTidakTerdaftar_id);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            DB::rollback();
+            return response()->json([
+                'status' => "E",
+                'message' => "Data gagal disimpan"
+            ]);
+        }
     }
 
     public function show($id)
@@ -66,6 +126,23 @@ class UkmController extends Controller
         $res['status'] = "S";
         $res['data'] = $omset;
         echo json_encode($res);
+    }
+
+    public function getUkmTidakTerdaftar(){
+        try{
+            $data = DB::select("
+                SELECT a.*, b.nama_intervensi, b.id as intervensi_id
+                FROM ukm_disdag.ukm_tidak_terdaftar AS a
+                JOIN intervensi as b
+                ON a.intervensi_id = b.id
+            ");
+
+            return Datatables::of($data)->make(true);
+        } catch(Exception $e){
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function updateOmset(Request $request){

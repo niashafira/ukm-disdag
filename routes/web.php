@@ -65,6 +65,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ukm/compareBinaanByNik', [UkmController::class, 'compareBinaanByNik'])->name('ukm');
     Route::get('/ukm/checkDuplicateByNama', [UkmController::class, 'checkDuplicateByNama'])->name('ukm');
 
+
+    Route::get('/ukm/tidakTerdaftar', [UkmController::class, 'tidakTerdaftar'])->name('ukm');
+    Route::post('/ukm/sinkron', [UkmController::class, 'sinkronUkm'])->name('ukm');
+
     //OMSET
     Route::post('/ukm/omset/store', [UkmController::class, 'storeOmset'])->name('ukm');
     Route::post('/ukm/omset/update', [UkmController::class, 'updateOmset'])->name('ukm');

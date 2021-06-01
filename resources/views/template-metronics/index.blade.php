@@ -255,6 +255,9 @@ License: You must have a valid license purchased only from themeforest(the above
                     ajax: {
                         url: "/api/ukm",
                     },
+                    language: {
+                        processing: "<div style='width: 5rem; height: 5rem;' class='spinner-border' role='status'><span class='sr-only'>Loading...</span></div>",
+                    },
                     columns: [
                         {
                             data: null,
