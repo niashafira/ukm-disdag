@@ -15,23 +15,19 @@ class PemasaranController extends Controller
 {
     public function index()
     {
-        $intervensi = Intervensi::with('intervensiDetail')->where('jenis_intervensi', 'pemasaran')->get();
-        return view('intervensi.pemasaran.index', compact('intervensi'));
+        return view('intervensi.pemasaran.index');
     }
 
     public function create()
     {
-        $intervensi = "";
         $mode = "create";
-        return view('intervensi.pemasaran.form', compact('mode','intervensi'));
+        $intervensi = "";
+        return view('intervensi.pemasaran.form', compact('mode', 'intervensi'));
     }
 
     public function edit($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pemasaran')->find($id);
-        $intervensi_detail = IntervensiDetail::where('intervensi_id', $id)->get();
-
-        $intervensi['intervensi_detail'] = $intervensi_detail;
 
         $mode = "edit";
         return view('intervensi.pemasaran.form', compact('mode', 'intervensi'));
@@ -40,12 +36,9 @@ class PemasaranController extends Controller
     public function view($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pemasaran')->find($id);
-        $intervensi_detail = IntervensiDetail::where('intervensi_id', $id)->get();
-
-        $intervensi['intervensi_detail'] = $intervensi_detail;
 
         $mode = "view";
-        return view('intervensi.pemasaran.form', compact('mode', 'intervensi'));
+        return view('intervensi.pemasaran.view', compact('mode', 'intervensi'));
     }
 
     public function store(Request $request)
