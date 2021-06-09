@@ -24,17 +24,14 @@ class PameranController extends Controller
 
     public function create()
     {
-        $intervensi = "";
         $mode = "create";
-        return view('intervensi.pameran.form', compact('mode','intervensi'));
+        $intervensi = "";
+        return view('intervensi.pameran.form', compact('mode', 'intervensi'));
     }
 
     public function edit($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pameran')->find($id);
-        $intervensi_detail = IntervensiDetail::where('intervensi_id', $id)->get();
-
-        $intervensi['intervensi_detail'] = $intervensi_detail;
 
         $mode = "edit";
         return view('intervensi.pameran.form', compact('mode', 'intervensi'));
@@ -43,12 +40,9 @@ class PameranController extends Controller
     public function view($id)
     {
         $intervensi = Intervensi::where('jenis_intervensi', 'pameran')->find($id);
-        $intervensi_detail = IntervensiDetail::where('intervensi_id', $id)->get();
-
-        $intervensi['intervensi_detail'] = $intervensi_detail;
 
         $mode = "view";
-        return view('intervensi.pameran.form', compact('mode', 'intervensi'));
+        return view('intervensi.pameran.view', compact('mode', 'intervensi'));
     }
 
     public function store(Request $request)

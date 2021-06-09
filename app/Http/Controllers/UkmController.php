@@ -128,6 +128,47 @@ class UkmController extends Controller
         echo json_encode($res);
     }
 
+    public function exportUkmTanpaNik(){
+        try{
+
+            $data = DB::select("select * from ukm_disdag.ukm where nama_usaha is null");
+
+            $spreadsheet = new Spreadsheet();
+
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $sheet->setCellValue('A1', "No");
+            $sheet->setCellValue('B1', "Nama UKM");
+            $sheet->setCellValue('C1', "Nama Pemilik");
+            $sheet->setCellValue('D1', "NIK");
+            $sheet->setCellValue('E1', "Alamat");
+            $sheet->setCellValue('F1', "Telepon");
+
+            $i = 2;
+            $no = 1;
+            foreach ($data as $ukm) {
+                $sheet->setCellValue('A'.$i, $no);
+                $sheet->setCellValue('B'.$i, $ukm->nama_usaha);
+                $sheet->setCellValue('C'.$i, $ukm->nama_pemilik);
+                $sheet->setCellValue('D'.$i, "'" . $ukm->nik);
+                $sheet->setCellValue('E'.$i, $ukm->alamat);
+                $sheet->setCellValue('F'.$i, $ukm->no_telp);
+
+                $i++;
+                $no++;
+            }
+
+           $filename = "UKM_tanpa_nama.xlsx";
+           $writer = new Xlsx($spreadsheet);
+           header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+           header('Content-Disposition: attachment; filename="'. urlencode($filename).'"');
+           $writer->save('php://output');
+
+        } catch(Exception $e){
+            throw $e;
+        }
+    }
+
     public function getUkmTidakTerdaftar(){
         try{
             $data = DB::select("

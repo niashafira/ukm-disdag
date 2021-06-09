@@ -20,12 +20,14 @@ Data Intervensi
 
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
+        <h2>Data Intervensi Pelatihan</h2><hr>
         <a href="/intervensi/pelatihan/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah Pelatihan</a>
         <table id="table-intervensi" class="table table-bordered table-stripped">
             <thead class="bg-primary">
                 <tr>
                     <th class="text-center text-white" style="width:5%">No</th>
                     <th class="text-white">Nama Pelatihan</th>
+                    <th class="text-white">Lokasi</th>
                     <th class="text-white" style="width: 10%">Tanggal Mulai</th>
                     <th class="text-white" style="width: 10%">Tanggal Selesai</th>
                     <th class="text-white">Keterangan</th>
@@ -59,7 +61,7 @@ Data Intervensi
                         processing: true,
                         serverSide: true,
                         destroy: true,
-                        order: [[ 2, "desc" ]],
+                        order: [[ 3, "desc" ]],
                         ajax: {
                             url: this.api.intervensiDT,
                             data: (d) => {
@@ -79,6 +81,7 @@ Data Intervensi
                                 }
                             },
                             {data: 'nama_intervensi'},
+                            {data: 'lokasi'},
                             {
                                 data: 'tanggal_mulai',
                                 class: 'text-nowrap',

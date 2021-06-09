@@ -68,6 +68,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/ukm/tidakTerdaftar', [UkmController::class, 'tidakTerdaftar'])->name('ukm');
     Route::post('/ukm/sinkron', [UkmController::class, 'sinkronUkm'])->name('ukm');
+    Route::get('/ukm/exportTanpaNik', [UkmController::class, 'exportUkmTanpaNik'])->name('ukm');
 
     //OMSET
     Route::post('/ukm/omset/store', [UkmController::class, 'storeOmset'])->name('ukm');
