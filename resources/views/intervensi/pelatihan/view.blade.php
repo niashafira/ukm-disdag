@@ -20,8 +20,8 @@ Detail Pelatihan
 
     <div class="row" style="margin-bottom: 3%">
         <div class="col-12">
-            <a :href="'/intervensi/pelatihan/edit/'+ intervensi.id" class="btn btn-sm btn-warning"><span class="fa fa-pen"></span> Edit</a>
             <button v-on:click="openModalExport()" class="btn btn-sm btn-success"><span class="fa fa-file-excel"></span> Export Excel</button>
+            <a :href="'/intervensi/pelatihan/edit/'+ intervensi.id" class="btn btn-sm btn-warning"><span class="fa fa-pen"></span> Edit</a>
         </div>
     </div>
 
