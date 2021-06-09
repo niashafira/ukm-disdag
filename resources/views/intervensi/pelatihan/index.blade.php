@@ -101,8 +101,8 @@ Data Intervensi
                                 data: 'null',
                                 class: 'text-nowrap text-center',
                                 render: function (data, type, row, meta) {
-                                    let btn = "<a href='/intervensi/pelatihan/edit/"+ row.id +"' class='btn btn-sm btn-warning'><span class='fa fa-pencil-alt'></span></a>";
-                                    btn += "<a href='/intervensi/pelatihan/view/"+ row.id +"' style='margin-left: 1%' class='btn btn-sm btn-info'><span class='fa fa-eye'></span></a>";
+                                    let btn = "<a href='/intervensi/pelatihan/view/"+ row.id +"' style='margin-left: 1%' class='btn btn-sm btn-info'><span class='fa fa-eye'></span></a> ";
+                                    btn += "<a href='/intervensi/pelatihan/edit/"+ row.id +"' class='btn btn-sm btn-warning'><span class='fa fa-pencil-alt'></span></a>";
                                     return btn;
                                 }
                             }

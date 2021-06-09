@@ -10,7 +10,7 @@ Data Intervensi Sertifikasi Merek
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
         <h2>Data Intervensi Sertifikasi Merek</h2><hr>
-        <a href="/intervensi/SertifikasiMerek/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah</a>
+        <a href="/intervensi/SertifikasiMerek/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah Sertifikasi Merek</a>
         <table id="table-intervensi" class="table table-bordered table-stripped table-responsive">
             <thead class="bg-primary">
                 <tr>

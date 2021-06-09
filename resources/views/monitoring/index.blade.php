@@ -91,8 +91,8 @@ Monitoring Intervensi
 
                     </div> --}}
                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                        <button id="btn-filter" class="btn btn-sm btn-success mr-2" v-on:click="exportExcel()"><span class="fa fa-file-excel"></span> Export Excel</button>
                         <button id="btn-filter" class="btn btn-sm btn-info mr-2" v-on:click="submitFilter('new')"><span class="fa fa-filter"></span> Filter</button>
+                        <button id="btn-filter" class="btn btn-sm btn-success mr-2" v-on:click="exportExcel()"><span class="fa fa-file-excel"></span> Export Excel</button>
                     </div>
                     {{-- <button id="btn-filter" class="btn btn-sm btn-success" v-on:click="exportExcel()"><span class="fa fa-file-excel"></span> Export Excel</button> --}}
                 </div>
@@ -129,6 +129,7 @@ Monitoring Intervensi
                                 <th class="text-white bg-primary">Tanggal Mulai</th>
                                 <th class="text-white bg-primary">Tanggal Selesai</th>
                                 <th class="text-white bg-primary">Keterangan</th>
+                                <th class="text-white bg-primary">Aksi</th>
                             </tr>
                         </thead>
                     </table>
