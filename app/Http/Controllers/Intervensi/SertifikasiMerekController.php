@@ -46,21 +46,62 @@ class SertifikasiMerekController extends Controller
 
     public function store(Request $request)
     {
-        $sertifikasi_merek = $request->intervensi_detail;
-        unset($sertifikasi_merek['nama_usaha']);
-        SertifikasiMerek::create($sertifikasi_merek);
+        try{
+            SertifikasiMerek::create($request->intervensi);
 
-        echo json_encode("sukses");
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            return response()->json([
+                'status' => "E",
+                'message' => "Data gagal disimpan"
+            ]);
+        }
     }
 
     public function update(Request $request)
     {
-        $input = $request->intervensi_detail;
-        $intervensi = SertifikasiMerek::find($input['id']);
-        unset($input['nama_usaha']);
-        $intervensi->update($input);
+        try{
+            DB::beginTransaction();
+            $intervensi = SertifikasiMerek::find($request->intervensi['id']);
+            $intervensi->update($request->intervensi);
+            DB::commit();
 
-        echo json_encode("sukses");
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'status' => "E",
+                'message' => "Data gagal disimpan"
+            ]);
+        }
+    }
+
+    public function getMerekDT(Request $request){
+        try{
+            $data = DB::select("
+                SELECT a.nama_merek, a.no_permohonan, a.tgl_berkas_kemenkumham, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+                from ukm_disdag.sertifikasi_merek AS a
+                INNER JOIN ukm_disdag.ukm AS b
+                ON b.id = a.ukm_id
+                ORDER BY a.tgl_berkas_kemenkumham DESC"
+            );
+
+            return Datatables::of($data)->make(true);
+
+        }catch(Exception $e){
+            return response()->json([
+                'status' => "E",
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function getListDT(Request $request){

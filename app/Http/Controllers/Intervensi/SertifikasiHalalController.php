@@ -39,7 +39,7 @@ class SertifikasiHalalController extends Controller
             INNER JOIN ukm_disdag.ukm AS b
             ON b.id = a.ukm_id
             WHERE a.id = " . $id . ";
-        ");
+        ")[0];
 
         $mode = "edit";
         return view('intervensi.halal.form', compact('mode', 'intervensi'));
@@ -47,21 +47,62 @@ class SertifikasiHalalController extends Controller
 
     public function store(Request $request)
     {
-        $intervensi_detail = $request->intervensi_detail;
-        unset($intervensi_detail['nama_usaha']);
-        SertifikasiHalal::create($intervensi_detail);
+        try{
+            SertifikasiHalal::create($request->intervensi);
 
-        echo json_encode("sukses");
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            return response()->json([
+                'status' => "E",
+                'message' => "Data gagal disimpan"
+            ]);
+        }
     }
 
     public function update(Request $request)
     {
-        $input = $request->intervensi_detail;
-        $intervensi = SertifikasiHalal::find($input['id']);
-        unset($input['nama_usaha']);
-        $intervensi->update($input);
+        try{
+            DB::beginTransaction();
+            $intervensi = SertifikasiHalal::find($request->intervensi['id']);
+            $intervensi->update($request->intervensi);
+            DB::commit();
 
-        echo json_encode("sukses");
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'status' => "E",
+                'message' => "Data gagal disimpan"
+            ]);
+        }
+    }
+
+    public function getHalalDT(Request $request){
+        try{
+            $data = DB::select("
+                SELECT a.tgl_permohonan, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+                from ukm_disdag.sertifikasi_halal AS a
+                INNER JOIN ukm_disdag.ukm AS b
+                ON b.id = a.ukm_id
+                ORDER BY a.tgl_permohonan DESC"
+            );
+
+            return Datatables::of($data)->make(true);
+
+        }catch(Exception $e){
+            return response()->json([
+                'status' => "E",
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function getListDT(Request $request){

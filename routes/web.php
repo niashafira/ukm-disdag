@@ -108,6 +108,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/intervensi/SertifikasiHalal/view/{id}', [SertifikasiHalalController::class, 'view'])->name('intervensi');
     Route::get('/intervensi/SertifikasiHalal/getListDT', [SertifikasiHalalController::class, 'getListDT'])->name('intervensi');
 
+    Route::get('/intervensi/SertifikasiHalal/getHalalDT', [SertifikasiHalalController::class, 'getHalalDT'])->name('intervensi');
+
     //SERTIFIKAT MEREK
     Route::get('/intervensi/SertifikasiMerek', [SertifikasiMerekController::class, 'index'])->name('intervensi');
     Route::get('/intervensi/SertifikasiMerek/create', [SertifikasiMerekController::class, 'create'])->name('intervensi');
@@ -116,6 +118,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/intervensi/SertifikasiMerek/update', [SertifikasiMerekController::class, 'update'])->name('intervensi');
     Route::get('/intervensi/SertifikasiMerek/view/{id}', [SertifikasiMerekController::class, 'view'])->name('intervensi');
     Route::get('/intervensi/SertifikasiMerek/getListDT', [SertifikasiMerekController::class, 'getListDT'])->name('intervensi');
+
+    Route::get('/intervensi/SertifikasiMerek/getMerekDT', [SertifikasiMerekController::class, 'getMerekDT'])->name('intervensi');
+
 
     //Pemasaran
     Route::get('/intervensi/pemasaran', [PemasaranController::class, 'index'])->name('intervensi');
