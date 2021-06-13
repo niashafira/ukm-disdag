@@ -75,10 +75,10 @@ class DashboardController extends Controller
             $lainnya = Intervensi::where('jenis_intervensi', '=', 'lainnya')->whereYear('tanggal_mulai', '=', $year)->get();
             $count_lainnya = $lainnya->count();
 
-            $sertifikasi_halal = SertifikasiHalal::whereYear('tgl_permohonan', '=', $year)->get();
+            $sertifikasi_halal = SertifikasiHalal::whereYear('tgl_pendaftaran', '=', $year)->get();
             $count_sertifikasi_halal = $sertifikasi_halal->count();
 
-            $sertifikasi_merek = SertifikasiMerek::whereYear('tgl_berkas_kemenkumham', '=', $year)->get();
+            $sertifikasi_merek = SertifikasiMerek::whereYear('tgl_pendaftaran', '=', $year)->get();
             $count_sertifikasi_merek = $sertifikasi_merek->count();
 
             $count_total = $count_pelatihan + $count_pemasaran + $count_pameran + $count_lainnya + $count_sertifikasi_halal + $count_sertifikasi_merek;

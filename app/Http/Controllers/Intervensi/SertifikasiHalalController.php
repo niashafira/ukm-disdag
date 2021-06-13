@@ -14,14 +14,7 @@ class SertifikasiHalalController extends Controller
 {
     public function index()
     {
-        $intervensi = DB::select("
-            SELECT a.tgl_permohonan, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
-            from ukm_disdag.sertifikasi_halal AS a
-            INNER JOIN ukm_disdag.ukm AS b
-            ON b.id = a.ukm_id;
-        ");
-
-        return view('intervensi.halal.index', compact('intervensi'));
+        return view('intervensi.halal.index');
     }
 
     public function create()
@@ -34,7 +27,7 @@ class SertifikasiHalalController extends Controller
     public function edit($id)
     {
         $intervensi = DB::select("
-            SELECT a.tgl_permohonan, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+            SELECT a.tgl_pendaftaran, a.tgl_berkas_kemenag, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
             from ukm_disdag.sertifikasi_halal AS a
             INNER JOIN ukm_disdag.ukm AS b
             ON b.id = a.ukm_id
@@ -88,11 +81,11 @@ class SertifikasiHalalController extends Controller
     public function getHalalDT(Request $request){
         try{
             $data = DB::select("
-                SELECT a.tgl_permohonan, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+                SELECT a.tgl_pendaftaran, tgl_berkas_kemenag, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
                 from ukm_disdag.sertifikasi_halal AS a
                 INNER JOIN ukm_disdag.ukm AS b
                 ON b.id = a.ukm_id
-                ORDER BY a.tgl_permohonan DESC"
+                ORDER BY a.tgl_pendaftaran DESC"
             );
 
             return Datatables::of($data)->make(true);

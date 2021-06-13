@@ -37,7 +37,8 @@
                 this.intervensi = {!! json_encode($intervensi) !!};
                 this.nama_usaha = this.intervensi.nama_usaha;
                 delete this.intervensi['nama_usaha'];
-                this.intervensi.tgl_permohonan = new Date(this.intervensi.tgl_permohonan).toString('yyyy-MM-dd');
+                this.intervensi.tgl_pendaftaran = new Date(this.intervensi.tgl_pendaftaran).toString('yyyy-MM-dd');
+                if(this.intervensi.tgl_berkas_kemenag != undefined) this.intervensi.tgl_berkas_kemenag = new Date(this.intervensi.tgl_berkas_kemenag).toString('yyyy-MM-dd');
                 if(this.intervensi.tgl_sertifikat != undefined) this.intervensi.tgl_sertifikat = new Date(this.intervensi.tgl_sertifikat).toString('yyyy-MM-dd');
             },
 
@@ -117,10 +118,10 @@
                                     }
                                 }
                             },
-                            tgl_permohonan: {
+                            tgl_pendaftaran: {
                                 validators: {
                                     notEmpty: {
-                                        message: 'Tanggal permohonan tidak boleh kosong'
+                                        message: 'Tanggal pendaftaran tidak boleh kosong'
                                     }
                                 }
                             },

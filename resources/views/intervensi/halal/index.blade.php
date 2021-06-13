@@ -22,20 +22,23 @@ Data Sertifikasi Halal
     <div class="col-12 grid-margin stretch-card">
         <h2>Data Sertifikasi Halal</h2><hr>
         <a href="/intervensi/SertifikasiHalal/create" style="margin-bottom: 2%" class="btn btn-primary btn-sm"><span class="fa fa-plus"></span> Tambah Sertifikasi Halal</a>
-        <table id="table-intervensi" class="table table-bordered table-stripped">
-            <thead class="bg-primary">
-                <tr>
-                    <th class="text-center text-white" style="width:5%">No</th>
-                    <th class="text-white">Nama UKM</th>
-                    <th class="text-white">Tanggal Permohonan</th>
-                    <th class="text-white">Status</th>
-                    <th class="text-white">No Sertifikat</th>
-                    <th class="text-white">Tanggal Sertifikat</th>
-                    <th class="text-white">Keterangan</th>
-                    <th class="text-center text-white" style="width:10%">Aksi</th>
-                </tr>
-            </thead>
-        </table>
+        <div class="table-responsive">
+            <table id="table-intervensi" class="table table-bordered table-stripped">
+                <thead class="bg-primary">
+                    <tr>
+                        <th class="text-center text-white" style="width:5%">No</th>
+                        <th class="text-white">Nama UKM</th>
+                        <th class="text-white">Tanggal Pendaftaran</th>
+                        <th class="text-white">Tanggal Berkas Kemenag</th>
+                        <th class="text-white">Status</th>
+                        <th class="text-white text-nowrap">No Sertifikat</th>
+                        <th class="text-white">Tanggal Sertifikat</th>
+                        <th class="text-white">Keterangan</th>
+                        <th class="text-center text-white" style="width:10%">Aksi</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -76,12 +79,20 @@ Data Sertifikasi Halal
                                     return meta.row + meta.settings._iDisplayStart + 1;
                                 }
                             },
-                            {data: 'nama_usaha'},
+                            {data: 'nama_usaha', class: 'text-nowrap'},
                             {
-                                data: 'tgl_permohonan',
+                                data: 'tgl_pendaftaran',
                                 class: 'text-nowrap',
                                 render: function (data, type, row, meta) {
-                                    return new Date(row.tgl_permohonan).toString("dd MMMM yyyy")
+                                    return new Date(row.tgl_pendaftaran).toString("dd MMMM yyyy")
+                                }
+                            },
+                            {
+                                data: 'tgl_berkas_kemenag',
+                                class: 'text-nowrap',
+                                render: function (data, type, row, meta) {
+                                    if(row.tgl_berkas_kemenag == undefined) return "";
+                                    return new Date(row.tgl_berkas_kemenag).toString("dd MMMM yyyy")
                                 }
                             },
                             {

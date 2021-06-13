@@ -38,11 +38,20 @@ Form Sertifikasi Halal
                 </td>
             </tr>
             <tr>
-                <td class="align-middle">Tanggal Permohonan</td>
+                <td class="align-middle">Tanggal Pendaftaran</td>
                 <td class="align-middle"> : </td>
                 <td class="align-middle">
                     <div class="form-group" style="margin-bottom: 0">
-                        <input name="tgl_permohonan" v-model="intervensi.tgl_permohonan" type="date" class="form-control form-control-sm">
+                        <input name="tgl_pendaftaran" v-model="intervensi.tgl_pendaftaran" type="date" class="form-control form-control-sm">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="align-middle">Tanggal Berkas Kemenag</td>
+                <td class="align-middle"> : </td>
+                <td class="align-middle">
+                    <div class="form-group" style="margin-bottom: 0">
+                        <input name="tgl_berkas_kemenag" v-model="intervensi.tgl_berkas_kemenag" type="date" class="form-control form-control-sm">
                     </div>
                 </td>
             </tr>
