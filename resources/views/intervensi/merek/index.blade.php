@@ -27,15 +27,15 @@ Data Sertifikasi Merek
                 <thead class="bg-primary">
                     <tr>
                         <th class="text-center text-white" style="width:5%">No</th>
-                        <th class="text-white">Nama UKM</th>
-                        <th class="text-white">Nama Merek</th>
-                        <th class="text-white">No Permohonan</th>
-                        <th class="text-white">Tanggal Permohonan</th>
-                        <th class="text-white">Tanggal Berkas Kemenkumham</th>
-                        <th class="text-white">Status</th>
-                        <th class="text-white">No Sertifikat</th>
-                        <th class="text-white">Tanggal Sertifikat</th>
-                        <th class="text-white">Keterangan</th>
+                        <th class="text-white text-nowrap">Nama UKM</th>
+                        <th class="text-white text-nowrap">Nama Merek</th>
+                        <th class="text-white text-nowrap">Tanggal Pendaftaran</th>
+                        <th class="text-white text-nowrap">No Permohonan</th>
+                        <th class="text-white text-nowrap">Tanggal Berkas Kemenkumham</th>
+                        <th class="text-white text-nowrap">Status</th>
+                        <th class="text-white text-nowrap">No Sertifikat</th>
+                        <th class="text-white text-nowrap">Tanggal Sertifikat</th>
+                        <th class="text-white text-nowrap">Keterangan</th>
                         <th class="text-center text-white" style="width:10%">Aksi</th>
                     </tr>
                 </thead>
@@ -83,18 +83,19 @@ Data Sertifikasi Merek
                             },
                             {data: 'nama_usaha'},
                             {data: 'nama_merek'},
-                            {data: 'no_permohonan'},
                             {
-                                data: 'tgl_permohonan',
+                                data: 'tgl_pendaftaran',
                                 class: 'text-nowrap',
                                 render: function (data, type, row, meta) {
-                                    return new Date(row.tgl_permohonan).toString("dd MMMM yyyy")
+                                    return new Date(row.tgl_pendaftaran).toString("dd MMMM yyyy")
                                 }
                             },
+                            {data: 'no_permohonan'},
                             {
                                 data: 'tgl_berkas_kemenkumham',
                                 class: 'text-nowrap',
                                 render: function (data, type, row, meta) {
+                                    if(row.tgl_berkas_kemenkumham == undefined) return "";
                                     return new Date(row.tgl_berkas_kemenkumham).toString("dd MMMM yyyy")
                                 }
                             },

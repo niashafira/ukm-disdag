@@ -33,12 +33,12 @@ class SertifikasiMerekController extends Controller
     public function edit($id)
     {
         $intervensi = DB::select("
-        SELECT a.nama_merek, a.no_permohonan, a.tgl_berkas_kemenkumham, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+        SELECT a.nama_merek, a.no_permohonan, a.tgl_berkas_kemenkumham, a.tgl_pendaftaran, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
             from ukm_disdag.sertifikasi_merek AS a
             INNER JOIN ukm_disdag.ukm AS b
             ON b.id = a.ukm_id
             WHERE a.id = " . $id . ";
-        ");
+        ")[0];
 
         $mode = "edit";
         return view('intervensi.merek.form', compact('mode', 'intervensi'));
@@ -87,7 +87,7 @@ class SertifikasiMerekController extends Controller
     public function getMerekDT(Request $request){
         try{
             $data = DB::select("
-                SELECT a.nama_merek, a.no_permohonan, a.tgl_berkas_kemenkumham, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
+                SELECT a.nama_merek, a.no_permohonan, a.tgl_berkas_kemenkumham, a.tgl_pendaftaran, a.status, a.no_sertifikat, a.tgl_sertifikat, a.keterangan, a.id, b.nama_usaha
                 from ukm_disdag.sertifikasi_merek AS a
                 INNER JOIN ukm_disdag.ukm AS b
                 ON b.id = a.ukm_id
