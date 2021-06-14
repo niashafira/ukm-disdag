@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\IntervensiDetail;
 use App\Models\Kategori;
+use App\Models\KategoriDetail;
 use App\Models\Omset;
 use App\Models\SertifikasiHalal;
 use App\Models\SertifikasiMerek;
@@ -47,10 +48,10 @@ class UkmController extends Controller
             $ukm = Ukm::create($request->ukm);
             $id = $ukm->id;
 
-            if(isset($request->omset)){
-                foreach($request->omset as $omset){
-                    $omset['ukm_id'] = $id;
-                    Omset::create($omset);
+            if(isset($request->kategoriDetail)){
+                foreach($request->kategoriDetail as $kategori){
+                    $kategori['ukm_id'] = $id;
+                    KategoriDetail::create($kategori);
                 }
             }
 
@@ -58,6 +59,7 @@ class UkmController extends Controller
 
             return response()->json([
                 'status' => "S",
+                'data' => $ukm,
                 'message' => "Data berhasil disimpan"
             ]);
 

@@ -1,130 +1,219 @@
 <script>
+Vue.directive('select', {
+    twoWay: true,
+    bind: function (el, binding, vnode) {
+        $(el).select2().on("select2:select", (e) => {
+            el.dispatchEvent(new Event('change', { target: e.target }));
+        });
+    },
+});
+
 var app = new Vue({
         el: '#app',
         data: {
             api:{
-                dataUkm: "/api/ukm",
-                checkDuplicate: "/ukm/checkDuplicate"
+                allKecamatan: '/kecamatan/getAll',
+                kelurahanByKcmId: '/kelurahan/getByKcmId',
+                allKategori: '/kategori/getAll',
+                create: '/ukm/create'
             },
-            ukm: {
-                nama_pemilik: "",
-                nik: "",
-                nama_usaha: "",
-                jenis_produksi: "",
-                alamat: "",
-                jangkauan_pemasaran: "",
-                no_telp: "",
-                email: "",
-                no_siup: "",
-                no_nib: "",
-                no_tdp: "",
-                no_iumk: "",
-                no_pirt: "",
-                no_bpom: "",
-                jumlah_pemodalan: "",
-                sumber_pemodalan: "",
-                jumlah_pinjaman: "",
-                sumber_pinjaman: "",
-                no_sertifikasi_halal: "",
-                no_sertifikasi_merek: "",
-            },
-            omset: [],
-            statusDuplicate: null,
-            duplicate: {}
+            ukm: {},
+            dataKecamatan: [],
+            kecamatan: {},
+            dataKelurahan: [],
+            kelurahan: {},
+            dataKategori: [],
+            validation: {},
+            mode: ""
 
         },
 
         mounted(){
-            this.tambahOmset();
+            this.mode = {!! json_encode($mode) !!};
+            this.getAllKecamatan();
+            this.getAllKategori();
+            this.setValidation();
         },
 
         methods: {
-            tambahOmset(){
-                this.omset.push({
-                    tanggal: "",
-                    jumlah: ""
+            async getAllKecamatan(){
+                const response = await axios.get(this.api.allKecamatan)
+                this.dataKecamatan = response.data.data;
+            },
+
+            async getAllKategori(){
+                const response = await axios.get(this.api.allKategori)
+                this.dataKategori = response.data.data;
+                this.dataKategori.forEach((kategori) => {
+                    kategori.active = false;
                 });
-
-                setTimeout(() =>
-                {
-                    var id = this.omset.length - 1;
-                    $("#datepicker" + id).datepicker({
-                        format: "mm-yyyy",
-                        startView: "months",
-                        minViewMode: "months"
-                    });
-                    $("#datepicker" + id).change(function() {
-                        $(this)[0].dispatchEvent(new Event('input'));
-                    });
-                }, 100);
             },
 
-            async checkDuplicate(){
-                this.statusDuplicate = null;
-                if(this.ukm.nik != ""){
-                    const response = await axios.post(this.api.checkDuplicate, {nik: this.ukm.nik});
-                    ((response.data.status == 'E') ? this.statusDuplicate = true : this.statusDuplicate = false)
-                    if(response.data.status == 'E'){
-                        this.statusDuplicate = true;
-                        this.duplicate.nik = this.ukm.nik;
-                        this.duplicate.data = response.data.data;
-
-                    }
-                }
-
-            },
-
-            openModalDuplicate(){
-                $("#modal-duplicate").modal("show");
-            },
-
-            simpan(){
-
-                var data = {
-                    ukm: this.ukm,
-                    omset: this.omset
-                }
-
+            async getKelurahanByKcmId(kecamatanId){
                 Swal.fire({
-                    title: 'Apakah anda yakin ?',
-                    text: "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Ya'
-                    }).then((result) => {
-                    if (result.isConfirmed) {
+                    title: 'Mohon Tunggu !',
+                    html: '',
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading()
+                    },
+                });
+                this.dataKelurahan = [];
+                const response = await axios.get(this.api.kelurahanByKcmId + '?kecamatanId='+kecamatanId);
+                this.dataKelurahan = response.data.data;
+                Swal.close();
+            },
+
+            changeKecamatan(){
+                this.getKelurahanByKcmId(this.kecamatan.kcm_id);
+            },
+
+            changeKelurahan(){
+                this.ukm.kelurahan_id = this.kelurahan.klh_id;
+            },
+
+            save(){
+                this.validation.validate().then(async (status) => {
+                    if (status == 'Valid') {
                         Swal.fire({
-                            title: 'Mohon Tunggu !',
-                            html: '',
-                            allowOutsideClick: false,
-                            onBeforeOpen: () => {
-                                Swal.showLoading()
-                            },
-                        });
+                            title: 'Apakah anda yakin ?',
+                            text: "",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya'
+                            }).then(async (result) => {
+                            if (result.isConfirmed) {
+                                showLoading();
 
-                        var url = "/ukm/store";
+                                let data = {
+                                    ukm: this.ukm,
+                                    kategoriDetail: []
+                                };
 
-                        axios.post(url, data).then(response => {
-                            if(response.data == "sukses"){
+                                this.dataKategori.forEach((kategori, index) => {
+                                    if(kategori.active == true){
+                                        data.kategoriDetail.push({
+                                            kategori_id: kategori.id
+                                        })
+                                    }
+                                });
+
+                                let url = this.api.create;
+                                if(this.mode == 'edit') url = this.api.update;
+
+                                const response = await axios.post(url, data);
                                 Swal.close();
-                                Swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: 'Data Berhasil Disimpan',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
-                                window.location = "/ukm";
+
+                                if(response.data.status == "S"){
+                                    Swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: response.data.message,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    })
+                                    window.location = "/ukm/view/" + response.data.data.id;
+                                }
+                                else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '',
+                                        text: response.data.message
+                                    });
+                                }
                             }
                         });
+
+                    }
+                    else{
+                        $("html, body").animate({ scrollTop: 100 }, "slow");
                     }
                 });
+            },
 
+            setValidation(){
+                this.validation = FormValidation.formValidation(
+                    document.getElementById('form-ukm'),
+                    {
+                        fields: {
+                            nama_usaha: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Nama UKM tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            nama_pemilik: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Nama Pemilik tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            nik: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'NIK tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            no_telp: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'No Telepon tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            alamat: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Alamat tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            kecamatan: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Kecamatan tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            kelurahan: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Kelurahan tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            kategori: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Kategori tidak boleh kosong'
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            trigger: new FormValidation.plugins.Trigger(),
+                            bootstrap: new FormValidation.plugins.Bootstrap({
+                                eleValidClass: '',
+                            })
+                        }
+                    }
+                );
             }
-
         },
 });
 
+$('#kecamatan').select2({
+    placeholder: "Pilih Kecamatan",
+    allowClear: true
+});
+
+$('#kelurahan').select2({
+    placeholder: "Pilih Kelurahan",
+    allowClear: true
+});
 </script>

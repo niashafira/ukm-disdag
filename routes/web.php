@@ -12,6 +12,9 @@ use App\Http\Controllers\Intervensi\PemasaranController;
 use App\Http\Controllers\UkmController;
 use App\Http\Controllers\ReferensiController;
 use App\Http\Controllers\IntervensiController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KecamatanController;
+use App\Http\Controllers\KelurahanController;
 use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\UserController;
 
@@ -52,7 +55,7 @@ Route::group(['middleware' => 'auth'], function () {
     //UKM
     Route::get('/ukm', [UkmController::class, 'index'])->name('ukm');
     Route::get('/ukm/create', [UkmController::class, 'create'])->name('ukm');
-    Route::post('/ukm/store', [UkmController::class, 'store'])->name('ukm');
+    Route::post('/ukm/create', [UkmController::class, 'store'])->name('ukm');
     Route::post('/ukm/delete', [UkmController::class, 'destroy'])->name('ukm');
     Route::post('/ukm/edit', [UkmController::class, 'edit'])->name('ukm');
     Route::post('/ukm/update', [UkmController::class, 'update'])->name('ukm');
@@ -141,16 +144,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/intervensi/lainnya/view/{id}', [LainnyaController::class, 'view'])->name('intervensi');
     Route::post('/intervensi/lainnya/export', [LainnyaController::class, 'exportExcel'])->name('intervensi');
 
-
-    //REFERENSI
-    Route::get('/referensi', [ReferensiController::class, 'index']);
-    Route::get('/referensi/create', [ReferensiController::class, 'create']);
-    Route::post('/referensi/store', [ReferensiController::class, 'store']);
-    Route::post('/referensi/delete', [ReferensiController::class, 'destroy']);
-    Route::get('/referensi/edit/{id}', [ReferensiController::class, 'edit']);
-    Route::get('/referensi/view/{id}', [ReferensiController::class, 'view']);
-    Route::post('/referensi/update', [ReferensiController::class, 'update']);
-
     //USER
     Route::get('/data_user', [UserController::class, 'index']);
     Route::post('/data_user/delete', [UserController::class, 'destroy']);
@@ -160,9 +153,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/monitoring/filter', [MonitoringController::class, 'filter'])->name('monitoring');
     Route::post('/monitoring/exportExcel', [MonitoringController::class, 'exportExcel'])->name('monitoring');
 
-
     //API
     Route::get('api/ukm', [UkmController::class, 'getAll']);
+
+    //KECAMATAN
+    Route::get('kecamatan/getAll', [KecamatanController::class, 'getAll']);
+
+    //KELURAHAN
+    Route::get('kelurahan/getByKcmId', [KelurahanController::class, 'getByKcmId']);
+
+    //KATEGORI
+    Route::get('kategori/getAll', [KategoriController::class, 'getAll']);
 
 });
 
