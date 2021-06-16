@@ -109,17 +109,35 @@ class UkmController extends Controller
 
     public function show($id)
     {
-        $profil = Ukm::find($id);
-        $intervensi = $check_ukm_nik = DB::select(
-            "select a.* from ukm_disdag.intervensi a ".
-            "JOIN ukm_disdag.intervensi_detail b ".
-            "ON a.id = b.intervensi_id ".
-            "WHERE b.ukm_id = ".$id
-        );
+        try{
+            $data['profil'] = DB::select("
+                SELECT a.*, b.klh_nama AS nama_kelurahan, c.kcm_nama AS nama_kecamatan
+                FROM ukm_disdag.ukm AS a
+                JOIN ukm_disdag.kelurahan AS b on a.kelurahan_id = b.klh_id
+                JOIN ukm_disdag.kecamatan AS c on b.klh_kcm_id = c.kcm_id
+                WHERE a.id ={$id}
+            ")[0];
 
-        $data['profil'] = $profil;
-        $data['intervensi'] = $intervensi;
-        return view("ukm.view", compact('data'));
+            $data['intervensi'] =  DB::select("
+                SELECT a.* from ukm_disdag.intervensi a
+                JOIN ukm_disdag.intervensi_detail b
+                ON a.id = b.intervensi_id
+                WHERE b.ukm_id ={$id}"
+            );
+
+            $data['kategori'] =  DB::select("
+                SELECT a.nama
+                FROM ukm_disdag.kategori as a
+                JOIN ukm_disdag.kategori_detail as b
+                ON a.id = b.kategori_id
+                WHERE b.ukm_id ={$id}
+            ");
+
+            return view("ukm.view", compact('data'));
+
+        } catch(Exception $e){
+            throw $e;
+        }
     }
 
     public function storeOmset(Request $request){

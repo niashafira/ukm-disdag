@@ -9,48 +9,46 @@
                 getOmset: "/ukm/omset/",
                 getSertifikasi: "/ukm/sertifikasi/"
             },
-            ukm: {
-                profil: {}
-            },
+            ukm: {},
+            intervensi: {},
             omset: [],
+            kategori: [],
             newOmset: "",
             chartOmset: {},
-            sertifikasi: []
+            sertifikasi: [],
+            mainTabs: [
+                {
+                    nama: "PROFIL & IJIN USAHA",
+                    id: "tab-profil",
+                    icon: "fa fa-address-card",
+                    active: true
+                },
+                {
+                    nama: "OMSET",
+                    id: "tab-omset",
+                    icon: "fa fa-chart-line",
+                    active: false
+                },
+                {
+                    nama: "INTERVENSI",
+                    id: "tab-intervensi",
+                    icon: "fa fa-clipboard-check",
+                    active: false
+                }
+            ]
         },
 
         mounted(){
             this.initData();
+            $("#link-"+this.mainTabs[0].id).click();
         },
 
         methods:{
+
             initData(){
-                var data = <?= json_encode($data); ?>;
-                this.ukm = data;
-                this.ukm.intervensi.forEach((intervensi) => {
-                    if(intervensi.tanggal_mulai != undefined){
-                        intervensi.tanggal_mulai = new Date(intervensi.tanggal_mulai).toString("dd MMMM yyyy");
-                    }
-
-                    if(intervensi.jenis_intervensi == "pelatihan"){
-                        intervensi.linkDetail = "/intervensi/pelatihan/view/"+intervensi.id;
-                    }
-                    if(intervensi.jenis_intervensi == "pameran"){
-                        intervensi.linkDetail = "/intervensi/pameran/view/"+intervensi.id;
-                    }
-                    if(intervensi.jenis_intervensi == "pemasaran"){
-                        intervensi.linkDetail = "/intervensi/pemasaran/view/"+intervensi.id;
-                    }
-                    if(intervensi.jenis_intervensi == "lainnya"){
-                        intervensi.linkDetail = "/intervensi/lainnya/view/"+intervensi.id;
-                    }
-                });
-
-                this.getOmset();
-                this.getSertifikasi();
-
-                setTimeout(() => {
-                    $('#table-intervensi').DataTable();
-                }, 10);
+                this.ukm = {!! json_encode($data['profil']) !!};
+                this.ukm.intervensi = {!! json_encode($data['intervensi']) !!};
+                this.ukm.kategori = {!! json_encode($data['kategori']) !!};
             },
 
             async getOmset(){
