@@ -4,6 +4,18 @@
 Profil UKM
 @endsection
 
+@section('style')
+    <style>
+        .dataTables_wrapper .dataTable th.sorting_asc, .dataTables_wrapper .dataTable td.sorting_asc{
+            color: white !important;
+        }
+
+        .dataTables_wrapper .dataTable th.sorting_desc, .dataTables_wrapper .dataTable td.sorting_desc{
+            color: white !important;
+        }
+    </style>
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-md-12">
@@ -19,7 +31,6 @@ Profil UKM
         </ul>
 
         <div class="tab-content mt-5" id="myTabContent">
-
             <div class="tab-pane fade active show" id="tab-profil" role="tabpanel" aria-labelledby="tab-profil">
                 <div class="col-md-12">
                     <button class="btn btn-warning btn-sm mb-3"><span class="fa fa-pencil-alt"></span> Edit Profil</button>
@@ -125,6 +136,100 @@ Profil UKM
                         </table>
                     </form>
                 </div>
+            </div>
+
+            <div class="tab-pane fade" id="tab-omset" role="tabpanel" aria-labelledby="tab-omset">
+                <div class="col-md-12">
+                    <h3>Data Omset</h3>
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-omset"><span class="fa fa-cogs"></span> Manage Data Omset</button>
+                            <canvas id="chart-omset"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-omset" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Manage Data Omset</h5>
+            </div>
+            <div class="modal-body">
+                <form id="form-omset">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label>Bulan</label>
+                                <input name="bulan" v-model="formOmset.tanggal" type="month" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label>Produk Terjual</label>
+                                <input name="jml_terjual" v-model="formOmset.jml_produk_terjual" type="number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md">
+                            <div class="form-group">
+                                <label>Omset</label>
+                                <input name="omset" v-model="formOmset.nominal" type="number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label></label>
+                                <button type="button" v-on:click="simpanOmset()" class="btn btn-sm btn-success form-control"><span class="fa fa-save"></span> Simpan</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <table class="table table-bordered" id="table-omset">
+                    <thead class="bg-primary">
+                        <tr>
+                            <th class="text-white text-center">Bulan</th>
+                            <th class="text-white text-center">Jumlah Produk Terjual</th>
+                            <th class="text-white text-center">Omset</th>
+                            <th class="text-white text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(omset, index) in ukm.omset">
+                            <td class="text-center">
+                                <span v-if="omset.isEdit == false"> @{{ new Date(omset.tanggal).toString('MMMM yyyy') }} </span>
+                                <div v-else>
+                                    <input type="month" class="form-control" v-model="omset.tanggal">
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span v-if="omset.isEdit == false">@{{ omset.jml_produk_terjual }}</span>
+                                <div v-else>
+                                    <input type="number" class="form-control" v-model="omset.jml_produk_terjual">
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span v-if="omset.isEdit == false">@{{ omset.nominal }}</span>
+                                <div v-else>
+                                    <input type="number" class="form-control" v-model="omset.nominal">
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span v-if="omset.isEdit == false">
+                                    <button v-on:click="editOmset(omset)" class="btn btn-sm btn-warning"><span class="fa fa-pen"></span></button>
+                                    <button v-on:click="deleteOmset(omset.id)" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span></button>
+                                </span>
+                                <span v-else>
+                                    <button v-on:click="updateOmset(omset)" class="btn bnt-sm btn-success"><span class="fa fa-save"></span></button>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

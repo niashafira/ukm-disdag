@@ -10,12 +10,7 @@
                 getSertifikasi: "/ukm/sertifikasi/"
             },
             ukm: {},
-            intervensi: {},
-            omset: [],
             kategori: [],
-            newOmset: "",
-            chartOmset: {},
-            sertifikasi: [],
             mainTabs: [
                 {
                     nama: "PROFIL & IJIN USAHA",
@@ -35,12 +30,19 @@
                     icon: "fa fa-clipboard-check",
                     active: false
                 }
-            ]
+            ],
+            formOmset: {},
+            validation: {
+                omset: ""
+            },
+            chartOmset: ""
         },
 
-        mounted(){
+        async mounted(){
             this.initData();
             $("#link-"+this.mainTabs[0].id).click();
+            this.setValidationOmset();
+            this.getOmset();
         },
 
         methods:{
@@ -52,15 +54,24 @@
             },
 
             async getOmset(){
-                var res = await axios.get(this.api.getOmset + this.ukm.profil.id);
+                $("#table-omset").DataTable().destroy();
+                var res = await axios.get(this.api.getOmset + this.ukm.id);
 
-                this.omset = res.data.data;
+                this.ukm.omset = res.data.data;
 
-                this.omset.forEach((omset, index) => {
+                this.ukm.omset.forEach((omset, index) => {
                     omset.isEdit = false;
                 });
 
-                this.generateChart();
+                this.$forceUpdate();
+
+                this.setChartOmset();
+
+                setTimeout( () => {
+                    $("#table-omset").DataTable({
+                        ordering:  false
+                    })
+                }, 500);
             },
 
             async getSertifikasi(){
@@ -160,43 +171,38 @@
                 };
             },
 
-            simpanOmset(omset){
-                Swal.fire({
-                    title: 'Mohon Tunggu !',
-                    html: '',
-                    allowOutsideClick: false,
-                    onBeforeOpen: () => {
-                        Swal.showLoading()
-                    },
-                });
-
-                var data = {
-                    omset: this.newOmset
-                }
-
-                axios.post(this.api.simpanOmset, data).then(response => {
-                    if(response.data.status == "S"){
-                        Swal.close();
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Data Berhasil Disimpan',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-
-                        response.data.data.isEdit = false;
-
-                        this.omset.unshift(response.data.data);
-
-                        this.newOmset = "";
-
-                        this.$forceUpdate();
-
-                        this.resetChartOmset();
-
+            async simpanOmset(omset){
+                this.validation.omset.validate().then(async (status) => {
+                    if (status == 'Valid') {
+                        showLoading();
                     }
                 });
+
+                this.formOmset.ukm_id = this.ukm.id;
+                var data = {
+                    omset: this.formOmset
+                }
+
+                const response = await axios.post(this.api.simpanOmset, data);
+                Swal.close();
+
+                if (response.data.status == "S") {
+                    this.getOmset();
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Data Berhasil Disimpan',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: response.data.message,
+                    });
+                }
+
             },
 
             editOmset(omset){
@@ -205,74 +211,127 @@
                 this.$forceUpdate();
             },
 
-            updateOmset(omset){
-                Swal.fire({
-                    title: 'Mohon Tunggu !',
-                    html: '',
-                    allowOutsideClick: false,
-                    onBeforeOpen: () => {
-                        Swal.showLoading()
-                    },
-                });
+            async updateOmset(omset){
+                showLoading();
 
                 var data = {
-                    omset: omset
+                    omset: {
+                        id: omset.id,
+                        ukm_id: omset.ukm_id,
+                        nominal: omset.nominal,
+                        jml_produk_terjual: omset.jml_produk_terjual
+                    }
                 }
 
-                axios.post(this.api.updateOmset, data).then(response => {
-                    if(response.data.status == "S"){
-                        Swal.close();
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Data Berhasil Disimpan',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
+                const response = await axios.post(this.api.updateOmset, data);
 
-                        omset.isEdit = false;
+                Swal.close();
 
-                        this.resetChartOmset();
-
-                        this.$forceUpdate();
-
-                    }
-                });
+                if (response.data.status == "S"){
+                    omset.isEdit = false;
+                    this.getOmset();
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: response.data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+                else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: response.data.message,
+                    });
+                }
             },
 
-            deleteOmset(omset, index){
-                Swal.fire({
-                    title: 'Mohon Tunggu !',
-                    html: '',
-                    allowOutsideClick: false,
-                    onBeforeOpen: () => {
-                        Swal.showLoading()
-                    },
-                });
-
-                var data = {
-                    omset: omset
+            async deleteOmset(id){
+                showLoading();
+                const response = await axios.delete(this.api.deleteOmset + '/' + id);
+                Swal.close();
+                if (response.data.status == "S"){
+                    this.getOmset();
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: response.data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 }
+                else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: response.data.message,
+                    });
+                }
+            },
 
-                axios.post(this.api.deleteOmset, data).then(response => {
-                    if(response.data.status == "S"){
-                        Swal.close();
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Data Berhasil Dihapus',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-
-                        this.omset.splice(index, 1);
-
-                        this.resetChartOmset();
-
-                        this.$forceUpdate();
-
+            setValidationOmset(){
+                this.validation.omset = FormValidation.formValidation(
+                    document.getElementById('form-omset'),
+                    {
+                        fields: {
+                            bulan: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Bulan tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            jml_terjual: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Jumlah terjual tidak boleh kosong'
+                                    }
+                                }
+                            },
+                            omset: {
+                                validators: {
+                                    notEmpty: {
+                                        message: 'Omset tidak boleh kosong'
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            trigger: new FormValidation.plugins.Trigger(),
+                            bootstrap: new FormValidation.plugins.Bootstrap({
+                                eleValidClass: '',
+                            })
+                        }
                     }
+                );
+            },
+
+            setChartOmset(){
+                let labels = [];
+                let dataSet = [];
+                this.ukm.omset.forEach((omset, index) => {
+                    labels.unshift(new Date(omset.tanggal).toString('MMMM yyyy'));
+                    dataSet.unshift(omset.nominal);
                 });
+
+                const data = {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Omset',
+                        data: dataSet,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                };
+
+                const config = {
+                    type: 'line',
+                    data: data,
+                };
+
+                var ctx = document.getElementById('chart-omset');
+                if(this.chartOmset != "") this.chartOmset.destroy();
+                this.chartOmset = new Chart(ctx, config);
             }
         }
     });

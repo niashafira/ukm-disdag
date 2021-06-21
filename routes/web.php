@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/ukm/omset/update', [UkmController::class, 'updateOmset'])->name('ukm');
     Route::get('/ukm/omset/{id}', [UkmController::class, 'getOmset'])->name('ukm');
     Route::get('/ukm/sertifikasi/{id}', [UkmController::class, 'getSertifikasi'])->name('ukm');
-    Route::post('/ukm/omset/delete', [UkmController::class, 'deleteOmset'])->name('ukm');
+    Route::delete('/ukm/omset/delete/{id}', [UkmController::class, 'deleteOmset'])->name('ukm');
 
     //PELATIHAN
     Route::get('/intervensi/pelatihan', [PelatihanController::class, 'index'])->name('intervensi');

@@ -113,8 +113,8 @@ class UkmController extends Controller
             $data['profil'] = DB::select("
                 SELECT a.*, b.klh_nama AS nama_kelurahan, c.kcm_nama AS nama_kecamatan
                 FROM ukm_disdag.ukm AS a
-                JOIN ukm_disdag.kelurahan AS b on a.kelurahan_id = b.klh_id
-                JOIN ukm_disdag.kecamatan AS c on b.klh_kcm_id = c.kcm_id
+                LEFT JOIN ukm_disdag.kelurahan AS b on a.kelurahan_id = b.klh_id
+                LEFT JOIN ukm_disdag.kecamatan AS c on b.klh_kcm_id = c.kcm_id
                 WHERE a.id ={$id}
             ")[0];
 
@@ -141,11 +141,28 @@ class UkmController extends Controller
     }
 
     public function storeOmset(Request $request){
-        $omset = Omset::create($request->omset);
+        try{
+            if (Omset::where('tanggal', '=', $request->omset['tanggal'])->exists()) {
+                return response()->json([
+                    'status' => "E",
+                    'message' => "Omset pada {$request->omset['tanggal']} sudah ada"
+                ]);
+             }
 
-        $res['status'] = "S";
-        $res['data'] = $omset;
-        echo json_encode($res);
+            Omset::create($request->omset);
+
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            return response()->json([
+                'status' => "E",
+                'message' => "Data gagal disimpan"
+            ]);
+        }
+
     }
 
     public function exportUkmTanpaNik(){
@@ -207,33 +224,43 @@ class UkmController extends Controller
     }
 
     public function updateOmset(Request $request){
-        $omset = Omset::find($request->omset['id']);
+        try{
+            $omset = Omset::find($request->omset['id']);
+            $omset->update($request->omset);
 
-        $input = $request->omset;
-        unset($input['created_at']);
-        unset($input['updated_at']);
-        unset($input['isEdit']);
-
-        $omset->update($input);
-
-        $res['status'] = "S";
-        $res['data'] = $omset;
-        echo json_encode($res);
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil diupdate"
+            ]);
+        } catch(Exception $e){
+            return response()->json([
+                'status' => "E",
+                'message' => "Gagal update data"
+            ]);
+        }
     }
 
-    public function deleteOmset(Request $request){
-        Omset::destroy($request->omset['id']);
+    public function deleteOmset($id){
+        try{
+            Omset::destroy($id);
 
-        $res['status'] = "S";
-        echo json_encode($res);
+            return response()->json([
+                'status' => "S",
+                'message' => "Data berhasil dihapus"
+            ]);
+        } catch(Exception $e){
+            return response()->json([
+                'status' => "E",
+                'message' => "Hapus data gagal"
+            ]);
+        }
     }
 
     public function getOmset($id){
-        $omset = Omset::where('ukm_id', '=', $id)->orderBy('id', 'DESC')->get();
-
-        $res['status'] = "S";
-        $res['data'] = $omset;
-        echo json_encode($res);
+        return response()->json([
+            'status' => "S",
+            'data' => Omset::where('ukm_id', '=', $id)->orderBy('tanggal', 'DESC')->get()
+        ]);
     }
 
     public function getSertifikasi($id){
