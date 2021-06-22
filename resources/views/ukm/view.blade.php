@@ -33,7 +33,7 @@ Profil UKM
         <div class="tab-content mt-5" id="myTabContent">
             <div class="tab-pane fade active show" id="tab-profil" role="tabpanel" aria-labelledby="tab-profil">
                 <div class="col-md-12">
-                    <button class="btn btn-warning btn-sm mb-3"><span class="fa fa-pencil-alt"></span> Edit Profil</button>
+                    <a :href="'/ukm/edit/' + ukm.id" class="btn btn-warning btn-sm mb-3"><span class="fa fa-pencil-alt"></span> Edit Profil</a>
                     <form id="form-ukm">
                         <table class="table table-striped" style="font-size: 14px;">
                             <tr style="background-color: #07a4bd !important; color: white">
@@ -145,6 +145,36 @@ Profil UKM
                         <div class="col-md-12">
                             <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-omset"><span class="fa fa-cogs"></span> Manage Data Omset</button>
                             <canvas id="chart-omset"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="tab-intervensi" role="tabpanel" aria-labelledby="tab-intervensi">
+                <div class="col-md-12">
+                    <h3>Data Intervensi</h3>
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <thead class="bg-primary">
+                                    <tr>
+                                        <th class="text-white text-center">No</th>
+                                        <th class="text-white">Jenis Intervensi</th>
+                                        <th class="text-white">Nama intervensi</th>
+                                        <th class="text-white">Tanggal</th>
+                                        <th class="text-white text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(intervensi, index) in ukm.intervensi">
+                                        <td class="text-center">@{{ index + 1 }}</td>
+                                        <td class="text-capitalize">@{{ intervensi.jenis_intervensi }}</td>
+                                        <td>@{{ intervensi.nama_intervensi }}</td>
+                                        <td>@{{ new Date(intervensi.tanggal_mulai).toString('dd MMMM yyyy') }}</td>
+                                        <td class="text-center"><button class="btn btn-sm btn-info"><span class="fa fa-eye"></span></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

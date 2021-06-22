@@ -15,7 +15,8 @@ var app = new Vue({
                 allKecamatan: '/kecamatan/getAll',
                 kelurahanByKcmId: '/kelurahan/getByKcmId',
                 allKategori: '/kategori/getAll',
-                create: '/ukm/create'
+                create: '/ukm/create',
+                update: '/ukm/update'
             },
             ukm: {},
             dataKecamatan: [],
@@ -28,14 +29,39 @@ var app = new Vue({
 
         },
 
-        mounted(){
+        async mounted(){
             this.mode = {!! json_encode($mode) !!};
-            this.getAllKecamatan();
-            this.getAllKategori();
             this.setValidation();
+            await this.getAllKategori();
+            await this.getAllKecamatan();
+            if(this.mode == 'edit') this.initData();
         },
 
         methods: {
+            async initData(){
+                this.ukm = {!! json_encode($data['profil']) !!};
+                this.dataKecamatan.forEach((kecamatan) => {
+                    if(kecamatan.kcm_id == this.ukm.kecamatan_id) {
+                        this.kecamatan = kecamatan;
+                        return false;
+                    }
+                });
+                await this.getKelurahanByKcmId(this.kecamatan.kcm_id);
+                this.dataKelurahan.forEach((kelurahan) => {
+                    if(kelurahan.klh_id == this.ukm.kelurahan_id) {
+                        this.kelurahan = kelurahan;
+                        return false;
+                    }
+                });
+
+                let kategori = {!! json_encode($data['kategori']) !!};
+                kategori.forEach((kategori) => {
+                    this.dataKategori.forEach((k) => {
+                        if(k.nama == kategori.nama) k.active = true
+                    })
+                });
+            },
+
             async getAllKecamatan(){
                 const response = await axios.get(this.api.allKecamatan)
                 this.dataKecamatan = response.data.data;
@@ -87,8 +113,19 @@ var app = new Vue({
                             if (result.isConfirmed) {
                                 showLoading();
 
+                                let url = this.api.create;
+                                let ukm = this.ukm;
+                                if(this.mode == 'edit'){
+                                    url = this.api.update;
+                                    delete ukm['created_at'];
+                                    delete ukm['kecamatan_id'];
+                                    delete ukm['nama_kecamatan'];
+                                    delete ukm['nama_kelurahan'];
+                                    delete ukm['updated_at'];
+                                }
+
                                 let data = {
-                                    ukm: this.ukm,
+                                    ukm: ukm,
                                     kategoriDetail: []
                                 };
 
@@ -99,9 +136,6 @@ var app = new Vue({
                                         })
                                     }
                                 });
-
-                                let url = this.api.create;
-                                if(this.mode == 'edit') url = this.api.update;
 
                                 const response = await axios.post(url, data);
                                 Swal.close();

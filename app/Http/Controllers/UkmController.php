@@ -275,17 +275,58 @@ class UkmController extends Controller
         echo json_encode($res);
     }
 
-    public function edit(Request $request)
+    public function edit($id)
     {
-        $id = $request->id;
+        $data['profil'] = DB::select("
+                SELECT a.*, b.klh_nama AS nama_kelurahan, c.kcm_nama AS nama_kecamatan, b.klh_kcm_id AS kecamatan_id
+                FROM ukm_disdag.ukm AS a
+                LEFT JOIN ukm_disdag.kelurahan AS b on a.kelurahan_id = b.klh_id
+                LEFT JOIN ukm_disdag.kecamatan AS c on b.klh_kcm_id = c.kcm_id
+                WHERE a.id ={$id}
+            ")[0];
+
+        $data['kategori'] =  DB::select("
+            SELECT a.nama
+            FROM ukm_disdag.kategori as a
+            JOIN ukm_disdag.kategori_detail as b
+            ON a.id = b.kategori_id
+            WHERE b.ukm_id ={$id}
+        ");
+
         $mode = "edit";
-        $data = Ukm::find($id);
-        return view("ukm.modal-form", compact('mode', 'data'));
+        return view("ukm.form", compact('mode', 'data'));
     }
 
     public function update(Request $request)
     {
+        try{
+            DB::beginTransaction();
 
+            $ukm = Ukm::find($request->ukm['id']);
+            $ukm->update($request->ukm);
+            KategoriDetail::where('ukm_id', '=', $request->ukm['id'])->delete();
+            if(isset($request->kategoriDetail)){
+                foreach($request->kategoriDetail as $kategori){
+                    $kategori['ukm_id'] = $request->ukm['id'];
+                    KategoriDetail::create($kategori);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'status' => "S",
+                'data' => $ukm,
+                'message' => "Data berhasil disimpan"
+            ]);
+
+        } catch(Exception $e){
+            DB::rollback();
+            return response()->json([
+                'status' => "E",
+                'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function destroy(Request $request)

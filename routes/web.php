@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ukm/create', [UkmController::class, 'create'])->name('ukm');
     Route::post('/ukm/create', [UkmController::class, 'store'])->name('ukm');
     Route::post('/ukm/delete', [UkmController::class, 'destroy'])->name('ukm');
-    Route::post('/ukm/edit', [UkmController::class, 'edit'])->name('ukm');
+    Route::get('/ukm/edit/{id}', [UkmController::class, 'edit'])->name('ukm');
     Route::post('/ukm/update', [UkmController::class, 'update'])->name('ukm');
     Route::get('/ukm/view/{id}', [UkmController::class, 'show'])->name('ukm');
     Route::get('/ukm/importExcel', [UkmController::class, 'importNewData'])->name('ukm');
