@@ -147,6 +147,7 @@ Monitoring Intervensi
                                 <th class="text-white bg-primary">Tanggal Mulai</th>
                                 <th class="text-white bg-primary">Tanggal Selesai</th>
                                 <th class="text-white bg-primary">Keterangan</th>
+                                <th class="text-white bg-primary">Aksi</th>
                             </tr>
                         </thead>
                     </table>
@@ -164,6 +165,7 @@ Monitoring Intervensi
                                 <th class="text-white bg-primary">Tanggal Mulai</th>
                                 <th class="text-white bg-primary">Tanggal Selesai</th>
                                 <th class="text-white bg-primary">Keterangan</th>
+                                <th class="text-white bg-primary">Aksi</th>
                             </tr>
                         </thead>
                     </table>
@@ -171,39 +173,45 @@ Monitoring Intervensi
             </div>
 
             <div class="tab-pane fade" id="tab-halal" role="tabpanel" aria-labelledby="tab-halal">
-                <div class="col-md-12 table-responsive">
-                    <table id="table-halal" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-white bg-primary">No</th>
-                                <th class="text-white bg-primary">Nama UKM</th>
-                                <th class="text-white bg-primary">Tanggal Permohonan</th>
-                                <th class="text-white bg-primary">Status</th>
-                                <th class="text-white bg-primary">No Sertifikat</th>
-                                <th class="text-white bg-primary">Tanggal Sertifikat</th>
-                                <th class="text-white bg-primary">Keterangan</th>
-                            </tr>
-                        </thead>
-                    </table>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="table-halal" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-white bg-primary">No</th>
+                                    <th class="text-white bg-primary" style="min-width: 200px">Nama UKM</th>
+                                    <th class="text-white bg-primary">Tanggal Pendaftaran</th>
+                                    <th class="text-white bg-primary">Tanggal Berkas Kemenag</th>
+                                    <th class="text-white bg-primary">Status</th>
+                                    <th class="text-white bg-primary">No Sertifikat</th>
+                                    <th class="text-white bg-primary">Tanggal Sertifikat</th>
+                                    <th class="text-white bg-primary">Keterangan</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <div class="tab-pane fade" id="tab-merek" role="tabpanel" aria-labelledby="tab-merek">
-                <div class="col-md-12 table-responsive">
-                    <table id="table-merek" class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-white bg-primary">No</th>
-                                <th class="text-white bg-primary">Nama UKM</th>
-                                <th class="text-white bg-primary">Nama Merek</th>
-                                <th class="text-white bg-primary">No Permohonan</th>
-                                <th class="text-white bg-primary">Tanggal Permohonan</th>
-                                <th class="text-white bg-primary">Status</th>
-                                <th class="text-white bg-primary">No Sertifikat</th>
-                                <th class="text-white bg-primary">Tanggal Sertifikat</th>
-                            </tr>
-                        </thead>
-                    </table>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="table-merek" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-white bg-primary">No</th>
+                                    <th class="text-white bg-primary" style="min-width: 150px">Nama UKM</th>
+                                    <th class="text-white bg-primary text-nowrap">Nama Merek</th>
+                                    <th class="text-white bg-primary">No Permohonan</th>
+                                    <th class="text-white bg-primary">Tanggal Pendaftaran</th>
+                                    <th class="text-white bg-primary">Tanggal Berkas Kemenkumham</th>
+                                    <th class="text-white bg-primary">Status</th>
+                                    <th class="text-white bg-primary">No Sertifikat</th>
+                                    <th class="text-white bg-primary">Tanggal Sertifikat</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
 

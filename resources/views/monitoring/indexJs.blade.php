@@ -235,7 +235,16 @@ var app = new Vue({
                             return new Date(row.tanggal_selesai).toString("dd MMMM yyyy")
                         }
                     },
-                    {data: 'deskripsi'}
+                    {data: 'deskripsi'},
+                    {
+                        data: null,
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            let btn = "<a href='/intervensi/pelatihan/view/"+ row.id +"' target='_blank' class='btn btn-sm btn-success'><span class='fa fa-eye'></span><a>";
+                            return btn;
+                        }
+                    },
                 ]
             });
         },
@@ -279,7 +288,16 @@ var app = new Vue({
                             return new Date(row.tanggal_selesai).toString("dd MMMM yyyy")
                         }
                     },
-                    {data: 'deskripsi'}
+                    {data: 'deskripsi'},
+                    {
+                        data: null,
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            let btn = "<a href='/intervensi/pameran/view/"+ row.id +"' target='_blank' class='btn btn-sm btn-success'><span class='fa fa-eye'></span><a>";
+                            return btn;
+                        }
+                    },
                 ]
             });
         },
@@ -323,7 +341,16 @@ var app = new Vue({
                             return new Date(row.tanggal_selesai).toString("dd MMMM yyyy")
                         }
                     },
-                    {data: 'deskripsi'}
+                    {data: 'deskripsi'},
+                    {
+                        data: null,
+                        sortable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            let btn = "<a href='/intervensi/pemasaran/view/"+ row.id +"' target='_blank' class='btn btn-sm btn-success'><span class='fa fa-eye'></span><a>";
+                            return btn;
+                        }
+                    },
                 ]
             });
         },
@@ -353,10 +380,18 @@ var app = new Vue({
                     },
                     {data: 'nama_usaha'},
                     {
-                        data: 'tgl_permohonan',
+                        data: 'tgl_pendaftaran',
                         class: ['text-nowrap'],
                         render: function (data, type, row, meta) {
-                            return new Date(row.tgl_permohonan).toString("dd MMMM yyyy")
+                            return new Date(row.tgl_pendaftaran).toString("dd MMMM yyyy")
+                        }
+                    },
+                    {
+                        data: 'tgl_berkas_kemenag',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            if(row.tgl_berkas_kemenag == null) return row.tgl_berkas_kemenag;
+                            return new Date(row.tgl_berkas_kemenag).toString("dd MMMM yyyy");
                         }
                     },
                     {
@@ -408,6 +443,13 @@ var app = new Vue({
                     {data: 'nama_usaha'},
                     {data: 'nama_merek'},
                     {data: 'no_permohonan'},
+                    {
+                        data: 'tgl_pendaftaran',
+                        class: ['text-nowrap'],
+                        render: function (data, type, row, meta) {
+                            return new Date(row.tgl_pendaftaran).toString("dd MMMM yyyy")
+                        }
+                    },
                     {
                         data: 'tgl_berkas_kemenkumham',
                         class: ['text-nowrap'],
