@@ -19,20 +19,42 @@ Data UKM
 @section('content')
 <div class="row">
     <div class="col-12 grid-margin stretch-card">
-        <a href="/ukm/create" class="btn btn-info btn-sm" id="btn-create"><span class="fa fa-plus"></span> Tambah UKM</a><br><br>
-        <table id="table-ukm" class="table table-bordered table-stripped">
-            <thead>
-                <tr class="bg-primary">
-                    <th class="text-white">No.</th>
-                    <th class="text-white">Nama UKM</th>
-                    <th class="text-white">Nama Pemilik UKM</th>
-                    <th class="text-white">NIK</th>
-                    <th class="text-white">No Telpon</th>
-                    <th class="text-white">Alamat</th>
-                    <th class="text-center text-white" style="width:10%">Aksi</th>
-                </tr>
-            </thead>
-        </table>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/ukm/create" class="btn btn-info btn-sm" id="btn-create"><span class="fa fa-plus"></span> Tambah UKM</a><br><br>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="btn-group">
+                    <button type="button" class="btn-sm btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Optimasi Data
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/ukm/tidakTerdaftar">UKM Belum Terdaftar</a>
+                        <a class="dropdown-item" href="#">UKM Tanpa Kecamatan & Kelurahan</a>
+                        <a class="dropdown-item" href="#">UKM Tanpa Kategori</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-10">
+            <div class="col-md-12">
+                <table id="table-ukm" class="table table-bordered table-stripped">
+                    <thead>
+                        <tr class="bg-primary">
+                            <th class="text-white">No.</th>
+                            <th class="text-white">Nama UKM</th>
+                            <th class="text-white">Nama Pemilik UKM</th>
+                            <th class="text-white">NIK</th>
+                            <th class="text-white">No Telpon</th>
+                            <th class="text-white">Alamat</th>
+                            <th class="text-center text-white" style="width:10%">Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
     </div>
 </div>
 @endsection

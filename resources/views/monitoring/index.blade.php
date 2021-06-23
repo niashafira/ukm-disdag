@@ -214,14 +214,9 @@ Monitoring Intervensi
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
-
-
-
 
 @endsection
 

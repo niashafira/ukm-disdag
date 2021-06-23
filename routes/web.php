@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FixingDataController;
 use App\Http\Controllers\intervensi\LainnyaController;
 use App\Http\Controllers\Intervensi\PelatihanController;
 use App\Http\Controllers\Intervensi\PameranController;
@@ -168,3 +169,4 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
+Route::get('FixingData/mappingKelurahan', [FixingDataController::class, 'mappingKelurahan']);
