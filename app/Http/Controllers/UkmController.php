@@ -37,7 +37,9 @@ class UkmController extends Controller
     public function create()
     {
         $mode = "create";
-        return view("ukm.form", compact('mode'));
+        $data['profil'] = "";
+        $data['kategori'] = "";
+        return view("ukm.form", compact('mode', 'data'));
     }
 
     public function store(Request $request)
