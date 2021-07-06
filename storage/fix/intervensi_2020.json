@@ -1,0 +1,18 @@
+[
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Seleksi kerjasama dengan Gabungan Pengusaha Ekspor Indonesia",
+            "lokasi": "Ruang Rapat Siola lt.2",
+            "tanggal_mulai": "2021-01-21",
+            "tanggal_selesai": "2021-01-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 0,
+            "start": "E5",
+            "end": "I26"
+        }
+    }
+]
