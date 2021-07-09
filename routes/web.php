@@ -170,3 +170,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 Route::get('FixingData/mappingKelurahan', [FixingDataController::class, 'mappingKelurahan']);
+Route::get('FixingData/compareUKM', [FixingDataController::class, 'compareUKM']);
