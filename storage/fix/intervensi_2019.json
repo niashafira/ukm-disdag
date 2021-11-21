@@ -1,0 +1,648 @@
+[
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Pojok UKM di kantor KPP pratama Gubeng",
+            "lokasi": "Kantor KPP Pratama Gubeng",
+            "tanggal_mulai": "2019-01-04",
+            "tanggal_selesai": "2019-01-04",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E5",
+            "end": "I22"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Sosialisasi sertifikasi Halal, P-IRT dan peraturan  BPOM No. 22 tahun 2018 sebanyak 150 UKM",
+            "lokasi": "Convention hall Siola lantai 4",
+            "tanggal_mulai": "2019-01-08",
+            "tanggal_selesai": "2019-01-08",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E23",
+            "end": "I172"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazar Safety Ridding",
+            "lokasi": "Halaman Balai Kota",
+            "tanggal_mulai": "2019-01-20",
+            "tanggal_selesai": "2019-01-20",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E173",
+            "end": "I191"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazaar penyambutan kapal pesiar Holland American Line MS Maasdam",
+            "lokasi": "Halaman Taman surya",
+            "tanggal_mulai": "2019-01-23",
+            "tanggal_selesai": "2019-01-23",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E192",
+            "end": "I202"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Men's Fashion Style 2019",
+            "lokasi": "Grand city Surabaya",
+            "tanggal_mulai": "2019-01-25",
+            "tanggal_selesai": "2019-01-27",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E203",
+            "end": "I209"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Hari Pers Nasional (HPN) 2019",
+            "lokasi": "Grand city Surabaya",
+            "tanggal_mulai": "2019-02-07",
+            "tanggal_selesai": "2019-02-09",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E210",
+            "end": "I221"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazaar penyambutan kapal pesiar Aida Vita di Surabaya North Quay",
+            "lokasi": "Surabaya North Quay",
+            "tanggal_mulai": "2019-02-15",
+            "tanggal_selesai": "2019-02-15",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E222",
+            "end": "I226"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Pelatihan Manajemen Ekspor",
+            "lokasi": "Ruang rapat Dinas Perdagangan Kota Surabaya",
+            "tanggal_mulai": "2019-02-21",
+            "tanggal_selesai": "2019-02-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E227",
+            "end": "I258"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazar Wings",
+            "lokasi": "Tunjungan Plaza 6",
+            "tanggal_mulai": "2019-02-22",
+            "tanggal_selesai": "2019-02-24",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E259",
+            "end": "I264"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Sunday Market",
+            "lokasi": "Surabaya Town Square",
+            "tanggal_mulai": "2019-02-23",
+            "tanggal_selesai": "2019-02-24",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E265",
+            "end": "I277"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazar BKD Provinsi",
+            "lokasi": "BKD Prov jatim jl.jemur andayani",
+            "tanggal_mulai": "2019-02-27",
+            "tanggal_selesai": "2019-02-27",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E278",
+            "end": "I285"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Pameran Hinggil Batik 2019",
+            "lokasi": "Grand city Surabaya",
+            "tanggal_mulai": "2019-02-27",
+            "tanggal_selesai": "2019-03-03",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E286",
+            "end": "I292"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazaar penyambutan kapal pesiar Azam Mara",
+            "lokasi": "Surabaya North Quay",
+            "tanggal_mulai": "2019-03-18",
+            "tanggal_selesai": "2019-03-18",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E293",
+            "end": "I304"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazaar penyambutan kapal pesiar Genting Dreams ",
+            "lokasi": "Surabaya North Quay",
+            "tanggal_mulai": "2019-03-19",
+            "tanggal_selesai": "2019-03-19",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E305",
+            "end": "I314"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan Digital Photography dengan smartphone Sesi 1",
+            "lokasi": "Convention Hall Gedung Siola",
+            "tanggal_mulai": "2019-03-21",
+            "tanggal_selesai": "2019-03-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E315",
+            "end": "I339"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan Digital Photography dengan smartphone Sesi 1",
+            "lokasi": "Convention Hall Gedung Siola",
+            "tanggal_mulai": "2019-03-21",
+            "tanggal_selesai": "2019-03-21",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E315",
+            "end": "I339"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pemasaran",
+            "nama_intervensi": " Bazar kegiatan Ladies Program APEKSI 2019",
+            "lokasi": "Ciputra World Surabaya",
+            "tanggal_mulai": "2019-03-22",
+            "tanggal_selesai": "2019-03-24",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E340",
+            "end": "I341"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": " Pelatihan Digital Photography dengan smartphone",
+            "lokasi": "Convention Hall Gedung Siola",
+            "tanggal_mulai": "2019-03-27",
+            "tanggal_selesai": "2019-03-27",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E342",
+            "end": "I373"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Pelatihan Digital Photography dengan smartphone",
+            "lokasi": "Jakarta Convention Center",
+            "tanggal_mulai": "2019-03-27",
+            "tanggal_selesai": "2019-03-31",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E374",
+            "end": "I379"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazaar penyambutan kapal pesiar Viking Orion di  Surabaya North Quay",
+            "lokasi": "Surabaya North Quay",
+            "tanggal_mulai": "2019-03-28",
+            "tanggal_selesai": "2019-03-28",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E380",
+            "end": "I388"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazaar penyambutan kapal pesiar Viking Orion di Balai Kota Surabaya",
+            "lokasi": "Balai Kota Surabaya",
+            "tanggal_mulai": "2019-03-28",
+            "tanggal_selesai": "2019-03-28",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E389",
+            "end": "I396"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan Pengembangan Jaringan pemasaran dan kemitraan",
+            "lokasi": "Convention Hall Gedung Siola",
+            "tanggal_mulai": "2019-03-28",
+            "tanggal_selesai": "2019-03-28",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E397",
+            "end": "I426"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Gelar Produk E-Smart IKM oleh Kementerian Perindustrian di Dyandra Convention Hall Surabaya",
+            "lokasi": "Dyandra Convention Hall Surabaya",
+            "tanggal_mulai": "2019-03-29",
+            "tanggal_selesai": "2019-03-29",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E427",
+            "end": "I436"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazar Mlaku-Mlaku Tunjungan",
+            "lokasi": "Sepanjang Jalan Tunjungan",
+            "tanggal_mulai": "2019-03-30",
+            "tanggal_selesai": "2019-03-30",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E437",
+            "end": "I484"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Indonesia Product Expo 2019",
+            "lokasi": "Jogja City Mall",
+            "tanggal_mulai": "2019-04-04",
+            "tanggal_selesai": "2019-04-07",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E485",
+            "end": "I492"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Batik Bordir dan Aksesoris Fair 2019",
+            "lokasi": "Convention Hall Grand city Surabaya",
+            "tanggal_mulai": "2019-04-11",
+            "tanggal_selesai": "2019-04-14",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E493",
+            "end": "I497"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan Digital Photography dengan smartphone",
+            "lokasi": "Convention Hall Gedung Siola",
+            "tanggal_mulai": "2019-04-15",
+            "tanggal_selesai": "2019-04-15",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E498",
+            "end": "I522"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazar Penyambutan Kapal Pesiar 'Seabourn Encore' di House Of sampoerna ",
+            "lokasi": "House Of Sampoerna",
+            "tanggal_mulai": "2019-04-18",
+            "tanggal_selesai": "2019-04-18",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E523",
+            "end": "I525"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazar Penyambutan Kapal Pesiar 'Seabourn Encore' di Surabaya North Quay",
+            "lokasi": "Surabaya North Quay",
+            "tanggal_mulai": "2019-04-18",
+            "tanggal_selesai": "2019-04-18",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E526",
+            "end": "I536"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Inacraft 2019",
+            "lokasi": "Jakarta Convention Center (JCC)",
+            "tanggal_mulai": "2019-04-24",
+            "tanggal_selesai": "2019-04-28",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E537",
+            "end": "I553"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Bazar BKD Provinsi",
+            "lokasi": "BKD Prov jatim jl.jemur andayani",
+            "tanggal_mulai": "2019-04-22",
+            "tanggal_selesai": "2019-04-22",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E554",
+            "end": "I558"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Sosialisasi BPOM",
+            "lokasi": "Convention Hall Gedung Siola",
+            "tanggal_mulai": "2019-04-24",
+            "tanggal_selesai": "2019-04-24",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E559",
+            "end": "I598"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Seleksi Kerjasama Kemitraan dengan Boga Jaya",
+            "lokasi": "Ruang Rapat Siola lantai 3",
+            "tanggal_mulai": "2019-04-01",
+            "tanggal_selesai": "2019-04-01",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E599",
+            "end": "I629"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan Pemasaran Online dengan Blibli.com",
+            "lokasi": "Convention hall Siola lantai 4",
+            "tanggal_mulai": "2019-04-01",
+            "tanggal_selesai": "2019-04-01",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E630",
+            "end": "I659"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Surabaya Fashion Parade 2019",
+            "lokasi": "Atrium Mall Tunjungan Plaza III",
+            "tanggal_mulai": "2019-04-24",
+            "tanggal_selesai": "2019-04-28",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E660",
+            "end": "I668"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan Digital Photography dengan smartphone Sesi 4",
+            "lokasi": "Convention Hall Gedung Siola",
+            "tanggal_mulai": "2019-05-02",
+            "tanggal_selesai": "2019-05-02",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E669",
+            "end": "I693"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pelatihan",
+            "nama_intervensi": "Pelatihan Digital Photography dengan smartphone Sesi 5",
+            "lokasi": "Convention Hall Gedung Siola",
+            "tanggal_mulai": "2019-05-03",
+            "tanggal_selesai": "2019-05-03",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E694",
+            "end": "I715"
+        }
+    },
+
+    {
+        "intervensi": {
+            "jenis_intervensi": "pameran",
+            "nama_intervensi": "Semarak bazar Ramadhan Dishubllaj",
+            "lokasi": "Halaman Dishubllaj jalan ahmad yani",
+            "tanggal_mulai": "2019-05-10",
+            "tanggal_selesai": "2019-05-10",
+            "deskripsi": ""
+        },
+
+        "excel":{
+            "sheet": 2,
+            "start": "E716",
+            "end": "I719"
+        }
+    }
+
+]

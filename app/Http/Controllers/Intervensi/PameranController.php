@@ -103,7 +103,7 @@ class PameranController extends Controller
     public function mainImport(){
         set_time_limit(0);
 
-        $path = storage_path() . "/fix/intervensi.json";
+        $path = storage_path() . "/fix/intervensi_2019.json";
         $json = json_decode(file_get_contents($path), true);
 
         DB::beginTransaction();
